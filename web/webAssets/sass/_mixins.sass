@@ -1,0 +1,85 @@
+// 
+// 
+//	-----------------------------------------------------------------------------
+// 
+//	0.3 - Mixins
+//			# Box Shadow
+//			# Media Queries
+//			# Placeholder
+//			# Transición
+// 
+//	-----------------------------------------------------------------------------
+//
+
+
+//	========================
+//	0.3 - Mixins
+//	========================
+
+// 
+// Box Shadow
+//
+=box-shadow($shadow)
+	-webkit-box-shadow: $shadow
+	-moz-box-shadow: $shadow
+	box-shadow: $shadow
+
+
+//
+// Media Queries
+//
+=respond-to($media)
+	@if $media == lg
+		@media (min-width: $screen-md + 1)
+			@content
+	@else if $media == micon
+		@media (min-width: $screen-md) and (max-width: $screen-micon )
+			@content
+	@else if $media == md
+		@media (min-width: $screen-tl) and (max-width: $screen-md )
+			@content
+	@else if $media == sm
+		@media screen and (max-width: $screen-sm - 1)
+			@content
+	@else if $media == tl
+		@media (min-width: $screen-tp + 1) and (max-width: $screen-tl - 1)
+			@content
+	@else if $media == xs
+		@media screen and (max-width: $screen-xs - 1)
+			@content
+	@else if $media == tp
+		@media screen and (max-width: $screen-tp)
+			@content
+	@else if $media == tx
+		@media screen and (max-width: $screen-tx)
+			@content
+	@else if $media == sl
+		@media screen and (max-width: $screen-sl)
+			@content
+	@else if $media == sp
+		@media screen and (max-width: $screen-sp)
+			@content
+
+
+//
+// Placeholder
+//
+=placeholder
+	&::-webkit-input-placeholder
+		@content
+	&:-moz-placeholder
+		@content
+	&::-moz-placeholder
+		@content
+	&:-ms-input-placeholder
+		@content
+
+
+//
+// Transición
+//
+=transition($delay)
+	-ms-transition: $delay
+	-moz-transition: $delay
+	-webkit-transition: $delay
+	transition: $delay

@@ -1,0 +1,590 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Basic
+	========================================================================== */
+*,
+*:after,
+*:before
+	box-sizing: border-box
+
+*
+	margin: 0
+	padding: 0
+
+body
+	background-color: #eee
+	background-color: #f5f5f5
+	font:
+		family: $f-base
+		size: 16px
+		weight: $light
+	color: $font-color
+
+/* a */
+a
+	color: $link
+	font:
+		family: $f-base
+		size: 16px
+		weight: $regular
+	text-decoration: none
+	// +transition(all 0.3s ease-in)
+	&:hover
+		color: darken($link , 10% )
+		text-decoration: none
+		// +transition(all 0.3s ease-out)
+	// &:visited
+	// 	color: darken($link , 13% )
+
+/* img */
+img
+	+transition(all 0.5s ease-in)
+
+/* Utility
+   ========================================================================== */
+/* h1 - h6 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6
+	font:
+		family: $f-base
+		weight: $bold
+	margin: 0
+	padding: 0
+h1,
+.h1
+	font-size: 2.8em
+h2,
+.h2
+	font-size: 2.4em
+h3,
+.h3
+	font-size: 2em
+h4,
+.h4
+	font-size: 1.6em
+h5,
+.h5
+	font-size: 1.4em
+h6,
+.h6
+	font-size: 1.2em
+
+/* hr */
+hr
+	border: none
+	margin: 0
+
+/* Wrap*/
+.wrap
+	position: relative
+
+/*  Btn
+	================================================ */
+.ladda-button
+	background-color: transparent
+	border-radius: 0
+	padding: 0
+
+.btn-primary.ladda-button[disabled],
+.btn-primary.ladda-button[disabled]:hover,
+.btn-primary.ladda-button[data-loading],
+.btn-primary.ladda-button[data-loading]:hover
+	background-color: $primary
+
+.btn-info.ladda-button[disabled],
+.btn-info.ladda-button[disabled]:hover,
+.btn-info.ladda-button[data-loading],
+.btn-info.ladda-button[data-loading]:hover
+	background-color: $info
+
+.btn-success.ladda-button[disabled],
+.btn-success.ladda-button[disabled]:hover,
+.btn-success.ladda-button[data-loading],
+.btn-success.ladda-button[data-loading]:hover
+	background-color: $success
+
+.btn-warning.ladda-button[disabled],
+.btn-warning.ladda-button[disabled]:hover,
+.btn-warning.ladda-button[data-loading],
+.btn-warning.ladda-button[data-loading]:hover
+	background-color: $warning
+
+.btn
+	display: inline-block
+	font-weight: 400
+	text-align: center
+	white-space: nowrap
+	vertical-align: middle
+	-webkit-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+	border: 1px solid transparent
+	padding: .375rem .75rem
+	line-height: 1.5
+	@extend .fs-16
+	@extend .fw-light
+	letter-spacing: 1px
+	border-radius: .25rem
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+
+.btn-primary
+	border-color: $primary
+	background-color: $primary
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		border-color: darken( $primary, 10% )
+		background-color: darken( $primary, 10% )
+		box-shadow: 0 0 0 0.1rem rgba($primary,0.1)
+
+.btn-secondary
+	border-color: $secondary
+	background-color: $secondary
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		border-color: darken( $secondary, 10% )
+		background-color: darken( $secondary, 10% )
+		box-shadow: 0 0 0 0.1rem rgba($secondary,0.1)
+
+.btn-outline-primary
+	border-color: $grey-d
+	color: $grey-d
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		box-shadow: 0 0 0 0.1rem rgba($primary,0.1)
+
+.btn-warning
+	border-color: $accent
+	background-color: $accent
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		border-color: darken( $accent, 10% )
+		background-color: darken( $accent, 10% )
+		box-shadow: 0 0 0 0.1rem rgba($accent,0.1)
+
+.btn-error
+	border-color: $error
+	background-color: $error
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		border-color: darken( $error, 10% )
+		background-color: darken( $error, 10% )
+		box-shadow: 0 0 0 0.1rem rgba($error,0.1)
+
+.btn-success
+	border-color: $success
+	background-color: $success
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		border-color: darken( $success, 10% )
+		background-color: darken( $success, 10% )
+		box-shadow: 0 0 0 0.1rem rgba($success,0.1)
+
+.btn-info
+	border-color: $info
+	background-color: $info
+	&:active,
+	&:focus,
+	&:hover
+	&:active,
+	&:active:focus,
+	&:active:hover,
+	&:disabled,
+	&[disabled]:hover,
+	&[disabled]:focus,
+	&:hover,
+	&:focus
+		border-color: darken( $info, 10% )
+		background-color: darken( $info, 10% )
+		box-shadow: 0 0 0 0.1rem rgba($info,0.1)
+
+
+/*  Grid Columns
+	================================================ */
+.container
+	margin: 0 auto
+	max-width: 90%
+	width: 1024px
+	+respond-to(xs)
+		max-width: 100%
+
+.container-1220
+	margin: 0 auto
+	max-width: 90%
+	width: 1220px
+
+// Loading
+.animsition-loading
+	background-color: $gray-900
+	border-left: 5px solid $accent
+
+// Modal
+.modal
+	.modal-dialog
+		.modal-content
+			.modal-header
+				border-bottom-color: transparent
+				position: relative
+				.modal-title
+					@extend .fs-28
+					@extend .fw-regular
+					letter-spacing: 1px
+				.modal-small
+					color: $grey-b
+					display: block
+					@extend .fs-15
+					@extend .fw-light
+					letter-spacing: 1px
+				.close
+					position: absolute
+					right: 32px
+					top: 24px
+					&:focus
+						outline: none
+					i
+						color: $primary
+						@extend .fs-26
+
+			.modal-body
+				.alert
+					border-radius: 0
+					color: $font-color
+					display: flex
+					@extend .fs-144
+					margin-bottom: 0
+					padding: 16px 48px
+					i
+						align-items: center
+						background-color: #F67819
+						border-radius: 50%
+						color: $warning
+						display: flex
+						@extend .fs-11
+						height: 20px
+						justify-content: center
+						margin-right: 8px
+						width: 20px
+
+			.modal-footer
+				border-top-color: transparent
+
+			&.modal-direcciones,
+			&.modal-cantidad
+				.modal-header
+					padding: 32px 48px
+				.modal-body
+					padding: 0
+					.mod-add-cont
+						.mod-add-check,
+						.mod-add-btn,
+						.form-agregar-cantidad
+							padding: 24px 48px
+						.mod-add-check
+							border-bottom: 1px solid $grey-d
+							cursor: pointer
+							position: relative
+							&:first-child
+								border-top: 1px solid $grey-d
+							span.txt-title
+								@extend .color-gray-400
+								display: block
+								@extend .fs-18
+								@extend .fw-light
+								.numbers
+									@extend .ff-numbers
+							p.txt-address
+								@extend .color-gray-900
+								@extend .fs-15
+							span.ico-delete
+								background-color: lighten($error, 10%)
+								border-radius: 50%
+								display: none
+								height: 30px
+								line-height: 38px
+								position: absolute
+								right: 20px
+								text-align: center
+								top: 20px
+								width: 30px
+								i.ion
+									@extend .color-white
+									@extend .fs-24
+								&:hover
+									background-color: darken($error, 10%)
+									cursor: pointer
+
+							&::after
+								background-color: $primary
+								content: ""
+								height: 100%
+								top: 0
+								bottom: 0
+								left: 0
+								opacity: 0
+								position: absolute
+								width: 5px
+							&:hover
+								@extend .bg-f5
+								&::after
+									opacity: .4
+								span.ico-delete
+									display: block
+							&.active
+								&::after
+									opacity: 1
+
+							&.mod-add-check-detail
+								align-items: center
+								display: flex
+								justify-content: space-between
+
+								.shipping-add-item-desc
+									span
+										@extend .color-gray-400
+										display: block
+										@extend .fs-16
+										@extend .fw-regular
+									p.txt-unidad
+										color: $grey-c
+										@extend .fs-144
+										@extend .fw-light
+										margin-top: 8px
+
+								.shipping-add-item-price
+									display: flex
+									.shipping-add-item-price-option
+										display: flex
+										margin-right: 16px
+										.shipping-add-item-price-option-symbol,
+										.shipping-add-item-price-option-fraction
+											@extend .fs-16
+											@extend .fw-light
+										.shipping-add-item-price-option-symbol
+											margin-right: .2rem
+
+								&.active
+									// @extend .bg-f5
+									&::after
+										opacity: 1
+
+						.mod-add-btn
+							color: $primary
+							@extend .fs-18
+							@extend .fw-light
+							text-align: left
+							width: 100%
+							&:focus
+								box-shadow: none
+								outline: none
+
+			&.modal-cantidad
+				.modal-header
+					flex-direction: column
+					.modal-small
+						margin-top: -4px
+
+				.modal-body
+					.mod-add-cont
+						.mod-add-check
+							&:first-child
+								border-top-color: transparent
+							p
+								@extend .fs-18
+
+					.form-agregar-cantidad
+						align-items: center
+						// background-color: red
+						display: flex
+						width: 50%
+						input
+							width: calc(100% - 30px)
+						.btn
+							align-items: center
+							border-radius: 50%
+							display: flex
+							height: 24px
+							justify-content: center
+							margin-left: 12px
+							padding: 0
+							width: 24px
+
+// Inputs
+.form-input,
+input[type="text"],
+input[type="password"]
+	// background-color: rgba($black,.1)
+	color: $font-color
+	border: 1px solid $grey-c
+	border-radius: .25rem
+	@extend .fs-16
+	@extend .fw-light
+	height: 30px
+	line-height: 30px
+	padding: 2px 16px
+	width: 100%
+	+placeholder
+		color: $grey-b
+		@extend .fs-14
+		@extend .fw-light
+	&:focus
+		box-shadow: none
+		outline: none
+	&.input-sm
+		height: 40px
+		line-height: 40px
+	&.input-md
+		height: 50px
+		line-height: 50px
+	&.input-lg
+		height: 60px
+		line-height: 60px
+
+// Input [DISABLED]
+input:disabled,
+.form-input:disabled,
+input[type="text"]:disabled,
+input[type="password"]:disabled
+	@extend .color-gray-900
+	cursor: default
+	pointer-events: none
+
+// Input [CHECKBOX - RADIO BUTTON]
+[data-toggle=buttons]>.btn input[type=checkbox],
+[data-toggle=buttons]>.btn input[type=radio],
+[data-toggle=buttons]>.btn-group>.btn input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.btn input[type=radio]
+	position: absolute
+	pointer-events: none
+	clip: rect(0,0,0,0)
+
+// 
+.form-group.has-error
+	.help-block
+		@extend .color-error
+		@extend .fs-13
+		@extend .fw-light
+		margin-top: 4px
+		padding-left: 16px
+		text-align: left
+
+
+
+// Toatr
+.toast
+	width: 100%
+
+.toast-title
+	text-align: left
+
+#toast-container.toast-bottom-center>div,
+#toast-container.toast-top-center>div
+	width: 100%
+
+// #toast-container>.toast-success
+// 	background-image: none !important
+// #toast-container>.toast-info
+// 	background-image: none !important
+// #toast-container>.toast-warning
+// 	background-image: none !important
+// #toast-container>.toast-error
+// 	background-image: none !important
+
+// Zoom
+.zoomContainer
+	z-index: 94
+	+respond-to(xs)
+		display: none
+	// .tintContainer
+	.zoomWindowContainer
+		z-index: 96
+
+
+// Sweet ALERT
+.swal-overlay
+	background-color: rgba($black,.65)
+
+
+// 
+.swal2-container
+	z-index: 999
+
+// Loader
+.loader-overlay
+	background-color: $primary
+	background-image: url(../images/logo-latingal-boutique.png)
+	background-position: 50%
+	background-repeat: no-repeat
+	background-size: 100px

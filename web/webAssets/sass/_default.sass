@@ -1,0 +1,369 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Usuarios
+			# Listado
+			# Crear
+			# Actualizar
+
+	-----------------------------------------------------------------------------
+	*/
+
+
+/*  Listado
+	======================================= */
+.bg-trans
+	background-color: $bg-trans
+
+.bg
+		background-color: $black
+		background-attachment: fixed
+		// background-image: url('../images/login-bkgd.jpg')
+		background-position: 50%
+		background-repeat: no-repeat
+		background-size: cover
+
+.btn-salsas
+	background-color: $secondary
+	border: 9px double $primary
+	color: $white
+	font-size: 1.75rem
+	font-weight: $bold
+	@extend .text-center
+	text-transform: uppercase
+	&:active,
+	&:hover,
+	&:focus
+		background-color: $secondary
+		border-color: $accent
+		box-shadow: none
+		color: $white
+		outline: none
+
+	&.btn-lg
+		width: 100%
+	
+	+respond-to(xs)
+		border: 7px double $primary
+		font-size: 1.325rem
+
+	+respond-to(sl)
+		border: 6px double $primary
+		font-size: 1.125rem
+
+.color-yellow
+	color: $accent
+.color-red
+	color: $error
+
+.flex
+	display: flex
+
+.flex-center
+	align-items: center
+	@extend .flex
+	justify-content: center
+
+.flex-y-end
+	align-items: flex-end
+	@extend .flex
+
+.flex-y-start
+	align-items: flex-start
+	@extend .flex
+
+.flex-y-center
+	align-items: center
+	@extend .flex
+
+.flex-x-end
+	@extend .flex
+	justify-content: flex-end
+
+.flex-x-start
+	@extend .flex
+	justify-content: flex-start
+
+.flex-x-center
+	@extend .flex
+	justify-content: flex-center
+
+.hashtag
+	@extend .color-yellow
+	font-size: 1.35rem
+	@extend .letter-spacing-4
+	
+.img-respon
+	max-width: 100%
+
+.input
+	background-color: $secondary
+	border: 9px double $primary
+	color: $white
+	font-size: 1.65rem
+	font-weight: $bold
+	height: 60px
+	text-transform: uppercase
+	&:active,
+	&:hover,
+	&:focus
+		box-shadow: none
+		outline: none
+	+placeholder
+		color: rgba($white,.3)
+		font-size: 1.35rem
+		font-weight: $regular
+	+respond-to(xs)
+		font-size: 1.125rem
+		height: 54px
+	+respond-to(sl)
+		border: 6px double $primary
+		font-size: .9rem
+		height: 48px
+
+.letter-spacing-1
+	letter-spacing: 1px
+.letter-spacing-2
+	letter-spacing: 2px
+.letter-spacing-3
+	letter-spacing: 3px
+.letter-spacing-4
+	letter-spacing: 4px
+.letter-spacing-5
+	letter-spacing: 5px
+
+.mt-1vh
+	margin-top: 1vh
+.mt-2vh
+	margin-top: 2vh
+.mt-3vh
+	margin-top: 3vh
+.mt-4vh
+	margin-top: 4vh
+.mt-5vh
+	margin-top: 5vh
+.mt-6vh
+	margin-top: 6vh
+
+.mb-1vh
+	margin-bottom: 1vh
+.mb-2vh
+	margin-bottom: 2vh
+.mb-3vh
+	margin-bottom: 3vh
+.mb-4vh
+	margin-bottom: 4vh
+.mb-5vh
+	margin-bottom: 5vh
+.mb-6vh
+	margin-bottom: 6vh
+
+
+.my-1vh
+	margin-bottom: 1vh
+	margin-top: 1vh
+.my-2vh
+	margin-bottom: 2vh
+	margin-top: 2vh
+.my-3vh
+	margin-bottom: 3vh
+	margin-top: 3vh
+.my-4vh
+	margin-bottom: 4vh
+	margin-top: 4vh
+.my-5vh
+	margin-bottom: 5vh
+	margin-top: 5vh
+
+
+.mr-5vw
+	margin-right: 5vw
+
+.pt-120
+	padding-top: 120px!important
+
+.text-center
+	text-align: center
+.text-left
+	text-align: left
+.text-right
+	text-align: right
+
+.text-decoration-line
+	text-decoration: underline
+
+.text-decoration-none
+	text-decoration: none
+
+.titler,
+.titler-fin-concurso
+	align-items: center
+	display: flex
+	justify-content: center
+	margin-bottom: 32px
+	h2
+		background-color: $secondary
+		border: 9px double $primary
+		color: $white
+		display: inline-block
+		font-size: 1.75rem
+		font-weight: $bold
+		padding: .7rem 3.25rem
+		@extend .text-center
+		text-transform: uppercase
+		+respond-to(xs)
+			font-size: 1.325rem
+		+respond-to(sl)
+			border: 6px double $primary
+			font-size: 1.025rem
+	
+.titler-fin-concurso
+	flex-direction: column
+	h3
+		color: $white
+		display: inline-block
+		font-size: 1.75rem
+		font-weight: $bold
+		margin-bottom: 8px
+		padding: .7rem 3.25rem
+		@extend .text-center
+		text-transform: uppercase
+		+respond-to(xs)
+			font-size: 1.325rem
+		+respond-to(sl)
+			font-size: 1.025rem
+
+
+/*  Listado
+	======================================= */
+.page-login-v3
+	.panel
+		@extend .bg-trans
+
+.layout-full
+	.page
+		@extend .flex-x-end
+		@extend .flex-y-center		
+
+
+.site-navbar
+	@extend .bg-trans
+	.container
+		align-items: flex-start
+		display: flex
+		justify-content: space-between
+		padding: 20px 0 12px
+		.navbar-header
+			display: flex
+			justify-content: flex-start
+			img
+				height: 70px
+		.navbar-logo
+			display: flex
+			justify-content: center
+			padding-top: 40px
+			img
+				height: 130px
+		.navbar-container
+			display: flex
+			justify-content: flex-end
+			margin-left: 0
+			// ul.nav
+			// 	li
+			// 		.nav-link
+			// 			.avatar
+			// 				img
+			// 					background-color: red
+
+.site-navbar-small
+	.site-navbar
+		height: 90px
+		+respond-to(xs)
+			height: auto
+		.navbar-brand
+			height: auto
+			padding: 1.5715rem 1.429rem
+			+respond-to(xs)
+				padding: .75rem 1.429rem 0
+
+.site-navbar
+	height: 90px
+	+respond-to(xs)
+		height: auto
+	.navbar-header
+		.navbar-brand-logo
+			height: 58px
+			+respond-to(xs)
+				height: 48px
+
+.navbar-right
+	margin-top: 16px
+	+respond-to(xs)
+		margin-top: 0
+
+body.site-navbar-small
+	padding-top: 0
+
+body.site-navbar-small.site-navbar-collapse-show
+	padding-top: 0
+
+// .site-navbar-small
+// 	.site-navbar
+// 		height: auto
+
+// .navbar-brand-center
+// 	+respond-to(xs)
+// 		position: relative
+
+.site-navbar.navbar-inverse
+	// background-color: rgba($white,.2)
+	.navbar-container
+		+respond-to(xs)
+			background-color: rgba($primary,.35)
+
+.navbar-inverse
+	@extend .bg-trans
+	.navbar-collapse,
+	.navbar-form
+		border-color: transparent
+
+.page
+	min-height: auto
+
+	.page-header
+		.page-header-logo
+			height: 132px
+			+respond-to(sl)
+				height: auto
+				max-width: 100%
+
+
+/*  Modal
+	======================================= */
+.modal-terminos-condiciones
+	.modal-dialog 
+		background-color: $black
+		border: 9px double $primary
+		.modal-content
+			@extend .bg-trans
+
+			.modal-header
+				justify-content: center
+				position: relative
+				h2
+					color: $primary
+					text-align: center
+
+				button
+					color: $white
+					opacity: .65
+					position: absolute
+					right: 10px
+					top: 10px
+					&:active,
+					&:hover,
+					&:focus
+						outline: none
+
+			.modal-body
+				color: $white

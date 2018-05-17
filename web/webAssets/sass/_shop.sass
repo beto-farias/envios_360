@@ -1,0 +1,618 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Basic
+	========================================================================== */
+
+.shop-page
+	position: relative
+	&.shop-page-h100
+		min-height: calc(100vh - 150px)
+	&.mt-32
+		margin-top: 32px
+	.container-1220
+		
+		.shop-panel
+			background-color: $white
+			box-shadow: 0 1px 3px 0 rgba($black,.3) !important
+			.pl-none
+				+respond-to(lg)
+					padding-left: 0
+				+respond-to(md)
+					padding-left: 0
+				+respond-to(tl)
+					padding-left: 0
+				+respond-to(xs)
+					padding-left: 15px
+
+			.pr-none
+				+respond-to(lg)
+					padding-right: 0
+				+respond-to(md)
+					padding-right: 0
+				+respond-to(tl)
+					padding-right: 0
+				+respond-to(xs)
+					padding-right: 15px
+				
+			.shop-products
+				@extend .border-bottom
+				padding-left: 160px
+				padding-right: 80px
+				position: relative
+				width: 100%
+				+respond-to(tp)
+					padding-left: 0
+					padding-right: 0
+				
+				.owl-carousel
+					// background-color: purple
+					display: flex
+					height: 400px
+					overflow: hidden
+					position: initial
+					width: 100%
+					.owl-stage-outer
+						order: 3
+						overflow: hidden
+						position: relative
+						width: 100%
+						z-index: 9
+						.owl-stage
+							height: 100%
+						.owl-item
+							height: 100%
+							-ms-touch-action: auto
+							touch-action: auto
+							.owl-item-int
+								align-items: center
+								display: flex
+								justify-content: center
+								height: 100%
+								position: relative
+								z-index: 99
+								img
+									height: 360px
+									max-height: 90%
+									max-width: 90%
+									position: relative
+									width: auto
+									z-index: 999
+
+								// .demo-container
+								// 	height: 300px
+								// 	position: relative
+								// 	width: 300px
+								// 	z-index: 9999
+
+					.owl-nav
+						bottom: 0
+						display: none
+						height: 100%
+						left: 0
+						order: 2
+						position: absolute
+						right: 0
+						top: 0
+						width: 100%
+						z-index: 6
+						+respond-to(tp)
+							display: none
+
+						.owl-prev,
+						.owl-next
+							align-items: center
+							bottom: 0
+							cursor: pointer
+							display: flex
+							height: 100%
+							justify-content: center
+							position: absolute
+							top: 0
+							width: 80px
+							i
+								font-size: 1.875rem
+								font-weight: $light
+						.owl-prev
+							// background-color: purple
+							left: 80px
+						.owl-next
+							// background-color: orange
+							right: 0
+					.owl-dots
+						// background-color: green
+						bottom: 0
+						left: 0
+						order: 1
+						position: absolute
+						top: 0
+						width: 80px
+						z-index: 7
+						+respond-to(tp)
+							align-items: center
+							// background-color: green
+							display: flex
+							justify-content: center
+							padding: 8px 0
+							top: auto
+							right: 0
+							width: 100%
+
+						.owl-dot
+							background-position: 50%
+							background-repeat: no-repeat
+							background-size: 90%
+							border: 1px solid $grey-b
+							height: 80px
+							margin-bottom: 8px
+							position: relative
+							width: 80px
+							
+							&.active
+								&:before
+									background-color: $primary
+									bottom: 0
+									content: ""
+									height: 100%
+									left: 0
+									position: absolute
+									top: 0
+									width: 3px
+
+							+respond-to(tp)
+								background-color: $grey-d
+								background-image: none !important
+								border: none
+								border-radius: 50%
+								height: 8px
+								margin-right: 4px
+								width: 8px
+								&:last-child
+									margin-right: 0
+								&.active
+									background-color: $secondary
+									&:before
+										display: none
+
+			.shop-desc
+				// background-color: green
+				padding: 44px 32px
+				h3
+					@extend .fs-24
+					line-height: 1
+					margin-bottom: 32px
+				.shop-desc-text
+					p
+						color: $gray-900
+						@extend .fs-16
+						line-height: 1
+						letter-spacing: 1px
+						margin-bottom: 6px
+					img
+						width: 300px
+
+			.shop-details
+				@extend .border-bottom
+				@extend .border-left
+				height: 100%
+				padding: 24px 32px 32px
+				+respond-to(xs)
+					border: none
+				+respond-to(tp)
+					padding: 24px 16px 32px
+				+respond-to(sl)
+					padding: 24px 16px 32px
+				.item-conditions
+					color: $gray-600
+				.item-title
+					margin: 0 0 10px
+					.item-title-heart
+						align-items: center
+						// background-color: red
+						display: flex
+						justify-content: flex-end
+						margin-bottom: 4px
+						width: 100%
+						i
+							align-items: center
+							// background-color: red
+							@extend .color-highlight
+							cursor: pointer
+							display: flex
+							@extend .fs-26
+							// height: 30px
+							justify-content: center
+							position: relative
+							// transition: all 0.4s ease-in
+							// width: 30px
+							// &::after 
+							// 	content: ''
+							// 	background-color: red
+							// 	border-radius: 50%
+							// 	display: block
+							// 	position: absolute
+							// 	top: 0
+							// 	right: 0
+							// 	bottom: 0
+							// 	left: 0
+							// 	transform: scale(0.001, 0.001)
+								
+							// &.activer
+							// 	outline: 0
+							// 	// color: blue
+							// 	&::after
+							// 		animation: effect_dylan 0.6s ease-out
+							// 		background-color: green
+
+							// // Efect click
+							// @keyframes effect_dylan
+							// 	50%
+							// 		transform: scale(1.5, 1.5)
+							// 		opacity: 0
+							// 	99%
+							// 		transform: scale(0.001, 0.001)
+							// 		opacity: 0
+							// 	100%
+							// 		transform: scale(0.001, 0.001)
+							// 		opacity: 1
+
+
+					h1
+						font-size: 22px
+						font-weight: 600
+						line-height: 1.05
+						max-width: inherit
+						padding-right: 40px
+						text-overflow: ellipsis
+
+				.item-tabs
+					.nav
+						.nav-item
+							// width: 50%
+							width: 100%
+							.nav-link
+								background-color: transparent
+								border-bottom: 1px solid $grey-b
+								border-radius: 0
+								color: $font-color
+								@extend .fs-16
+								@extend .fw-light
+								position: relative
+								text-align: center
+								&:focus
+									outline: none
+									
+								&.active
+									border-bottom-color: $primary
+									color: $primary
+									&::before
+										background-color: $primary
+										bottom: 0
+										content: ""
+										height: 2px
+										left: 0
+										position: absolute
+										right: 0
+										width: 100%
+
+					.tab-content
+						.containere
+							max-width: 100%
+							padding-left: 0
+							padding-right: 0
+							width: 100%
+						.tab-pane
+							padding-top: 16px
+						article
+							display: flex
+							margin-bottom: 12px
+							&.article-flex-wrap
+								flex-wrap: wrap
+							.price-tag
+								display: flex
+								width: 100%
+								.price-tag-symbol,
+								.price-tag-fraction,
+								.price-tag-type,
+								.price-tag-desc
+									display: inline-block
+									@extend .ff-numbers
+								.price-tag-symbol,
+								.price-tag-fraction
+									@extend .fs-44
+									+respond-to(xs)
+										font-size: $fs-34
+								.price-tag-symbol
+									margin-right: .2rem
+								.price-tag-fraction
+									margin-right: .4rem
+								.price-tag-type
+									@extend .fs-34
+									+respond-to(xs)
+										font-size: $fs-28
+
+								&.price-tag-prev
+									@extend .color-highlight
+									.price-tag-symbol,
+									.price-tag-fraction,
+									.price-tag-type
+										text-decoration: line-through
+
+									.price-tag-symbol,
+									.price-tag-fraction
+										display: inline-block
+										@extend .fs-24
+										
+									.price-tag-type
+										color: blue
+										@extend .fs-18
+
+									.price-tag-desc
+										background-color: $primary
+										border-radius: 30px
+										@extend .color-white
+										@extend .fs-12
+										height: 18px
+										padding: 0 12px
+										margin-left: 8px
+
+							.shop-talla-select
+								display: block
+								margin-bottom: 32px
+								width: 100%
+								label
+									@extend .fs-13
+								span
+									display: block
+									@extend .fs-12
+									margin-top: 12px
+
+							.price-detail-icon,
+							.price-detail-txt
+								display: block
+								span,
+								i,
+								p
+									display: block
+
+							.price-detail-icon
+								margin-right: 6px
+								width: 30px
+								i
+									@extend .fs-18
+							.price-detail-txt
+								width: calc(100% - 38px)
+								a,
+								span,
+								p
+									@extend .fs-16
+									@extend .fw-regular
+									&.detail-xs
+										@extend .fs-144
+										@extend .fw-light
+									&.detail-md
+										@extend .fs-16
+										@extend .fw-light
+
+							.price-detail-row
+								align-items: center
+								display: flex
+								justify-content: space-between
+								margin-top: 8px
+								width: 100%
+								p,
+								span
+									@extend .fw-regular
+									height: 100%
+									text-transform: uppercase
+								p
+									@extend .fs-13
+									line-height: 1.4
+								span
+									@extend .ff-numbers
+									@extend .fs-20
+									line-height: 1
+
+							&.shop-suscription
+								// > .row
+								// 	+respond-to(tx)
+								// 		margin-left: 0
+								.shop-suscription-select
+									padding-right: 0
+									+respond-to(tp)
+										padding-right: 15px
+									+respond-to(tx)
+										margin-bottom: 16px
+									label
+										@extend .fs-12
+									.custom-select-xs
+										padding-left: 6px
+										padding-right: 4px
+								.shop-suscription-btn
+									// padding-left: 0
+									.conta
+										align-items: flex-end
+										display: flex
+										height: 100%
+										width: 100%
+										+respond-to(micon)
+											flex-wrap: nowrap
+										+respond-to(md)
+											flex-wrap: nowrap
+										+respond-to(tl)
+											flex-wrap: nowrap
+										+respond-to(xs)
+											flex-wrap: nowrap
+										+respond-to(sl)
+											flex-wrap: nowrap
+										.btn-secondary,
+										.btn-outline-primary
+											@extend .fs-144
+											width: 50%
+											+respond-to(md)
+												display: inline-block
+												// width: 50%
+											+respond-to(tl)
+												display: inline-block
+												// width: 100%
+											+respond-to(xs)
+												display: inline-block
+												width: 50%
+											+respond-to(sl)
+												display: inline-block
+												// width: 100%
+										.btn
+											margin-right: 8px
+											&:last-child
+												margin-right: 0
+											+respond-to(micon)
+												margin-bottom: 0
+											+respond-to(md)
+												margin-bottom: 0
+												margin-right: 8px
+												&:last-child
+													margin-bottom: 0
+											+respond-to(tl)
+												margin-bottom: 0
+												margin-right: 8px
+												&:last-child
+													margin-bottom: 0
+											+respond-to(xs)
+												margin-bottom: 0
+												margin-right: 8px
+												&:last-child
+													margin-right: 0
+											+respond-to(sl)
+												margin-bottom: 0
+												margin-right: 8px
+												&:last-child
+													margin-bottom: 0
+										.btn-outline-primary
+											border-color: $primary
+											color: $primary
+											&:active,
+											&:focus,
+											&:hover
+												border-color: darken( $primary, 10% )
+												background-color: darken( $primary, 10% )
+												color: $white
+											
+											.btn-icon
+												+respond-to(lg)
+													display: none
+												+respond-to(micon)
+													display: inline-block
+												+respond-to(md)
+													display: inline-block
+												+respond-to(sm)
+													display: inline-block
+												+respond-to(tl)
+													display: inline-block
+												+respond-to(xs)
+													display: none
+												+respond-to(sl)
+													display: inline-block
+											
+											.btn-text
+												+respond-to(lg)
+													display: inline-block
+												+respond-to(micon)
+													display: none
+												+respond-to(md)
+													display: none
+												+respond-to(sm)
+													display: none
+												+respond-to(tl)
+													display: none
+												+respond-to(xs)
+													display: inline-block
+												+respond-to(sl)
+													display: none
+											
+										.btn-secondary,
+											+respond-to(micon)
+												width: 100%
+											+respond-to(md)
+												width: 100%
+											+respond-to(tl)
+												width: 100%
+											+respond-to(xs)
+												width: 50%
+											+respond-to(sl)
+												width: 100%
+						
+						.price-recibelo
+							@extend .fs-16
+							margin-bottom: 12px
+							span
+								@extend .fw-bold
+
+						.btn-group
+							flex-wrap: wrap
+							label.btn
+								border-radius: .3rem
+								@extend .color-gray-900
+								@extend .fs-144
+								@extend .fw-light
+								@extend .ta-center
+								margin-right: 3%
+								width: 31.31%
+								&:nth-child(3n + 3)
+									margin-right: 0
+								&:focus
+									outline: none
+								&.active
+									color: $white
+									&:hover
+										background-color: transparent
+										color: $primary
+								&:hover
+									background-color: transparent
+								&.btn-lg
+									padding: 1rem
+									line-height: 1.5
+
+
+		.shop-publicacion
+			align-items: center
+			display: flex
+			justify-content: flex-end
+			margin-top: 16px
+			text-align: right
+			p,
+			hr,
+			a
+				display: inline-block
+			p,
+			a
+				@extend .fs-13
+				@extend .fw-light
+				letter-spacing: 1px
+			p
+				@extend .color-gray-900
+				span
+					@extend .fw-regular
+			hr
+				background-color: $grey-b
+				height: 12px
+				margin: 0 8px 0
+				width: 1px
+			a
+				@extend .color-link
+
+	&.show-page-index
+		padding: 62px 0
+
+.zoomWindowContainer
+	background-color: red
+	opacity: 1
+	position: relative
+	z-index: 99999

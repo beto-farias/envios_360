@@ -1,0 +1,111 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	0.0 - Footer
+
+	----------------------------------------------------------------------------- */
+
+/*  Footer
+	========================================================================== */
+.nav-footer
+	background-color: $white
+	border-top: 1px solid $grey-e
+	.container-1220
+		padding-bottom: 16px
+		padding-top: 16px
+
+		.nav-footer-navigation
+			+respond-to(xs)
+				text-align: center
+			+respond-to(tp)
+				align-items: center
+				display: flex
+				flex-direction: column
+				margin-bottom: 8px
+			h4
+				color: $font-color
+				@extend .fs-16
+				@extend .fw-bold
+				margin-bottom: 8px
+			a
+				color: $font-color
+				display: inline-block
+				@extend .fs-144
+				@extend .fw-light
+				margin-right: 16px
+				width: 200px
+				&:last-child
+					margin-right: 0
+				&:hover
+					color: lighten( $font-color, 10% )
+				+respond-to(tp)
+					margin-bottom: 8px
+					margin-right: 0
+
+		.nav-footer-downloadapp
+			align-items: center
+			display: flex
+			@extend .fs-13
+			@extend .fw-regular
+			justify-content: center
+			opacity: .45
+			width: 100%
+			+respond-to(xs)
+				margin: 24px auto 0
+				max-width: 80%
+				width: 220px
+			i
+				@extend .fs-24
+				margin-right: 12px
+
+		.nav-footer-experiencia
+			align-items: center
+			display: flex
+			@extend .fs-18
+			@extend .fw-regular
+			justify-content: center
+
+		.nav-footer-row
+			align-items: center
+			display: flex
+			justify-content: space-between
+			margin-top: 24px
+			+respond-to(xs)
+				flex-direction: column
+
+			.nav-footer-copyright
+				small
+					color: $grey-c
+					display: block
+					@extend .fs-13
+					@extend .fw-light
+					+respond-to(xs)
+						display: block
+						margin-bottom: 16px
+						text-align: center
+
+			.nav-footer-certificado
+				align-items: center
+				display: flex
+				justify-content: flex-end
+				text-align: right
+				img
+					// width: 80px
+					&.logo-secure
+						height: 32px
+					&.logo-openpay
+						height: 24px
+						margin-left: 8px
+				p
+					@extend .color-gray-900
+					@extend .fs-16
+					@extend .fw-regular
+					margin-top: 4px
+				i.ion
+					@extend .color-gray-600
+					@extend .fs-24
+					@extend .fw-regular
+					margin-left: 8px
+
+	&.nav-footer-add
+		margin-top: 0

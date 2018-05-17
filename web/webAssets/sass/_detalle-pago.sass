@@ -1,0 +1,151 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	0.0 - Detalle de Pago
+
+	----------------------------------------------------------------------------- */
+
+/*  Detalle de Pago
+	========================================================================== */
+.detalle-pago-page
+	// background-color: yellow
+	position: relative
+	min-height: calc(100vh - 172px)
+	z-index: 2
+	.container-1220
+		// height: 100%
+		// min-height: calc(100vh - 150px)
+		// position: relative
+		// .row
+		// 	min-height: calc(100vh - 150px)
+		+respond-to(md)
+			// background-color: red
+			margin: 0 auto
+			max-width: 95%
+			width: 95%
+		+respond-to(tl)
+			// background-color: green
+			margin: 0 auto
+			max-width: 95%
+			width: 95%
+		+respond-to(xs)
+			// background-color: purple
+			margin: 0 auto
+			max-width: 90%
+			width: 1220px
+
+		.detalle-pago-header
+			padding: 56px 0 0
+			p.detalle-pago-header-num-pedido,
+			p.detalle-pago-header-fecha-pedido,
+			p.detalle-pago-header-status-pedido,
+			p.detalle-pago-header-preparacion-pedido
+				margin-bottom: 8px
+				span
+					@extend .fs-16
+					@extend .fw-bold
+					&.color-pink
+						@extend .color-highlight
+			
+			p.detalle-pago-header-status-pedido,
+			p.detalle-pago-header-preparacion-pedido
+				text-align: right
+				+respond-to(tx)
+					text-align: left
+
+		.panel-container
+			@extend .bg-f
+			margin: 16px 0
+
+			.hero-details-pedido
+				// @extend .border-bottom
+				padding: 36px 24px 8px
+
+				h4
+					@extend .fs-16
+					@extend .fw-bold	
+
+				.hero-details-pedido-cont
+					display: flex
+					flex-direction: column
+					margin-top: 24px
+					.hero-details-pedido-item
+						align-items: center
+						// background-color: #EEE
+						@extend .border-bottom
+						display: flex
+						flex-wrap: wrap
+						justify-content: flex-start
+						padding: 12px 0
+
+						.hero-details-pedido-item-img
+							width: 80px
+							img
+								width: 60px
+
+						.hero-details-pedido-item-text
+							width: calc(100% - 264px)
+							+respond-to(tx)
+								width: calc(100% - 184px)
+							p
+								@extend .fs-15
+								@extend .fw-light
+								span.numbers
+									@extend .ff-numbers
+
+						.hero-details-pedido-item-price
+							text-align: right
+							width: 180px
+							+respond-to(tx)
+								width: 100px
+							p
+								@extend .ff-numbers
+								@extend .fs-16
+								&.numbers
+									@extend .ff-numbers
+								span
+									+respond-to(tx)
+										display: block
+
+					.hero-details-pedido-actions
+						padding: 24px 0 8px
+						.hero-details-pedido-actions-item,
+						.hero-details-pedido-actions-total
+							align-items: center
+							display: flex
+							justify-content: space-between
+							margin-bottom: 8px
+							p.numbers
+								@extend .ff-numbers
+						.hero-details-pedido-actions-item
+							p
+								@extend .fs-15
+								@extend .fw-light
+						.hero-details-pedido-actions-total
+							p
+								@extend .fs-16
+								@extend .fw-bold
+								margin-bottom: 0
+
+			.hero-details-footer
+				@extend .bg-f5
+				padding: 24px
+				.hero-details-footer-domicilio,
+				.hero-details-footer-transaccion
+					h5
+						@extend .fs-15
+						@extend .fw-bold
+						margin-bottom: 12px
+					p
+						@extend .fs-15
+						@extend .fw-light
+				.hero-details-footer-domicilio
+					p
+						&:last-child
+							margin-top: 4px
+				.hero-details-footer-transaccion
+					margin-top: 24px
+					span
+						@extend .color-highlight
+						@extend .ff-numbers
+						@extend .fw-bold

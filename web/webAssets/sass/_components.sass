@@ -1,0 +1,260 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Clases y Etiquetas
+	========================================================================== */
+
+.border-a
+	border: 1px solid $grey-a
+.border-b
+	border: 1px solid $grey-b
+.border-c
+	border: 1px solid $grey-c
+.border-d
+	border: 1px solid $grey-d
+
+.border-bottom
+	border-bottom: 1px solid $grey-d
+.border-left
+	border-left: 1px solid $grey-d
+.border-right
+	border-right: 1px solid $grey-d
+.border-top
+	border-top: 1px solid $grey-d
+
+.br-1
+	border-right: 1px solid $grey-d
+
+.bl-1
+	border-left: 1px solid $grey-d
+
+.bg-a
+	background-color: $grey-a
+.bg-b
+	background-color: $grey-b
+.bg-c
+	background-color: $grey-c
+.bg-d
+	background-color: $grey-d
+.bg-e
+	background-color: $grey-e
+.bg-f
+	background-color: $white
+.bg-f5
+	background-color: $grey-f5
+	
+.color-gray-100
+	color: $gray-100
+.color-gray-200
+	color: $gray-200
+.color-gray-300
+	color: $gray-300
+.color-gray-400
+	color: $gray-400
+.color-gray-500
+	color: $gray-500
+.color-gray-600
+	color: $gray-600
+.color-gray-700
+	color: $gray-700
+.color-gray-800
+	color: $gray-800
+.color-gray-900
+	color: $gray-900
+
+.color-link
+	color: $link
+
+.color-success
+	color: $success
+
+.color-error
+	color: $error
+
+.color-highlight
+	color: $secondary
+
+.color-white
+	color: $white
+
+p
+	margin-bottom: 0
+
+.fw-light
+	font-weight: $light
+.fw-regular
+	font-weight: $regular
+.fw-bold
+	font-weight: $bold
+
+.fs-10
+	font-size: $fs-10
+.fs-11
+	font-size: $fs-11
+.fs-12
+	font-size: $fs-12
+.fs-13
+	font-size: $fs-13
+.fs-144
+	font-size: $fs-144
+.fs-14
+	font-size: $fs-14
+.fs-15
+	font-size: $fs-15
+.fs-16
+	font-size: $fs-16
+.fs-17
+	font-size: $fs-17
+.fs-18
+	font-size: $fs-18
+.fs-19
+	font-size: $fs-19
+.fs-20
+	font-size: $fs-20
+.fs-22
+	font-size: $fs-22
+.fs-24
+	font-size: $fs-24
+.fs-26
+	font-size: $fs-26
+.fs-28
+	font-size: $fs-28
+.fs-30
+	font-size: $fs-30
+.fs-32
+	font-size: $fs-32
+.fs-34
+	font-size: $fs-34
+.fs-36
+	font-size: $fs-36
+.fs-38
+	font-size: $fs-38
+.fs-40
+	font-size: $fs-40
+.fs-42
+	font-size: $fs-42
+.fs-44
+	font-size: $fs-44
+
+.ff-numbers
+	font-family: $f-numbers
+
+.ta-left
+	text-align: left
+.ta-center
+	text-align: center
+.ta-right
+	text-align: right
+
+.alert-warning
+	background-color: $warning
+	border-color: $warning
+.alert-success
+	background-color: $success
+	border-color: $success
+.alert-error
+	background-color: $error
+	border-color: $error
+.alert-info
+	background-color: $info
+	border-color: $info
+
+
+// // MODAL
+// /* The Modal (background) */
+// .modal 
+// 	display: none
+// 	position: fixed
+// 	z-index: 999
+// 	left: 0
+// 	top: 0
+// 	right: 0
+// 	bottom: 0
+// 	width: 100% 
+// 	height: 100% 
+// 	overflow: auto 
+// 	background-color: rgba($black, .6)
+
+
+// 	// Modal Content
+// 	.modal-content 
+// 		position: relative
+// 		background-color: $white
+// 		margin: auto
+// 		padding: 0
+// 		border: 1px solid $gray-800
+// 		max-width: 80%
+// 		// box-shadow: 0 4px 8px 0 rgba($black,0.2), 0 6px 20px 0 rgba($black,0.19)
+// 		box-shadow: 0 1px 2px 0 rgba($black,.3)
+// 		-webkit-animation-name: animatetop
+// 		-webkit-animation-duration: 0.4s
+// 		animation-name: animatetop
+// 		animation-duration: 0.4s
+		
+// 		/* The Close Button */
+// 		.close 
+// 			color: $white
+// 			float: right
+// 			font-size: 28px
+// 			font-weight: $medium
+// 			&:hover,
+// 			&:focus 
+// 				color: $black
+// 				text-decoration: none
+// 				cursor: pointer
+
+// 		.modal-header 
+// 			padding: 2px 16px
+// 			background-color: $accent
+// 			text-align: left
+// 			h2
+// 				color: $font-color
+// 				@extend .fs-28
+// 				@extend .fw-medium
+
+// 		.modal-body
+// 			padding: 2px 16px
+
+// 		.modal-footer 
+// 			padding: 2px 16px
+// 			background-color: $accent
+
+// 	&.xs
+// 		.modal-content 
+// 			width: 480px
+// 	&.sm
+// 		.modal-content 
+// 			width: 780px
+// 	&.md
+// 		.modal-content 
+// 			width: 968px
+// 	&.lg
+// 		.modal-content 
+// 			width: 1024px
+// /* Add Animation */
+// @-webkit-keyframes animatetop 
+// 	from
+// 		top: -300px
+// 		opacity: 0 
+// 	to
+// 		top: 0
+// 		opacity: 1
+
+
+// @keyframes animatetop 
+// 	from
+// 		top: -300px
+// 		opacity: 0
+// 	to
+// 		top: 0
+// 		opacity: 1
+
+// Check full

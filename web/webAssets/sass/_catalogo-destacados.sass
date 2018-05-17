@@ -1,0 +1,142 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Basic
+	========================================================================== */
+
+.shop-carousel-products
+	margin-bottom: 64px
+	margin-top: 40px
+	position: relative
+	width: 100%
+
+	h2
+		color: $font-color
+		@extend .fs-20
+		@extend .fw-regular
+		text-transform: uppercase
+
+	.owl-carousel-dos
+		position: relative
+		width: 100%
+		.owl-stage-outer
+			// background-color: rgba(red,.3)
+			height: 100%
+			margin: 0 auto
+			overflow: hidden
+			padding: 16px 0 40px
+			width: 100%
+			.owl-stage
+				align-items: center
+				display: flex
+				height: 100%
+				.owl-item
+					
+					.shop-carousel-wrap
+						background-color: $white
+						border-radius: 4px
+						box-shadow: 0 1px 1px 0 rgba($black,.1)
+						display: block
+						width: 100%
+						&:hover
+							box-shadow: 0 12px 10px 0 rgba($black,.16)
+
+						.shop-carousel-wrap-image
+							align-items: center
+							border-bottom: 1px solid $grey-d
+							display: flex
+							justify-content: center
+							height: 250px
+							img
+								max-height: 100%
+								max-width: 100%
+						.shop-carousel-wrap-info
+							padding: 24px 16px 8px
+							position: relative
+							.shop-carousel-wrap-free-shipping
+								align-items: center
+								background-color: $white
+								border: 1px solid $grey-d
+								border-radius: 50%
+								display: flex
+								height: 36px
+								justify-content: center
+								position: absolute
+								right: 20px
+								top: -18px
+								width: 36px
+								i
+									@extend .color-highlight
+									@extend .fs-18
+							.shop-carousel-wrap-price
+								color: $font-color
+								@extend .ff-numbers
+								@extend .fs-24
+								@extend .fw-regular
+								margin-bottom: 16px
+							.shop-carousel-wrap-title
+								@extend .color-gray-600
+								@extend .fs-144
+								@extend .fw-regular
+								line-height: 1.29
+								min-height: 48px
+
+		.owl-nav
+			.owl-prev,
+			.owl-next
+				align-items: center
+				background-color: $white
+				border: 1px solid $grey-d
+				border-radius: 50%
+				box-shadow: 0 2px 4px 0 rgba($black,.19)
+				cursor: pointer
+				display: flex
+				height: 60px
+				justify-content: center
+				margin-top: -30px
+				position: absolute
+				top: 50%
+				visibility: visible
+				width: 60px
+				i
+					color: $primary
+					@extend .fs-22
+				&.disabled
+					opacity: .2
+					visibility: hidden
+				+respond-to(md)
+					height: 48px
+					width: 48px
+					i
+						font-size: $fs-18
+				+respond-to(xs)
+					border: none
+					box-shadow: none
+					height: 40px
+					width: 40px
+					i
+						font-size: $fs-16
+			.owl-prev
+				left: -30px
+				+respond-to(tx)
+					left: -16px
+			.owl-next
+				right: -30px
+				+respond-to(tx)
+					right: -16px
+
+.owl-theme
+	.owl-nav 
+		// default owl-theme theme reset .disabled:hover links
+		[class*='owl-']
+			transition: all .3s ease
+			&.disabled:hover
+				background-color: #D6D6D6

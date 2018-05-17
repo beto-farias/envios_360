@@ -1,0 +1,96 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Basic
+	========================================================================== */
+
+.page-categorias
+	padding: 64px 0 32px
+	+respond-to(xs)
+		padding: 32px 0 32px
+	&.page-mh-full
+		min-height: calc(100vh - 220px)
+
+	.page-categorias-head
+		align-items: center
+		display: flex
+		justify-content: space-between
+		width: 100%
+
+		h3.title
+			@extend .fs-22
+			@extend .fw-bold
+			line-height: 1
+			margin-bottom: 32px
+		a.ver-mas
+			@extend .fs-16
+			@extend .fw-regular
+			i.ion
+				@extend .fs-20
+				margin-left: 4px
+				transform: rotate(90deg)
+
+	.page-categorias-cont
+		background-color: $white
+		box-shadow: 0 1px 3px 0 rgba($black,.3)
+		margin-bottom: 48px
+		padding: 32px
+		position: relative
+
+		.page-categorias-box
+			background-color: $white
+			border-radius: 4px
+			box-shadow: 0 1px 1px 0 rgba($black,.1)
+			display: block
+			margin-bottom: 32px
+			width: 100%
+			&:hover
+				box-shadow: 0 12px 10px 0 rgba($black,.16)
+
+			.shop-carousel-wrap-image
+				align-items: center
+				border-bottom: 1px solid $grey-d
+				display: flex
+				justify-content: center
+				height: 250px
+				img
+					max-height: 100%
+					max-width: 100%
+			.shop-carousel-wrap-info
+				padding: 24px 16px
+				position: relative
+				.shop-carousel-wrap-free-shipping
+					align-items: center
+					background-color: $white
+					border: 1px solid $grey-d
+					border-radius: 50%
+					display: flex
+					height: 36px
+					justify-content: center
+					position: absolute
+					right: 20px
+					top: -18px
+					width: 36px
+					i
+						@extend .color-highlight
+						@extend .fs-18
+
+				.shop-carousel-wrap-price
+					color: $font-color
+					@extend .ff-numbers
+					@extend .fs-24
+					@extend .fw-regular
+					margin-bottom: 24px
+				.shop-carousel-wrap-title
+					@extend .color-gray-600
+					@extend .fs-144
+					@extend .fw-regular
+					line-height: 1.29

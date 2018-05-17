@@ -1,0 +1,463 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Basic
+	========================================================================== */
+	
+
+.mis-tickets-page
+	// background-color: yellow
+	position: relative
+	min-height: calc(100vh - 172px)
+	z-index: 2
+	.container-1220
+		+respond-to(md)
+			margin: 0 auto
+			max-width: 90%
+			width: 90%
+		+respond-to(tl)
+			margin: 0 auto
+			max-width: 90%
+			width: 90%
+		+respond-to(xs)
+			margin: 0 auto
+			max-width: 90%
+			width: 1220px
+
+		.panel-container
+			// @extend .bg-f
+			// margin: 16px 0
+			.panel-mis-tickets
+				.panel
+					.panel-heading
+						background-color: $white
+						.panel-title
+							a
+								display: block
+								padding: 16px 24px
+
+
+			.panel-mis-tickets
+				background-color: $white
+				border-radius: 4px
+				box-shadow: 0 1px 2px 0 rgba($black,.3)
+				margin: 32px auto
+				.panel-mis-tickets-item
+					padding: 24px 16px
+				.panel-mis-tickets-item
+					align-items: center
+					border-bottom: 1px solid $grey-d
+					@extend .color-gray-400
+					// cursor: pointer
+					display: flex
+					justify-content: space-between
+					position: relative
+					&:focus
+						outline: none
+					&:first-child
+						border-top: 1px solid $grey-d
+					+respond-to(micon)
+						flex-wrap: wrap
+					+respond-to(md)
+						flex-wrap: wrap
+					+respond-to(tx)
+						flex-wrap: wrap
+				
+
+				.shipping-add-item-person
+					display: flex
+					flex-direction: column
+					justify-content: flex-start
+					text-align: left
+					&.person-numero
+						+respond-to(micon)
+							margin-bottom: 16px
+							width: 100%
+						+respond-to(md)
+							margin-bottom: 16px
+							width: 100%
+						+respond-to(tx)
+							margin-bottom: 16px
+							width: 100%
+						+respond-to(sp)
+							width: 100%
+					&.person-fechae
+						+respond-to(micon)
+							width: 50%
+						+respond-to(md)
+							width: 50%
+						+respond-to(tx)
+							width: 50%
+						+respond-to(sp)
+							width: 100%
+					&.person-expira
+						+respond-to(micon)
+							width: 50%
+						+respond-to(md)
+							width: 50%
+						+respond-to(tx)
+							width: 50%
+						+respond-to(sp)
+							width: 100%
+					span
+						color: $grey-c
+						@extend .fs-144
+						@extend .fw-light
+						margin-top: 2px
+						&.shipping-add-item-price-option-title
+							color: $font-color
+							@extend .fw-bold
+						&.shipping-add-item-price-option-text
+							color: $font-color
+							@extend .fw-light
+				.shipping-add-item-detail
+					a
+						@extend .fs-144
+						@extend .fw-light
+
+					&.active
+						&::after
+							opacity: 1
+
+				.shipping-add-btn
+					color: $primary
+					@extend .fs-18
+					@extend .fw-light
+					text-align: left
+					width: 100%
+					&:focus
+						outline: none
+
+
+		.hero-pago-establecimiento-tickets
+			@extend .bg-f5
+			min-height: 100vh
+			padding: 16px
+
+		.hero-pago-establecimiento-actions
+
+			// Body
+			.hero-pago-establecimiento-actions-body
+				background-color: $white
+				border-radius: 4px
+				box-shadow: 0 1px 2px 0 rgba($black,.3)
+				margin: 2px auto 32px
+				padding: 48px 32px 24px
+				width: 100%
+
+				// Head
+				.hero-pago-establecimiento-actions-body-head
+					align-items: center
+					display: flex
+					justify-content: space-between
+					width: 100%
+					+respond-to(tx)
+						flex-direction: column
+					.hero-pago-establecimiento-actions-body-head-text
+						+respond-to(tx)
+							margin-bottom: 16px
+							text-align: center
+						h4
+							@extend .color-gray-600
+							@extend .fs-18
+							@extend .fw-regular
+							margin-bottom: 4px
+						h5
+							@extend .color-gray-900
+							@extend .fs-144
+							@extend .fw-regular
+
+					.hero-pago-establecimiento-actions-body-head-image
+						align-items: center
+						display: flex
+						height: 100%
+						justify-content: center
+						text-align: center
+						img
+							max-width: 90%
+							width: 160px
+
+				// Pleca de color
+				.hero-pago-establecimiento-pays
+					align-items: center
+					background-color: $secondary
+					border-radius: 4px
+					display: flex
+					justify-content: flex-start
+					margin: 24px 0 4px
+					padding: 8px 16px
+					width: 100%
+					.hero-pago-establecimiento-pays-ico
+						margin-right: 16px
+						i
+							@extend .color-white
+							@extend .fs-40
+					.hero-pago-establecimiento-pays-text
+						p
+							@extend .color-white
+							@extend .fw-regular
+							span
+								@extend .fw-bold
+				
+				.hero-pago-establecimiento-actions-body-detail
+					// background-color: red
+					@extend .color-gray-900
+					@extend .fs-13
+					@extend .fw-light
+					margin-top: 4px
+					text-align: right
+
+				.hero-pago-establecimiento-actions-body-cont
+					@extend .border-d
+					margin: 16px 0 0
+					
+				.hero-pago-establecimiento-actions-body-code,
+				.hero-pago-establecimiento-actions-body-prices
+					// background-color: red
+					align-items: center
+					display: flex
+					justify-content: center
+					margin: 0
+					text-align: center
+					width: 100%
+				.hero-pago-establecimiento-actions-body-code
+					flex-direction: column
+					padding: 16px
+					.hero-pago-establecimiento-actions-body-code-num
+						@extend .color-gray-400
+						display: block
+						@extend .fs-13
+						@extend .fw-bold
+						letter-spacing: 1px
+						margin-bottom: 4px
+						text-align: center
+						text-transform: uppercase
+					img
+						max-width: 80%
+						width: 280px
+				.hero-pago-establecimiento-actions-body-prices
+					background-color: $secondary
+					flex-wrap: wrap
+					@extend .fw-light
+					height: 100%
+					padding: 16px
+					.hero-pago-establecimiento-actions-body-price
+						display: block
+						margin-bottom: 0
+						width: 100%
+						&:last-child
+							margin-bottom: 0
+						&.mt--8
+							margin-top: -8px
+						
+						.price-total,
+						.price-symbol,
+						.price-fraction,
+						.price-currency,
+						.price-commission,
+						.price-text
+							@extend .color-white
+							
+						.price-total
+							display: block
+							@extend .fs-16
+							@extend .fw-regular
+							margin-bottom: 0
+							text-align: left
+							+respond-to(md)
+								text-align: center
+							+respond-to(tl)
+								text-align: center
+							+respond-to(xs)
+								text-align: center
+							+respond-to(tx)
+								text-align: left
+
+						.price-symbol,
+						.price-fraction,
+						.price-currency
+							@extend .fs-22
+							@extend .fw-bold
+							margin-right: .2rem
+						.price-text
+							display: block
+							@extend .fs-12
+							@extend .fw-light
+							margin-top: 8px
+							text-align: right
+							+respond-to(md)
+								text-align: center
+							+respond-to(tl)
+								text-align: center
+							+respond-to(xs)
+								text-align: center
+							+respond-to(tx)
+								text-align: right
+
+				.hero-pago-establecimiento-actions-body-cont-footer
+					.hero-pago-establecimiento-actions-body-cont-panel-comission
+						align-items: center
+						background-color: $primary
+						border-radius: 0 0 4px 4px
+						display: flex
+						justify-content: flex-start
+						padding: 4px 16px
+						p
+							color: $white
+							@extend .fs-15
+							@extend .fw-light
+							text-align: left
+							
+					.hero-pago-establecimiento-actions-body-cont-panel-call-center
+						align-items: center
+						@extend .bg-e
+						border-radius: 4px 4px 0 0
+						display: flex
+						justify-content: flex-start
+						margin-top: 24px
+						padding: 8px 16px
+						+respond-to(tx)
+							flex-direction: column
+						.hero-pago-establecimiento-actions-body-cont-panel-call-center-ico
+							text-align: center
+							width: 160px
+							+respond-to(xs)
+								width: 200px
+							+respond-to(tp)
+								width: 240px
+							img
+								max-width: 90%
+								width: 60px
+						.hero-pago-establecimiento-actions-body-cont-panel-call-center-txt
+							+respond-to(tx)
+								margin-top: 16px
+							p
+								@extend .fs-144
+								@extend .fw-regular
+								margin-bottom: 8px
+								&:last-child
+									margin-bottom: 0
+								span
+									@extend .fw-bold
+								a
+									@extend .fs-144
+
+				
+
+				.hero-pago-establecimiento-actions-body-cont-panel
+					@extend .border-bottom
+					&.mt-24
+						margin-top: 24px
+					.pl-none
+						+respond-to(lg)
+							padding-left: 0
+					.pr-none
+						+respond-to(lg)
+							padding-right: 0
+					.br-1
+						border: none
+						+respond-to(lg)
+							border-right: 1px solid $grey-d
+						
+						
+					.hero-pago-establecimiento-actions-body-cont-panel-head
+						@extend .bg-e
+						padding: 8px 16px
+						h6
+							@extend .color-gray-600
+							@extend .fs-144
+							@extend .fw-bold
+							text-align: center
+					
+					.hero-pago-establecimiento-actions-body-cont-panel-body
+						padding: 24px 16px
+
+						h6
+							@extend .color-gray-600
+							@extend .fs-16
+							@extend .fw-regular
+							margin-bottom: 8px
+						ol
+							list-style-position: outside
+							margin-bottom: 24px
+							padding-left: 26px
+							li
+								@extend .color-gray-800
+								@extend .fs-144
+								letter-spacing: 1px
+								line-height: 1.2
+								margin-bottom: 8px
+
+						p
+							@extend .color-gray-700
+							@extend .fs-144
+							letter-spacing: 1px
+							line-height: 1.4
+							margin-bottom: 30px
+							text-align: justify
+							span
+								@extend .color-gray-400
+								@extend .fw-bold
+
+						.hero-pago-establecimiento-actions-body-inst
+							align-items: center
+							display: flex
+							justify-content: center
+							img
+								max-width: 100%
+								width: 420px
+								
+					.hero-pago-establecimiento-actions-body-open-code
+						padding: 8px 16px
+						.hero-pago-establecimiento-actions-body-open-code-num
+							@extend .color-gray-300
+							@extend .fs-24
+							@extend .fw-bold
+							letter-spacing: 1px
+							text-align: center
+							text-transform: uppercase
+						.hero-pago-establecimiento-actions-body-open-code-desc
+							@extend .color-gray-600
+							display: block
+							@extend .fs-144
+							@extend .fw-light
+							margin-bottom: 16px
+							text-align: center
+
+
+				.hero-pago-establecimiento-actions-body-openpay
+					align-items: center
+					display: flex
+					flex-direction: column
+					justify-content: center
+					margin-top: 32px
+					img
+						max-width: 100%
+					p
+						@extend .color-gray-300
+						@extend .fs-12
+						letter-spacing: 1px
+						line-height: 1.2
+						margin-bottom: 0
+						text-align: center
+					img
+						width: 180px
+
+		.hero-pago-establecimiento-actions
+			align-items: center
+			display: flex
+			// flex-direction: column
+			justify-content: flex-end
+			.btn
+				@extend .fs-15
+				i.ion
+					@extend .fs-20
+					margin-right: 4px

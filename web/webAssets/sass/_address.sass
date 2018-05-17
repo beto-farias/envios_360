@@ -1,0 +1,1547 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	2.0 - Basicos
+			# Basic
+			# Utility
+			# Extra
+
+	-----------------------------------------------------------------------------
+	*/
+
+/*  Basic
+	========================================================================== */
+
+.shop-header
+	background-color: $accent
+	// border-bottom: 1px solid $grey-d
+	box-shadow: 0 1px 0 0 rgba($black,.1)
+	position: relative
+	z-index: 6
+
+.add-page
+	// background-color: yellow
+	position: relative
+	min-height: calc(100vh - 172px)
+	z-index: 2
+	.container-1220
+		// background-color: green
+		// height: 100%
+		// min-height: calc(100vh - 150px)
+		// position: relative
+		// .row
+		// 	min-height: calc(100vh - 150px)
+		+respond-to(md)
+			// background-color: red
+			margin: 0 0 0 auto
+			max-width: 95%
+			width: 95%
+		+respond-to(tl)
+			// background-color: green
+			margin: 0 0 0 auto
+			max-width: 95%
+			width: 95%
+		+respond-to(xs)
+			// background-color: purple
+			margin: 0 auto
+			max-width: 90%
+			width: 1220px
+
+		.panel-container
+			// background-color: rgba(teal,.1)
+			padding: 56px 0
+
+			h2
+				@extend .fs-22
+				@extend .fw-bold
+				margin-bottom: 24px
+				&.title-tickets
+					margin-bottom: 4px
+			h3
+				@extend .fs-18
+				@extend .fw-regular
+				margin-bottom: 16px
+			h4
+				@extend .fs-144
+				@extend .fw-regular
+				margin-bottom: 16px
+
+			h5
+				color: $grey-b
+				@extend .fs-13
+				@extend .fw-regular
+				margin-bottom: 16px
+
+			.hero-pleca-initial
+				align-items: center
+				// @extend .bg-f5
+				@extend .bg-f
+				border-radius: 4px
+				display: flex
+				flex-wrap: wrap
+				justify-content: flex-start
+				margin-bottom: 48px
+				padding: 16px 32px
+				width: 100%
+				&.hero-add-mb
+					margin-bottom: 12px
+
+				.hero-add-icon
+					// background-color: green
+					width: 80px
+					.hero-add-icon-item
+						align-items: center
+						// @extend .bg-f
+						@extend .bg-f5
+						border-radius: 50%
+						display: flex
+						height: 48px
+						justify-content: center
+						width: 48px
+						i
+							color: $primary
+							@extend .fs-36
+							@extend .fw-bold
+
+				.hero-actions-details
+					align-items: center
+					// background-color: purple
+					display: flex
+					flex-wrap: wrap
+					justify-content: space-between
+					width: calc(100% - 80px)
+					+respond-to(md)
+						justify-content: flex-start
+					+respond-to(tl)
+						justify-content: flex-start
+					+respond-to(xs)
+						justify-content: flex-start
+
+					.hero-addres
+						width: 100%
+						+respond-to(lg)
+							width: calc(100% - 200px)
+					.hero-actions
+						// background-color: teal
+						width: 100%
+						+respond-to(lg)
+							width: 200px
+
+					.hero-addres,
+					.hero-product
+						span
+							@extend .color-gray-300
+							@extend .fs-16
+							@extend .fw-regular
+							.numbers
+								@extend .ff-numbers
+						p
+							@extend .color-gray-600
+							@extend .fs-13
+							&.hero-addres-payment
+								color: $grey-b
+								margin-top: 8px
+
+					.hero-actions,
+					.hero-product-price
+						align-items: center
+						display: flex
+						justify-content: flex-end
+						text-align: right
+						+respond-to(md)
+							justify-content: flex-start
+						+respond-to(tl)
+							justify-content: flex-start
+						+respond-to(xs)
+							justify-content: flex-start
+						.btn-outline-default
+							background-color: transparent
+							color: $primary
+							@extend .fs-144
+							@extend .fw-light
+							padding: 0
+							&:focus
+								box-shadow: none
+								outline: none
+							+respond-to(md)
+								margin-top: 8px
+							+respond-to(tl)
+								margin-top: 8px
+							+respond-to(xs)
+								margin-top: 8px
+						
+					.hero-product,
+					.hero-product-price
+						p,
+						span
+							@extend .color-gray-600
+							@extend .fs-15
+							@extend .fw-light
+
+					
+
+					.hero-total
+						align-items: center
+						border-top: 1px solid $grey-d
+						display: flex
+						justify-content: space-between
+						margin-top: 16px
+						padding-top: 16px
+						width: 100%
+						.hero-total-text
+							p
+								@extend .fs-16
+								@extend .fw-regular
+						.hero-total-price
+							display: flex
+							justify-content: flex-end
+							.hero-total-price-symbol,
+							.hero-total-price-fraction
+								@extend .fs-16
+								@extend .fw-regular
+
+				// Hero - Pago tarjeta
+				&.hero-pago-tarjeta
+					.hero-add-icon
+						i
+							@extend .fs-28
+					.hero-addres
+						p
+							&.hero-addres-txt
+								@extend .color-gray-600
+								@extend .fs-16
+								@extend .fw-light
+								// margin-left: 12px
+					.hero-actions
+						justify-content: flex-end
+						+respond-to(md)
+							justify-content: flex-start
+						+respond-to(tl)
+							justify-content: flex-start
+						+respond-to(xs)
+							justify-content: flex-start
+					
+			// .hero-add
+			// 	background-color: #f5f5f5
+			// 	border-radius: 4px
+			// 	margin-bottom: 48px
+			// 	padding: 16px 32px
+			// 	&.hero-add-mb
+			// 		margin-bottom: 12px
+			// 	h5
+			// 		@extend .fs-18
+			// 		@extend .fw-regular
+			// 		margin-bottom: 16px
+			// 	.hero-add-icon
+			// 		align-items: center
+			// 		background-color: $white
+			// 		border-radius: 50%
+			// 		display: flex
+			// 		height: 48px
+			// 		justify-content: center
+			// 		width: 48px
+			// 		i
+			// 			color: $primary
+			// 			@extend .fs-36
+			// 			@extend .fw-bold
+				
+			// 	.hero-actions-details
+			// 		background-color: red
+
+			// 		.hero-addres,
+			// 		.hero-product
+			// 			span
+			// 				@extend .color-gray-300
+			// 				@extend .fs-16
+			// 				@extend .fw-regular
+			// 			p
+			// 				@extend .color-gray-600
+			// 				@extend .fs-13
+			// 				&.hero-addres-payment
+			// 					color: $grey-b
+			// 					margin-top: 8px
+
+			// 		.hero-actions,
+			// 		.hero-product-price
+			// 			align-items: center
+			// 			display: flex
+			// 			justify-content: flex-end
+			// 			text-align: right
+			// 			.btn-outline-default
+			// 				background-color: transparent
+			// 				color: $primary
+			// 				@extend .fs-144
+			// 				@extend .fw-light
+			// 				&:focus
+			// 					box-shadow: none
+			// 					outline: none
+
+			// 		.hero-product,
+			// 		.hero-product-price
+			// 			p,
+			// 			span
+			// 				@extend .color-gray-600
+			// 				@extend .fs-15
+			// 				@extend .fw-light
+
+					
+
+			// 		.hero-total
+			// 			align-items: center
+			// 			border-top: 1px solid $grey-d
+			// 			display: flex
+			// 			justify-content: space-between
+			// 			margin-top: 16px
+			// 			padding-top: 16px
+			// 			width: 100%
+			// 			.hero-total-text
+			// 				p
+			// 					@extend .fs-16
+			// 					@extend .fw-regular
+			// 			.hero-total-price
+			// 				display: flex
+			// 				justify-content: flex-end
+			// 				.hero-total-price-symbol,
+			// 				.hero-total-price-fraction
+			// 					@extend .fs-16
+			// 					@extend .fw-regular
+				
+
+			
+			.hero-carrito-time
+				align-items: flex-end
+				display: flex
+				flex-direction: column
+				justify-content: flex-end
+				width: 100%
+				h3
+					@extend .fs-144
+					@extend .fw-bold
+					margin-bottom: 4px
+				.loading-time
+					@extend .fs-144
+					@extend .fw-regular
+				.tiempo-restantes
+					display: none
+					text-align: right
+					p
+						display: inline-block
+						@extend .fs-13
+						@extend .fw-light
+						margin-right: 4px
+						vertical-align: middle
+						&:last-child
+							margin-right: 0
+						span
+							@extend .fw-regular
+
+			.hero-carrito
+				background-color: $white
+				border-radius: 4px
+				box-shadow: 0 1px 2px 0 rgba($black,.3)
+				margin: 32px auto
+				.carrito-tr
+					align-items: center
+					border-bottom: 1px solid $grey-d
+					@extend .color-gray-400
+					cursor: pointer
+					display: flex
+					justify-content: space-between
+					padding: 32px 16px 16px
+					position: relative
+
+					&:focus
+						outline: none
+					&:first-child
+						border-top: 1px solid $grey-d
+					
+					&::after
+						background-color: $primary
+						content: ""
+						height: 100%
+						top: 0
+						bottom: 0
+						left: 0
+						opacity: 0
+						position: absolute
+						width: 5px
+					&:hover
+						@extend .bg-f5
+						&::after
+							opacity: .4
+
+					+respond-to(tl)
+						flex-wrap: wrap
+					+respond-to(xs)
+						flex-wrap: wrap
+
+					.carrito-td
+						&.item-img
+							text-align: center
+							width: 120px
+							+respond-to(tp)
+								width: 100%
+							a
+								display: block
+								img
+									height: 60px
+									max-width: 90%
+						&.item-txt
+							padding: 0 8px
+							width: 50%
+							+respond-to(tl)
+								width: calc(100% - 200px)
+							+respond-to(xs)
+								width: calc(100% - 120px)
+							+respond-to(tp)
+								text-align: center
+								width: 100%
+							p
+								@extend .fs-14
+								@extend .fw-light
+						&.item-talla
+							padding: 0 8px
+							width: 80px
+							+respond-to(xs)
+								text-align: center
+								width: 100%
+							+respond-to(tp)
+								text-align: center
+								width: 100%
+							p
+								@extend .fs-14
+								@extend .fw-bold
+						&.item-num
+							align-items: center
+							display: flex
+							justify-content: space-between
+							max-width: 160px
+							text-align: center
+							width: 160px
+							+respond-to(tl)
+								width: 33%
+							+respond-to(xs)
+								justify-content: center
+								margin: 16px auto
+								max-width: 100%
+								width: 100%
+							+respond-to(tp)
+								justify-content: center
+								margin: 16px auto
+								max-width: 100%
+								width: 100%
+							a
+								border-radius: 50%
+								cursor: pointer
+								display: inline
+								height: 24px
+								line-height: 28px
+								text-align: center
+								width: 24px
+								i.ion
+									@extend .color-white
+									@extend .fs-22
+								&.item-num-prev
+									@extend .bg-c
+								&.item-num-next
+									background-color: $primary
+							p
+								@extend .fs-20
+								@extend .fw-regular
+								line-height: 1
+								width: 33%
+						&.item-costo
+							padding: 0 8px
+							text-align: right
+							width: 20%
+							+respond-to(tl)
+								width: 33%
+							+respond-to(xs)
+								text-align: center
+								width: 50%
+							+respond-to(tp)
+								text-align: center
+								width: 100%
+							span
+								@extend .fs-18
+								@extend .fw-light
+						&.item-precio
+							padding: 0 8px
+							text-align: right
+							width: 20%
+							+respond-to(tl)
+								width: 33%
+							+respond-to(xs)
+								text-align: center
+								width: 50%
+							+respond-to(tp)
+								text-align: center
+								width: 100%
+							span
+								@extend .fs-18
+								@extend .fw-light
+					
+			.hero-carrito-actions
+				align-items: flex-end
+				display: flex
+				flex-direction: column
+				justify-content: flex-end
+				.actions-costo,
+				.actions-subtotal,
+				.actions-total,
+				.actions-btns
+					padding: 0 24px
+					text-align: right
+					width: 180px
+				.actions-costo,
+				.actions-subtotal
+					span,
+					p
+						@extend .fs-16
+						@extend .fw-light
+						line-height: 1
+						margin-bottom: 8px
+					p
+						@extend .ff-numbers
+					
+				.actions-total
+					margin: 8px 0 24px
+					span,
+					p
+						@extend .fs-18
+						@extend .fw-bold
+						line-height: 1
+					p
+						@extend .ff-numbers
+
+				.actions-btns
+					.btn.btn-primary
+						width: 100%
+
+			.hero-shipping
+				background-color: $white
+				border-radius: 4px
+				box-shadow: 0 1px 2px 0 rgba($black,.3)
+				margin: 32px auto
+				.shipping-add-item,
+				.shipping-add-btn
+					padding: 32px 48px
+					+respond-to(xs)
+						padding: 16px 24px
+				.shipping-add-item
+					align-items: center
+					border-bottom: 1px solid $grey-d
+					@extend .color-gray-400
+					// cursor: pointer
+					display: flex
+					justify-content: space-between
+					position: relative
+					&:focus
+						outline: none
+					&:first-child
+						border-top: 1px solid $grey-d
+
+					.shipping-add-item-desc,
+					.shipping-add-item-product
+						span
+							@extend .color-gray-400
+							display: block
+							@extend .fs-16
+							@extend .fw-regular
+						p
+							color: $grey-c
+							@extend .fs-144
+							@extend .fw-light
+							margin-top: 4px
+
+					.shipping-add-item-price
+						display: flex
+						.shipping-add-item-price-option
+							margin-right: 16px
+							.shipping-add-item-price-option-symbol,
+							.shipping-add-item-price-option-fraction
+								@extend .fs-16
+								@extend .fw-light
+							.shipping-add-item-price-option-symbol
+								margin-right: .2rem
+						.shipping-add-item-price-icon
+							align-items: center
+							// background-color: rgba(red,.1)
+							color: $link
+							display: flex
+							justify-content: center
+							width: 20px
+							i
+								display: none
+
+					&::after
+						background-color: $primary
+						content: ""
+						height: 100%
+						top: 0
+						bottom: 0
+						left: 0
+						opacity: 0
+						position: absolute
+						width: 5px
+					&:hover
+						@extend .bg-f5
+						&::after
+							opacity: .4
+						.shipping-add-item-price
+							.shipping-add-item-price-icon
+								i
+									display: block
+
+					&.shipping-add-item-disabled
+						@extend .bg-e
+						opacity: .6
+						&:hover
+							@extend .bg-f5
+							&::after
+								opacity: .4
+							.shipping-add-item-price
+								.shipping-add-item-price-icon
+									i
+										display: block
+
+					.shipping-add-item-product
+						// span
+						// 	@extend .color-gray-400
+						// 	display: block
+						// 	@extend .fs-16
+						// 	@extend .fw-regular
+						p
+							// color: $grey-c
+							// @extend .fs-144
+							// @extend .fw-light
+							margin-top: 2px
+
+					.shipping-add-item-person
+						display: flex
+						flex-direction: column
+						justify-content: flex-start
+						text-align: left
+					
+						&.person-fecha
+							+respond-to(tx)
+								display: none
+						&.person-status
+							+respond-to(tx)
+								display: none
+						span
+							color: $grey-c
+							@extend .fs-144
+							@extend .fw-light
+							margin-top: 2px
+							&.shipping-add-item-price-option-title
+								color: $font-color
+								@extend .fw-bold
+							&.shipping-add-item-price-option-text
+								color: $font-color
+								@extend .fw-light
+					.shipping-add-item-detail
+						a
+							@extend .fs-144
+							@extend .fw-light
+
+					&.active
+						&::after
+							opacity: 1
+
+				.shipping-add-btn
+					color: $primary
+					@extend .fs-18
+					@extend .fw-light
+					text-align: left
+					width: 100%
+					&:focus
+						outline: none
+
+				&.hero-shipping-types
+					// background-color: red
+					.shipping-add-item
+						justify-content: flex-start
+						&:focus,
+						&:hover
+							outline: none
+						i
+							color: $primary
+							@extend .fs-30
+							margin-right: 24px
+						p
+							@extend .color-gray-400
+							display: block
+							@extend .fs-16
+							@extend .fw-regular
+						.shipping-add-item-subelement
+							p
+								@extend .color-gray-400
+								display: block
+								@extend .fs-16
+								@extend .fw-regular
+							span
+								color: $grey-b
+								display: block
+								@extend .fs-13
+								@extend .fw-light
+								margin-top: 0
+
+			.hero-pago-tarjeta-actions
+				.hero-pago-tarjeta-form
+					.hero-pago-tarjeta-form-body
+						background-color: $white
+						border-radius: 4px
+						box-shadow: 0 1px 2px 0 rgba($black,.3)
+						margin: 32px auto
+						padding: 32px 32px 16px
+					
+						.hero-pago-tarjeta-form-card
+							background-color: orange
+							border-radius: 6px
+							height: 210px
+							margin: 0 auto
+							max-width: 100%
+							width: 340px
+							transform-style: preserve-3d
+							transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+							box-shadow: 0 6px 16px rgba($black, .15)
+							// cursor: pointer
+							+respond-to(sm)
+								background-color: green
+								margin-bottom: 32px
+							+respond-to(xs)
+								background-color: teal
+								margin-bottom: 32px
+
+							.card-front,
+							.card-back
+								position: absolute
+								width: 100%
+								height: 100%
+								backface-visibility: hidden
+								border-radius: 6px
+								// background-color: #fff
+								display: flex
+								// justify-content: center
+								// align-items: center
+								flex-direction: column
+								// font 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
+								font-smoothing: antialiased
+								color: #47525D
+								&::before
+									content: ''
+									position: absolute
+									width: 100%
+									height: 100%
+									top: 0
+									left: 0
+									background: url('http://cdn.flaticon.com/svg/44/44386.svg') no-repeat center
+									background-size: cover
+									opacity: .05
+								
+								.logo
+									position: absolute
+									top: 9px
+									right: 70px
+									width: 60px
+
+								svg
+									width: 100%
+									height: auto
+									fill: #fff
+								
+								.num-card
+									align-items: center
+									display: flex
+									justify-content: center
+									margin-top: 120px
+									padding: 0 16px
+									width: 100%
+									span
+										@extend .fs-24
+										@extend .fw-light
+										letter-spacing: 4px
+										margin-right: 16px
+										&:last-child
+											margin-right: 0
+
+								.dates-user
+									align-items: center
+									display: flex
+									justify-content: space-between
+									margin-top: 24px
+									padding: 0 16px
+									width: 100%
+									.nombre-user,
+									.fecha-card
+										@extend .fs-12
+										@extend .fw-light
+										text-transform: uppercase
+
+
+								.chip
+									position: absolute
+									width: 90px
+									height: 90px
+									top: 20px
+									left: 20px
+									// background: linear-gradient(135deg, hsl(269,54%,87%) 0%,hsl(200,64%,89%) 44%,hsl(18,55%,94%) 100%)
+									// border-radius: 8px
+
+									// &::before
+									// 	content: ''
+									// 	position: absolute
+									// 	top: 0
+									// 	bottom: 0
+									// 	left: 0
+									// 	right: 0
+									// 	margin: auto
+									// 	border: 4px solid hsla(0, 0, 50, .1)
+									// 	width: 80%
+									// 	height: 70%
+									// 	border-radius: 5px
+
+								.strip
+									background: linear-gradient(135deg, hsl(0, 0, 25%), hsl(0, 0, 10%))
+									position: absolute
+									width: 100%
+									height: 50px
+									top: 30px
+									left: 0
+
+								.code
+									align-items: center
+									// background-color: red
+									display: flex
+									justify-content: center
+									margin-top: 96px
+									width: 100%
+									.code-lines
+										width: calc(100% - 60px)
+										span
+											background-color: $white
+											display: block
+											height: 2px
+											margin-bottom: 2px
+											width: 100%
+									.code-security
+										align-items: center
+										background-color: $white
+										display: flex
+										justify-content: center
+										position: relative
+										width: 60px
+										&::before
+											border: 3px solid red
+											border-radius: 50%
+											bottom: 0
+											content: ""
+											height: 48px
+											left: 4px
+											position: absolute
+											right: 0
+											top: -12px
+											width: 48px
+										span
+											@extend .ff-numbers
+											@extend .fs-16
+											@extend .fw-light
+
+								.number
+									position: absolute
+									margin: 0 auto
+									top: 113px
+									left: 19px
+									font-size: 38px
+									
+							.card-back
+								@extend .bg-d
+								transform: rotateY(180deg)
+								svg
+									path
+										fill: white
+
+								.logo
+									top: 148px
+
+							.card-front
+								@extend .bg-c
+
+							&.flipped
+								transform: rotateY(180deg)
+
+						// Elementos del Form
+						.form-group
+							margin-bottom: 32px
+
+					.hero-pago-tarjeta-form-actions
+						align-items: center
+						display: flex
+						justify-content: flex-end
+
+			.hero-pago-establecimiento-actions
+
+				// Body
+				.hero-pago-establecimiento-actions-body
+					background-color: $white
+					border-radius: 4px
+					box-shadow: 0 1px 2px 0 rgba($black,.3)
+					margin: 32px auto
+					padding: 48px 32px 24px
+					width: 100%
+
+					// Head
+					.hero-pago-establecimiento-actions-body-head
+						align-items: center
+						display: flex
+						justify-content: space-between
+						width: 100%
+						+respond-to(tx)
+							flex-direction: column
+						.hero-pago-establecimiento-actions-body-head-text
+							+respond-to(tx)
+								margin-bottom: 16px
+								text-align: center
+							h4
+								@extend .color-gray-600
+								@extend .fs-18
+								@extend .fw-regular
+								margin-bottom: 4px
+							h5
+								@extend .color-gray-900
+								@extend .fs-144
+								@extend .fw-regular
+
+						.hero-pago-establecimiento-actions-body-head-image
+							align-items: center
+							display: flex
+							height: 100%
+							justify-content: center
+							text-align: center
+							img
+								max-width: 90%
+								width: 160px
+
+					// Pleca de color
+					.hero-pago-establecimiento-pays
+						align-items: center
+						background-color: $secondary
+						border-radius: 4px
+						display: flex
+						justify-content: flex-start
+						margin: 24px 0 4px
+						padding: 8px 16px
+						width: 100%
+						.hero-pago-establecimiento-pays-ico
+							margin-right: 16px
+							i
+								@extend .color-white
+								@extend .fs-40
+						.hero-pago-establecimiento-pays-text
+							p
+								@extend .color-white
+								@extend .fw-regular
+								span
+									@extend .fw-bold
+					
+					.hero-pago-establecimiento-actions-body-detail
+						// background-color: red
+						@extend .color-gray-900
+						@extend .fs-13
+						@extend .fw-light
+						margin-top: 4px
+						text-align: right
+
+					.hero-pago-establecimiento-actions-body-cont
+						@extend .border-d
+						margin: 16px 0 0
+						
+					.hero-pago-establecimiento-actions-body-code,
+					.hero-pago-establecimiento-actions-body-prices
+						// background-color: red
+						align-items: center
+						display: flex
+						justify-content: center
+						margin: 0
+						text-align: center
+						width: 100%
+					.hero-pago-establecimiento-actions-body-code
+						flex-direction: column
+						padding: 16px
+						.hero-pago-establecimiento-actions-body-code-num
+							@extend .color-gray-400
+							display: block
+							@extend .fs-13
+							@extend .fw-bold
+							letter-spacing: 1px
+							margin-bottom: 4px
+							text-align: center
+							text-transform: uppercase
+						img
+							max-width: 80%
+							width: 280px
+					.hero-pago-establecimiento-actions-body-prices
+						background-color: $secondary
+						flex-wrap: wrap
+						@extend .fw-light
+						height: 100%
+						padding: 16px
+						.hero-pago-establecimiento-actions-body-price
+							display: block
+							margin-bottom: 0
+							width: 100%
+							&:last-child
+								margin-bottom: 0
+							&.mt--8
+								margin-top: -8px
+							
+							.price-total,
+							.price-symbol,
+							.price-fraction,
+							.price-currency,
+							.price-commission,
+							.price-text
+								@extend .color-white
+								
+							.price-total
+								display: block
+								@extend .fs-16
+								@extend .fw-regular
+								margin-bottom: 0
+								text-align: left
+								+respond-to(md)
+									text-align: center
+								+respond-to(tl)
+									text-align: center
+								+respond-to(xs)
+									text-align: center
+								+respond-to(tx)
+									text-align: left
+
+							.price-symbol,
+							.price-fraction,
+							.price-currency
+								@extend .fs-22
+								@extend .fw-bold
+								margin-right: .2rem
+							.price-text
+								display: block
+								@extend .fs-12
+								@extend .fw-light
+								margin-top: 8px
+								text-align: right
+								+respond-to(md)
+									text-align: center
+								+respond-to(tl)
+									text-align: center
+								+respond-to(xs)
+									text-align: center
+								+respond-to(tx)
+									text-align: right
+
+					.hero-pago-establecimiento-actions-body-cont-footer
+						.hero-pago-establecimiento-actions-body-cont-panel-comission
+							align-items: center
+							background-color: $primary
+							border-radius: 0 0 4px 4px
+							display: flex
+							justify-content: flex-start
+							padding: 4px 16px
+							p
+								color: $white
+								@extend .fs-15
+								@extend .fw-light
+								text-align: left
+								
+						.hero-pago-establecimiento-actions-body-cont-panel-call-center
+							align-items: center
+							@extend .bg-e
+							border-radius: 4px 4px 0 0
+							display: flex
+							justify-content: flex-start
+							margin-top: 24px
+							padding: 8px 16px
+							+respond-to(tx)
+								flex-direction: column
+							.hero-pago-establecimiento-actions-body-cont-panel-call-center-ico
+								text-align: center
+								width: 160px
+								+respond-to(xs)
+									width: 200px
+								+respond-to(tp)
+									width: 240px
+								img
+									max-width: 90%
+									width: 60px
+							.hero-pago-establecimiento-actions-body-cont-panel-call-center-txt
+								+respond-to(tx)
+									margin-top: 16px
+								p
+									@extend .fs-144
+									@extend .fw-regular
+									margin-bottom: 8px
+									&:last-child
+										margin-bottom: 0
+									span
+										@extend .fw-bold
+									a
+										@extend .fs-144
+
+					
+
+					.hero-pago-establecimiento-actions-body-cont-panel
+						@extend .border-bottom
+						&.mt-24
+							margin-top: 24px
+						.pl-none
+							+respond-to(lg)
+								padding-left: 0
+						.pr-none
+							+respond-to(lg)
+								padding-right: 0
+						.br-1
+							border: none
+							+respond-to(lg)
+								border-right: 1px solid $grey-d
+							
+							
+						.hero-pago-establecimiento-actions-body-cont-panel-head
+							@extend .bg-e
+							padding: 8px 16px
+							h6
+								@extend .color-gray-600
+								@extend .fs-144
+								@extend .fw-bold
+								text-align: center
+						
+						.hero-pago-establecimiento-actions-body-cont-panel-body
+							padding: 24px 16px
+
+							h6
+								@extend .color-gray-600
+								@extend .fs-16
+								@extend .fw-regular
+								margin-bottom: 8px
+							ol
+								list-style-position: outside
+								margin-bottom: 24px
+								padding-left: 26px
+								li
+									@extend .color-gray-800
+									@extend .fs-144
+									letter-spacing: 1px
+									line-height: 1.2
+									margin-bottom: 8px
+
+							p
+								@extend .color-gray-700
+								@extend .fs-144
+								letter-spacing: 1px
+								line-height: 1.4
+								margin-bottom: 30px
+								text-align: justify
+								span
+									@extend .color-gray-400
+									@extend .fw-bold
+
+							.hero-pago-establecimiento-actions-body-inst
+								align-items: center
+								display: flex
+								justify-content: center
+								img
+									max-width: 100%
+									width: 420px
+									
+						.hero-pago-establecimiento-actions-body-open-code
+							padding: 8px 16px
+							.hero-pago-establecimiento-actions-body-open-code-num
+								@extend .color-gray-300
+								@extend .fs-24
+								@extend .fw-bold
+								letter-spacing: 1px
+								text-align: center
+								text-transform: uppercase
+							.hero-pago-establecimiento-actions-body-open-code-desc
+								@extend .color-gray-600
+								display: block
+								@extend .fs-144
+								@extend .fw-light
+								margin-bottom: 16px
+								text-align: center
+
+
+					.hero-pago-establecimiento-actions-body-openpay
+						align-items: center
+						display: flex
+						flex-direction: column
+						justify-content: center
+						margin-top: 32px
+						img
+							max-width: 100%
+						p
+							@extend .color-gray-300
+							@extend .fs-12
+							letter-spacing: 1px
+							line-height: 1.2
+							margin-bottom: 0
+							text-align: center
+						img
+							width: 180px
+
+					
+
+			.hero-pago-establecimiento-actions
+				align-items: center
+				display: flex
+				// flex-direction: column
+				justify-content: flex-end
+				.btn
+					@extend .fs-15
+					i.ion
+						@extend .fs-20
+						margin-right: 4px
+
+
+			.hero-shipping-agregar-direccion
+				.hero-shipping-agregar-direccion-body
+					background-color: $white
+					border-radius: 4px
+					box-shadow: 0 1px 2px 0 rgba($black,.3)
+					padding: 32px 32px 8px
+					.form-group
+						margin-bottom: 32px
+						position: relative
+						.form-input,
+						input[type="text"],
+						input[type="password"]
+							border: none
+							border-bottom: 1px solid $grey-c
+							+respond-to(sm)
+								font-size: $fs-14
+							+respond-to(tl)
+								font-size: $fs-14
+							+respond-to(xs)
+								font-size: $fs-14
+						.form-input:disabled,
+						input[type="text"]:disabled
+							border: none
+							border-bottom: 1px dashed $grey-c
+							+respond-to(sm)
+								font-size: $fs-14
+							+respond-to(tl)
+								font-size: $fs-14
+							+respond-to(xs)
+								font-size: $fs-14
+						.form-group-link
+							bottom: 8px
+							@extend .fs-11
+							position: absolute
+							right: 0
+						.form-group-addon
+							// background-color: red
+							bottom: 8px
+							position: absolute
+							right: 0
+							label
+								color: $link
+								@extend .fs-11
+								margin-bottom: 0
+								margin-left: 6px
+
+				.hero-shipping-agregar-direccion-actions
+					align-items: flex-start
+					display: flex
+					justify-content: space-between
+					margin-top: 32px
+					p
+						color: $grey-c
+						@extend .fs-144
+						@extend .fw-light
+					.btn-primary
+						@extend .fs-16
+						@extend .fw-light
+						padding: .675rem 2.375rem
+				
+		.aside-container
+			@extend .bg-f5
+			height: 100%
+			// min-height: calc(100vh - 150px)
+			padding: 48px 0
+			transition: padding .5s ease-in-out
+			&.aside-container-hv
+				+respond-to(lg)
+					min-height: calc(100vh - 150px)
+				+respond-to(md)
+					min-height: calc(100vh - 150px)
+			.aside-head
+				align-items: center
+				border-bottom: 1px solid $grey-d
+				display: flex
+				flex-direction: column
+				margin-bottom: 24px
+				padding: 0 0 32px
+				text-align: center
+				.aside-badge
+					background-color: $white
+					border-radius: 50%
+					height: 120px
+					margin-bottom: 16px
+					width: 120px
+					img
+						border-radius: 100%
+						height: 100%
+						width: 100%
+				.aside-title
+					@extend .fs-144
+					@extend .fw-light
+					letter-spacing: 1px
+					line-height: 1.25
+					margin-bottom: 8px
+					padding: 0 32px
+				.aside-quantity
+					// color: $link
+					display: block
+					@extend .fs-144
+					letter-spacing: 1px
+					&.aside-quantity-up
+						@extend .fs-13
+						@extend .fw-regular
+						margin-top: 16px
+						text-transform: uppercase
+
+				span.aside-quantity
+					@extend .fs-13
+
+				a.aside-quantity
+					&:focus
+						outline: none
+
+			.aside-body
+				margin-bottom: 16px
+				.aside-panel
+					.aside-panel-item
+						align-items: center
+						display: flex
+						justify-content: space-between
+						.aside-panel-item-component
+							p
+								@extend .fs-16
+								@extend .fw-light
+								padding-bottom: 10px
+						.aside-panel-item-price
+							.aside-panel-item-price-symbol,
+							.aside-panel-item-price-fraction
+								@extend .fs-16
+								@extend .fw-light
+							.aside-panel-item-price-symbol
+								margin-right: .2rem
+							.aside-panel-item-price-null
+								@extend .color-gray-900
+								@extend .fs-24
+								@extend .fw-light
+						&.item-total
+							border-top: 1px solid $grey-d
+							margin-top: 16px
+							padding: 24px 0
+
+					.btn-primary
+						@extend .fs-16
+						@extend .fw-light
+						padding: .875rem .75rem
+						width: 100%
+
+			.aside-header
+				align-items: center
+				// border-bottom: 1px solid $grey-d
+				display: flex
+				flex-direction: column
+				margin-bottom: 24px
+				padding: 0 48px
+				text-align: center
+				.aside-title
+					@extend .fs-20
+					@extend .fw-light
+					letter-spacing: 1px
+					line-height: 1.25
+					margin-bottom: 8px
+					padding: 0 32px
+
+			.aside-null
+				@extend .color-gray-900
+				@extend .fs-16
+				@extend .fw-light
+				letter-spacing: 1px
+				line-height: 1.25
+				margin-bottom: 8px
+				padding: 0 32px
+				text-align: center
+
+			.aside-costo
+				background-color: $secondary
+				display: flex
+				flex-direction: column
+				padding: 16px 24px
+				.aside-costo-item
+					align-items: center
+					display: flex
+					// flex-wrap: wrap
+					justify-content: flex-start
+					margin-bottom: 16px
+					+respond-to(sm)
+						flex-direction: column
+					+respond-to(xs)
+						flex-direction: row
+					span,
+					p
+						@extend .color-white
+						@extend .fw-light
+						text-align: left
+
+					span
+						@extend .fs-16
+						margin-right: 12px
+						width: 80px
+						
+					p
+						@extend .ff-numbers
+						@extend .fs-18
+						text-transform: uppercase
+						width: calc(100% - 80px)
+						b
+							@extend .ff-numbers
+							@extend .fs-18
+						small
+							@extend .fs-13
+
+					&.aside-costo-item-total
+						span,
+						p
+							@extend .fs-18
+							@extend .fw-bold
+							small
+								@extend .fs-13
+						p
+							@extend .ff-numbers
+						
+			
+
+			.aside-details
+				display: flex
+				flex-direction: column
+				margin-top: 8px
+				padding: 16px 24px
+
+				.aside-details-head
+					align-items: center
+					display: flex
+					justify-content: flex-end
+					margin-bottom: 8px
+					.aside-details-save,
+					.aside-details-edit
+						display: inline-block
+						@extend .fs-15
+						@extend .fw-light
+
+				.aside-details-body
+					display: flex
+					flex-direction: column
+
+					.aside-details-item
+						background-color: $white
+						border: 1px solid $grey-d
+						display: flex
+						margin-top: 16px
+						&:first-child
+							margin-top: 0
+						+respond-to(sm)
+							flex-direction: column
+						+respond-to(xs)
+							flex-direction: row
+
+						.aside-details-item-desc
+							align-items: center
+							display: flex
+							justify-content: flex-start
+							padding: 8px
+							width: calc(100% - 60px)
+							+respond-to(sm)
+								width: 100%
+							+respond-to(tl)
+								flex-direction: column
+								justify-content: center
+							+respond-to(xs)
+								flex-direction: row
+								width: calc(100% - 60px)
+							.aside-details-item-desc-img
+								background-color: $grey-d
+								border: 1px solid $grey-d
+								border-radius: 50%
+								height: 50px
+								margin-right: 12px
+								overflow: hidden
+								width: 50px
+								+respond-to(tl)
+									margin-bottom: 12px
+									margin-right: 0
+								+respond-to(xs)
+									margin-bottom: 0
+									margin-right: 12px
+								img
+									border-radius: 100%
+									height: 100%
+									width: 100%
+
+							.aside-details-item-desc-txt
+								display: flex
+								flex-direction: column
+								width: calc(99% - 62px)
+								+respond-to(tl)
+									width: 100%
+								+respond-to(xs)
+									width: calc(99% - 62px)
+								p
+									@extend .fs-15
+									@extend .fw-light
+									line-height: 1.2
+								span
+									@extend .fs-14
+									@extend .fw-bold
+									margin-top: 8px
+
+
+						.aside-details-item-count
+							align-items: center
+							border-left: 1px solid $grey-d
+							display: flex
+							justify-content: center
+							width: 60px
+							+respond-to(sm)
+								border-left: none
+								border-top: 1px solid $grey-d
+								width: 100%
+							+respond-to(xs)
+								border-top: none
+								border-left: 1px solid $grey-d
+								width: 60px
+							.aside-details-item-count-item
+								@extend .ff-numbers
+								@extend .fs-18
+								@extend .fw-bold
+
+
+
+.mi-carrito-page
+	.container-1220
+		+respond-to(md)
+			margin: 0 auto
+			max-width: 90%
+			width: 90%
+		+respond-to(tl)
+			margin: 0 auto
+			max-width: 90%
+			width: 90%
+		+respond-to(xs)
+			margin: 0 auto
+			max-width: 90%
+			width: 1220px

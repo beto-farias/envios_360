@@ -1,0 +1,390 @@
+/*!
+	-----------------------------------------------------------------------------
+
+	0.0 - Footer
+
+	----------------------------------------------------------------------------- */
+
+/*  Footer
+	========================================================================== */
+.shop-header
+	background-color: $accent
+	box-shadow: 0 1px 0 0 rgba($black,.1)
+	padding: 6px 0
+
+	// .shop-header-beneficios
+	// 	@extend .fs-16
+	// 	@extend .fw-light
+	// 	letter-spacing: 2px
+	// 	i
+	// 		@extend .fs-18
+	// 		margin-right: 8px
+
+	.nav-scroller
+		padding: 6px 0 0
+
+		.nav-logo,
+		.nav-menu,
+		.nav-user
+			align-items: center
+			display: flex
+			height: 100%
+			position: relative
+
+			.nav-user-link,
+			.nav-user-icon,
+			.nav-user-more,
+			.dropdown
+				// background-color: rgba(red,.2)
+				border-right: 1px solid rgba($grey-a,.35)
+				height: 26px
+				margin-right: 2px
+				padding: 0 7px 0 4px
+				position: relative
+				text-decoration: none
+				&:hover,
+				&:focus
+					box-shadow: none
+					outline: none
+
+			.nav-user-icon,
+			.nav-user-more
+				padding: 0 0 0 8px
+
+			.nav-user-more
+				border-right: 0
+				display: none
+
+			.nav-user-link,
+			.nav-user-icon,
+			.nav-user-more
+				align-items: center
+				@extend .color-gray-600
+				display: flex
+				@extend .fs-144
+				@extend .fw-light
+				justify-content: center
+				
+				&:last-child
+					border-right: none
+					margin-right: 4px
+				i
+					@extend .fs-22
+					margin-right: 8px
+
+				// &.nav-user-link-group-right
+				// 	border-right: none
+				// 	margin-right: 0
+				// 	padding-right: 0
+				// 	i
+				// 		margin-right: 12px
+				// &.nav-user-link-group-left
+				// 	padding-left: 0
+				// 	i
+				// 		margin-right: 0
+
+			.nav-user-icon
+				// background-color: red
+				position: relative
+				.nav-user-icon-count
+					background-color: $secondary
+					border-radius: 50%
+					@extend .color-white
+					@extend .ff-numbers
+					@extend .fs-10
+					height: 18px
+					line-height: 18px
+					position: absolute
+					right: -6px
+					text-align: center
+					top: -6px
+					width: 18px
+
+			.dropdown
+				cursor: pointer
+				.btn-outline-primary
+					border: none
+					border-radius: 0
+					@extend .color-gray-600
+					@extend .fs-144
+					@extend .fw-light
+					padding: 0
+					i
+						@extend .fs-22
+						margin-right: 8px
+					&:active,
+					&:focus,
+					&:hover
+					&:active,
+					&:active:focus,
+					&:active:hover,
+					&:disabled,
+					&[disabled]:hover,
+					&[disabled]:focus,
+					&:hover,
+					&:focus,
+					&:not(:disabled):not(.disabled):active,
+					&:not(:disabled):not(.disabled).active
+						background-color: transparent
+						box-shadow: none
+						outline: none
+
+					&.dropdown-toggle-submenu,
+					&.dropdown-toggle-user
+						overflow: hidden
+						// text-overflow: ellipsis
+						white-space: nowrap
+					&.dropdown-toggle-submenu
+						width: 96px
+					&.dropdown-toggle-user
+						text-align: right
+						text-transform: capitalize
+						width: 136px
+						&::after
+							display: none
+
+				&.show > .btn-outline-primary.dropdown-toggle
+					background-color: transparent
+					box-shadow: none
+					outline: none
+
+				.dropdown-menu.dropdown-menu-sub
+					padding: 0
+					width: 180px
+					.dropdown-menu-cont
+						align-items: flex-start
+						// background-color: rgba(teal,.1)
+						display: flex
+						flex-direction: column
+						justify-content: center
+						padding: 24px 0
+						a
+							@extend .color-gray-300
+							@extend .fs-15
+							@extend .fw-light
+							line-height: 1.4
+							padding: 10px 16px
+							text-align: left
+							width: 100%
+							&:hover
+								@extend .bg-f5
+
+				.dropdown-menu.dropdown-menu-user
+					padding: 0
+					width: 480px
+					// +respond-to(xs)
+					// 	background-color: red
+					// 	width: 380px
+					+respond-to(tx)
+						// background-color: red
+						width: 250px
+					.dropdown-menu-cont
+						.br-1
+							border-right: 1px solid $grey-e
+						.pr--0
+							padding-right: 0
+							+respond-to(tx)
+								padding-right: 15px
+						.pl--0
+							padding-left: 0
+							+respond-to(tx)
+								padding-left: 15px
+						.dropdown-menu-user,
+						.dropdown-menu-actions
+							height: 100%
+							padding: 24px 16px
+						.dropdown-menu-user
+							align-items: center
+							// background-color: rgba(green,.1)
+							display: flex
+							flex-direction: column
+							justify-content: space-between
+							.dropdown-menu-user-dates
+								align-items: center
+								display: flex
+								flex-wrap: wrap
+								justify-content: center
+								.dropdown-menu-user-dates-avatar,
+								.dropdown-menu-user-dates-name,
+								.dropdown-menu-user-dates-level
+									align-items: center
+									display: flex
+									justify-content: center
+									width: 100%
+								.dropdown-menu-user-dates-avatar
+									border: 3px solid $grey-e
+									border-radius: 50%
+									height: 80px
+									margin-bottom: 4px
+									padding: 3px
+									width: 80px
+									img
+										@extend .bg-e
+										border-radius: 100%
+										max-width: 100%
+								.dropdown-menu-user-dates-name
+									@extend .color-gray-200
+									@extend .fs-18
+									@extend .fw-light
+									margin-bottom: 2px
+								.dropdown-menu-user-dates-level
+									display: flex
+									justify-content: center
+									span
+										@extend .color-gray-600
+										@extend .fs-12
+										@extend .fw-light
+
+
+							.dropdown-menu-user-btn
+								margin-bottom: 16px
+								margin-top: 32px
+								width: 100%
+								.btn-primary
+									width: 100%
+
+
+						.dropdown-menu-actions
+							align-items: flex-start
+							// background-color: rgba(teal,.1)
+							display: flex
+							flex-direction: column
+							justify-content: center
+							padding: 24px 0
+							a
+								@extend .color-gray-300
+								@extend .fs-15
+								@extend .fw-light
+								line-height: 1.4
+								padding: 10px 16px
+								text-align: left
+								width: 100%
+								&:hover
+									@extend .bg-f5
+
+			.nav-user-link
+				// background-color: purple
+				&.nav-user-link-res
+					+respond-to(tl)
+						display: none
+					+respond-to(xs)
+						display: none
+					+respond-to(tp)
+						display: none
+
+		.nav-logo
+			// background-color: orange
+			.nav-logo-head
+				// background-color: green
+				display: block
+				img
+					height: 50px
+					+respond-to(xs)
+						height: 35px
+			.nav-user-more
+				display: none
+				+respond-to(xs)
+					// background-color: pink
+					display: none
+
+		.nav-menu
+			justify-content: flex-start
+			.nav-menu-item
+				@extend .color-gray-600
+				@extend .fs-15
+				@extend .fw-light
+			+respond-to(xs)
+				// background-color: rgba(teal,.4)
+				justify-content: flex-end
+				margin-bottom: 8px
+
+		.nav-user
+			justify-content: flex-end
+			+respond-to(xs)
+				// background-color: rgba(maroon,.4)
+				margin-bottom: 8px
+
+// Heading
+.shop-heading
+	margin: 18px auto
+
+	.nav-deep-links
+		align-items: center
+		display: flex
+		margin-bottom: 12px
+		p,
+		a,
+		span
+			@extend .fs-13
+			@extend .fw-light
+		p
+			color: $grey-b
+		a
+			@extend .color-gray-900
+			// -webkit-text-size-adjust: 100%
+			// -webkit-tap-highlight-color: rgba(0,0,0,.1)
+			margin-left: 4px
+			margin-right: 4px
+			&:hover
+				@extend .color-gray-600
+
+	.vip-container
+		display: flex
+		justify-content: space-between
+		margin-top: 12px
+		.vip-navigation-breadcrumb
+			align-items: center
+			display: flex
+			.navigation-back
+				color: $font-color
+				@extend .fs-13
+				@extend .fw-regular
+				margin-right: 12px
+				position: relative
+				&::after
+					content: ""
+					width: 1px
+					height: 18px
+					@extend .bg-c
+					position: absolute
+					right: -12px
+			.vip-navigation-breadcrumb-list
+				display: flex
+				list-style: none
+				margin-bottom: 0
+				margin-left: 12px
+				li
+					margin-right: 12px
+					a
+						color: $link
+						@extend .fs-144
+					i
+						font-size: .8rem
+						@extend .color-gray-900
+						margin-left: 8px
+		.secondary-actions
+			align-items: center
+			display: flex
+			a,
+			.dropdown .btn
+				color: $link
+				@extend .fs-13
+			a
+				margin-left: 24px
+				position: relative
+			.dropdown
+				position: relative
+				&:before
+					content: ""
+					position: absolute
+					width: 1px
+					height: 18px
+					background-color: $grey-c
+					right: -12px
+					top: 4px
+				.btn-secondary
+					background-color: transparent
+					border-color: transparent
+					padding: 0
+					&::after
+						content: none
