@@ -61,29 +61,177 @@ class ServicesController extends \yii\rest\Controller{
         return $behaviors;
     }
 
+    public function actionRateService(){
+        //Validacion de entrada
+        $error = new MessageResponse();
+        if(!$this->validateRequiredParam($error,isset($GLOBALS["HTTP_RAW_POST_DATA"]), "Raw Data" )){
+            return $error;
+        }
+
+        $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"] );
+
+        
+        if(!$this->validateRequiredParam($error,isset($json->shiper->postal_code), "Shipper CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->shiper->country_code), "Shipper Country code" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->recipient->postal_code), "Recipient CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->recipient->country_code), "Recipient Country code" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->peso_kg), "Peso en kg" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->largo_cm), "Largo CM" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->ancho_cm), "Ancho CM" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->alto_cm), "Alto CM" )){
+            return $error;
+        }
+
+
+
+
+        require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
+        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/RateService_v22.wsdl';
+        ini_set("soap.wsdl_cache_enabled", "0");
+
+        $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
+        $request = $this->getClientRequest();
+
+        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request using PHP ***');
+        $request['Version'] = array(
+            'ServiceId' => 'crs', 
+            'Major' => '22', 
+            'Intermediate' => '0', 
+            'Minor' => '0'
+        );
+
+        $request['ReturnTransitAndCommit'] = true;
+        $request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+        $request['RequestedShipment']['ShipTimestamp'] = date('c');
+        $request['RequestedShipment']['ServiceType'] = 'PRIORITY_OVERNIGHT'; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
+        $request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING'; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
+        $request['RequestedShipment']['PreferredCurrency']='USD';
+        
+        $request['RequestedShipment']['RateRequestTypes']='PREFERRED';        
+
+        // $request['RequestedShipment']['TotalInsuredValue']=array(
+        //     'Ammount'=>100,
+        //     'Currency'=>'MXP'
+        // );
+        $request['RequestedShipment']['Shipper'] = $this->addShipper($json->shiper->postal_code,$json->shiper->country_code);
+        $request['RequestedShipment']['Recipient'] = $this->addRecipient($json->recipient->postal_code,$json->recipient->country_code);
+        //$request['RequestedShipment']['ShippingChargesPayment'] = $this->addShippingChargesPayment();
+        $request['RequestedShipment']['PackageCount'] = '1';
+        //$pesoKg, $largoCm,$anchoCm,$altoCm
+        $request['RequestedShipment']['RequestedPackageLineItems'] = $this->addPackageLineItem($json->package->peso_kg, $json->package->largo_cm,$json->package->ancho_cm,$json->package->alto_cm);
+
+        try {
+            if(setEndpoint('changeEndpoint')){
+                $newLocation = $client->__setLocation(setEndpoint('endpoint'));
+            }
+            
+            $response = $client->getRates($request);
+                
+            if ($response -> HighestSeverity != 'FAILURE' && $response -> HighestSeverity != 'ERROR'){  	
+                $rateReply = $response->RateReplyDetails;
+
+                //var_dump($response);
+                //exit;
+                
+                //Tipo de servicio
+                $serviceType = $rateReply->ServiceType;
+
+                //Tipo de empaquetamient
+                $servicePacking = $rateReply->PackagingType;
+
+                
+
+                //Precio y moneda
+                if($rateReply->RatedShipmentDetails && is_array($rateReply->RatedShipmentDetails)){
+                    $amount = number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ;
+                    $currency = $rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Currency;
+                }elseif($rateReply->RatedShipmentDetails && ! is_array($rateReply->RatedShipmentDetails)){
+                    $amount =  number_format($rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ;
+                    $currency = $rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Currency;
+                }
+
+                //Fecha de entrega
+                if(array_key_exists('DeliveryTimestamp',$rateReply)){
+                    $deliveryDate=  $rateReply->DeliveryTimestamp ;
+                }else if(array_key_exists('TransitTime',$rateReply)){
+                    $deliveryDate=  $rateReply->TransitTime ;
+                }else {
+                    $deliveryDate='N/A';
+                }
+
+
+                $data = [];
+                $data['service_type'] = $serviceType;
+                $data['service_packing'] = $servicePacking;
+                $data['amount'] = $amount;
+                $data['currency'] = $currency;
+                $data['delivery_date'] = $deliveryDate;
+                
+                
+
+                $res = $this->getMessageResponse("1",'Rate Service FEDEX', $data);
+                return $res;
+            
+            }else{
+                var_dump($response);
+            } 
+            
+        } catch (SoapFault $exception) {
+           printFault($exception, $client);        
+        }
+
+    }
+
+    
 
     public function actionValidateCp(){
+
+        //Validacion de entrada
+        $error = new MessageResponse();
+        if(!$this->validateRequiredParam($error,isset($GLOBALS["HTTP_RAW_POST_DATA"]), "Raw Data" )){
+            return $error;
+        }
+
+        $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"] );
+
+        
+        if(!$this->validateRequiredParam($error,isset($json->postal_code), "CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->country_code), "Country code" )){
+            return $error;
+        }
+
         require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
         $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/CountryService_v6.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
  
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
 
-        $request['WebAuthenticationDetail'] = array(
-            'ParentCredential' => array(
-                'Key' => $this::FEDEX_PARENT_KEY, 
-                'Password' => $this::FEDEX_PARENT_PASSWORD
-            ),
-            'UserCredential' => array(
-                'Key' => $this::FEDEX_KEY, 
-                'Password' => $this::FEDEX_PASSWORD
-            )
-        );
-        
-        $request['ClientDetail'] = array(
-            'AccountNumber' => $this::FEDEX_SHIP_ACCOUNT, 
-            'MeterNumber' => $this::FEDEX_METER
-        );
+        $request = $this->getClientRequest();
+
         $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Validate Postal Code Request using PHP ***');
         $request['Version'] = array(
             'ServiceId' => 'cnty', 
@@ -95,8 +243,8 @@ class ServicesController extends \yii\rest\Controller{
         $request['ShipDateTime'] = '2019-02-05T12:34:56-06:00';
         
         $request['Address'] = array(
-            'PostalCode' => '53240',
-            'CountryCode' => 'MX'
+            'PostalCode' => $json->postal_code,
+            'CountryCode' => $json->country_code
         );
         
         $request['CarrierCode'] = 'FDXE';
@@ -134,7 +282,96 @@ class ServicesController extends \yii\rest\Controller{
     }
 
 
-    
+
+    function addShipper($cp, $countryCode){
+        $shipper = array(
+            'Contact' => array(
+                'PersonName' => 'Sender Name',
+                'CompanyName' => 'Sender Company Name',
+                'PhoneNumber' => '9012638716'
+            ),
+            'Address' => array(
+                'StreetLines' => array('Address Line 1'),
+                //'City' => 'Mexico',
+                'StateOrProvinceCode' => 'EM',
+                'PostalCode' => $cp,
+                'CountryCode' => $countryCode
+            )
+        );
+        return $shipper;
+    }
+
+
+    function addRecipient($cp, $countryCode){
+        $recipient = array(
+            'Contact' => array(
+                'PersonName' => 'Recipient Name',
+                'CompanyName' => 'Company Name',
+                'PhoneNumber' => '9012637906'
+            ),
+            'Address' => array(
+                'StreetLines' => array('Address Line 1'),
+                'City' => 'Mexico',
+                'StateOrProvinceCode' => 'DF',
+                'PostalCode' => $cp,
+                'CountryCode' => $countryCode,
+                'Residential' => false
+            )
+        );
+        return $recipient;	                                    
+    }
+
+    function addShippingChargesPayment(){
+        $shippingChargesPayment = array(
+            'PaymentType' => 'SENDER', // valid values RECIPIENT, SENDER and THIRD_PARTY
+            'Payor' => array(
+                'ResponsibleParty' => array(
+                    'AccountNumber' => getProperty('billaccount'),
+                    'CountryCode' => 'MX'
+                )
+            )
+        );
+        return $shippingChargesPayment;
+    }
+
+    function addPackageLineItem($pesoKg, $largoCm,$anchoCm,$altoCm){
+        $packageLineItem = array(
+            'SequenceNumber'=>1,
+            'GroupPackageCount'=>1,
+            'Weight' => array(
+                'Value' => $pesoKg,
+                'Units' => 'KG'
+            ),
+            'Dimensions' => array(
+                'Length' => $largoCm,
+                'Width' => $anchoCm,
+                'Height' => $altoCm,
+                'Units' => 'CM'
+            )
+        );
+        return $packageLineItem;
+    }
+
+
+    private function getClientRequest(){
+        $request['WebAuthenticationDetail'] = array(
+            'ParentCredential' => array(
+                'Key' => $this::FEDEX_PARENT_KEY, 
+                'Password' => $this::FEDEX_PARENT_PASSWORD
+            ),
+            'UserCredential' => array(
+                'Key' => $this::FEDEX_KEY, 
+                'Password' => $this::FEDEX_PASSWORD
+            )
+        );
+        
+        $request['ClientDetail'] = array(
+            'AccountNumber' => $this::FEDEX_SHIP_ACCOUNT, 
+            'MeterNumber' => $this::FEDEX_METER
+        );
+
+        return $request;
+    }
 
     private function parseResponse($response){
     $highestSeverity=$response->HighestSeverity;
