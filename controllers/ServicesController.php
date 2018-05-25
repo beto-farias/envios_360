@@ -61,6 +61,99 @@ class ServicesController extends \yii\rest\Controller{
         return $behaviors;
     }
 
+
+    public function actionValidateService(){
+
+        //Validacion de entrada
+        $error = new MessageResponse();
+        if(!$this->validateRequiredParam($error,isset($GLOBALS["HTTP_RAW_POST_DATA"]), "Raw Data" )){
+            return $error;
+        }
+
+        $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"] );
+
+        
+        if(!$this->validateRequiredParam($error,isset($json->shiper->postal_code), "Shipper CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->shiper->country_code), "Shipper Country code" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->recipient->postal_code), "Recipient CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->recipient->country_code), "Recipient Country code" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->ship_date), "Fecha de envío YYYY-MM-DD (maximo de 10 días a futuro)" )){
+            return $error;
+        }
+
+        if(!isset($json->service_packing)){
+            $json->service_packing = 'YOUR_PACKAGING';
+        }
+
+        
+
+        require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
+        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/ValidationAvailabilityAndCommitmentService_v8.wsdl';
+        ini_set("soap.wsdl_cache_enabled", "0");
+
+        $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
+        $request = $this->getClientRequest();
+
+        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Service Availability Request v5.1 using PHP ***');
+        $request['Version'] = array(
+            'ServiceId' => 'vacs', 
+            'Major' => '8',
+            'Intermediate' => '0', 
+            'Minor' => '0'
+        );
+        $request['Origin'] = array(
+            'PostalCode' => $json->shiper->postal_code, // Origin details
+            'CountryCode' => $json->shiper->country_code
+        );
+        $request['Destination'] = array(
+            'PostalCode' => $json->recipient->postal_code, // Destination details
+            'CountryCode' => $json->recipient->country_code
+        );
+        $request['ShipDate'] = $json->ship_date;
+        $request['CarrierCode'] = 'FDXE'; // valid codes FDXE-Express, FDXG-Ground, FDXC-Cargo, FXCC-Custom Critical and FXFR-Freight
+        //$request['Service'] = 'PRIORITY_OVERNIGHT'; // valid code STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
+        $request['Packaging'] = $json->service_packing; // valid code FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
+
+
+        try {
+            if(setEndpoint('changeEndpoint')){
+                $newLocation = $client->__setLocation(setEndpoint('endpoint'));
+            }
+            
+            $response = $client->serviceAvailability($request);
+                
+            if ($response -> HighestSeverity != 'FAILURE' && $response -> HighestSeverity != 'ERROR'){ 
+                
+                $data = [];
+                $data['notifications']=$response->Notifications;
+                $data['options'] = $response->Options;
+                $res = $this->getMessageResponse("1",'Rate Service FEDEX', $data);
+                return $res;
+            
+            }else{
+                var_dump($response);
+            } 
+            
+        } catch (SoapFault $exception) {
+           printFault($exception, $client);        
+        }
+    }
+
+
+
+
     public function actionRateService(){
         //Validacion de entrada
         $error = new MessageResponse();
@@ -69,6 +162,10 @@ class ServicesController extends \yii\rest\Controller{
         }
 
         $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"] );
+
+        if(!$this->validateRequiredParam($error,isset($json->service_type), "Service type" )){
+            return $error;
+        }
 
         
         if(!$this->validateRequiredParam($error,isset($json->shiper->postal_code), "Shipper CP" )){
@@ -103,6 +200,10 @@ class ServicesController extends \yii\rest\Controller{
             return $error;
         }
 
+        if(!$this->validateRequiredParam($error,isset($json->service_packing), "Service Packing" )){
+            return $error;
+        }
+
 
 
 
@@ -124,16 +225,16 @@ class ServicesController extends \yii\rest\Controller{
         $request['ReturnTransitAndCommit'] = true;
         $request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
         $request['RequestedShipment']['ShipTimestamp'] = date('c');
-        $request['RequestedShipment']['ServiceType'] = 'PRIORITY_OVERNIGHT'; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
-        $request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING'; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
-        $request['RequestedShipment']['PreferredCurrency']='USD';
+        $request['RequestedShipment']['ServiceType'] = $json->service_type; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
+        $request['RequestedShipment']['PackagingType'] = $json->service_packing; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
+        $request['RequestedShipment']['PreferredCurrency']='MXP';
         
         $request['RequestedShipment']['RateRequestTypes']='PREFERRED';        
 
-        // $request['RequestedShipment']['TotalInsuredValue']=array(
-        //     'Ammount'=>100,
-        //     'Currency'=>'MXP'
-        // );
+        $request['RequestedShipment']['TotalInsuredValue']=array(
+            'Ammount'=>100,
+            'Currency'=>'MXP'
+        );
         $request['RequestedShipment']['Shipper'] = $this->addShipper($json->shiper->postal_code,$json->shiper->country_code);
         $request['RequestedShipment']['Recipient'] = $this->addRecipient($json->recipient->postal_code,$json->recipient->country_code);
         //$request['RequestedShipment']['ShippingChargesPayment'] = $this->addShippingChargesPayment();
@@ -180,8 +281,11 @@ class ServicesController extends \yii\rest\Controller{
                     $deliveryDate='N/A';
                 }
 
+                return $response;
+                exit;
 
                 $data = [];
+                $data['notifications']=$response->Notifications;
                 $data['service_type'] = $serviceType;
                 $data['service_packing'] = $servicePacking;
                 $data['amount'] = $amount;
