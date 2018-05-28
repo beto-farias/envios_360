@@ -57,11 +57,81 @@ class EstafetaServicesController extends \yii\rest\Controller{
     }
 
     public function actionFrecuenciaCotizador(){
+
+        //Validacion de entrada
+        $error = new MessageResponse();
+        if(!$this->validateRequiredParam($error,isset($GLOBALS["HTTP_RAW_POST_DATA"]), "Raw Data" )){
+            return $error;
+        }
+
+        $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"] );
+        
+        if(!$this->validateRequiredParam($error,isset($json->shiper->postal_code), "Shipper CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->recipient->postal_code), "Recipient CP" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->peso_kg), "Peso en kg" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->largo_cm), "Largo CM" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->ancho_cm), "Ancho CM" )){
+            return $error;
+        }
+
+        if(!$this->validateRequiredParam($error,isset($json->package->alto_cm), "Alto CM" )){
+            return $error;
+        }
+
+
         $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/estafeta/wsdl/Frecuenciacotizador.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
 
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
-        $request = $this->getClientRequest();
+
+        $request = [];
+        $request['idusuario'] = $this::ID_USUARIO;
+        $request['usuario'] = $this::USUARIO;
+        $request['contra'] = $this::PASSWORD;
+        $request['esFrecuencia'] = false;
+        $request['esLista'] = true;
+        
+        $request['tipoEnvio']['EsPaquete'] = true;
+        $request['tipoEnvio']['Largo'] = $json->package->largo_cm;
+        $request['tipoEnvio']['Peso'] = $json->package->peso_kg;
+        $request['tipoEnvio']['Alto'] = $json->package->alto_cm;
+        $request['tipoEnvio']['Ancho'] = $json->package->ancho_cm;
+
+        $request['datosOrigen'] = [];
+        $request['datosOrigen']['string'] = $json->shiper->postal_code;
+        
+        $request['datosDestino'] = [];
+        $request['datosDestino']['string'] = $json->recipient->postal_code;
+        
+
+
+        $response = $client->FrecuenciaCotizador($request);
+
+        return $response;
+    }
+
+
+
+
+    private function validateRequiredParam($response, $isSet, $atributoName){
+        if(!$isSet){
+            $response->responseCode = -1;
+            $response->message = $atributoName . ' faltante';
+            return false;
+        }
+        return true;
     }
 
 }
