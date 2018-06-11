@@ -413,13 +413,13 @@ class ServicesController extends \yii\rest\Controller{
         $request['RequestedShipment']['ShipTimestamp'] = date('c');
         $request['RequestedShipment']['ServiceType'] = $json->service_type; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
         $request['RequestedShipment']['PackagingType'] = $json->service_packing; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
-        $request['RequestedShipment']['PreferredCurrency']='MXP';
+        $request['RequestedShipment']['PreferredCurrency']='MXN';
         
         $request['RequestedShipment']['RateRequestTypes']='PREFERRED';        
 
         $request['RequestedShipment']['TotalInsuredValue']=array(
             'Ammount'=>100,
-            'Currency'=>'MXP'
+            'Currency'=>'MXN'
         );
         $request['RequestedShipment']['Shipper'] = $this->addShipper($json->shiper->postal_code,$json->shiper->country_code);
         $request['RequestedShipment']['Recipient'] = $this->addRecipient($json->recipient->postal_code,$json->recipient->country_code);
