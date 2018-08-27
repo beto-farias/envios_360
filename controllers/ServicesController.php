@@ -370,25 +370,27 @@ class ServicesController extends \yii\rest\Controller{
             return $error;
         }
 
-        if(!$this->validateRequiredParam($error,isset($json->package->peso_kg), "Peso en kg" )){
+
+
+        if(!$this->validateRequiredParam($error,isset($json->package), "Paquete" )){
             return $error;
         }
 
-        if(!$this->validateRequiredParam($error,isset($json->package->largo_cm), "Largo CM" )){
-            return $error;
-        }
+        // if(!$this->validateRequiredParam($error,isset($json->package->largo_cm), "Largo CM" )){
+        //     return $error;
+        // }
 
-        if(!$this->validateRequiredParam($error,isset($json->package->ancho_cm), "Ancho CM" )){
-            return $error;
-        }
+        // if(!$this->validateRequiredParam($error,isset($json->package->ancho_cm), "Ancho CM" )){
+        //     return $error;
+        // }
 
-        if(!$this->validateRequiredParam($error,isset($json->package->alto_cm), "Alto CM" )){
-            return $error;
-        }
+        // if(!$this->validateRequiredParam($error,isset($json->package->alto_cm), "Alto CM" )){
+        //     return $error;
+        // }
 
-        if(!$this->validateRequiredParam($error,isset($json->service_packing), "Service Packing" )){
-            return $error;
-        }
+        // if(!$this->validateRequiredParam($error,isset($json->service_packing), "Service Packing" )){
+        //     return $error;
+        // }
 
 
 
@@ -424,9 +426,17 @@ class ServicesController extends \yii\rest\Controller{
         $request['RequestedShipment']['Shipper'] = $this->addShipper($json->shiper->postal_code,$json->shiper->country_code);
         $request['RequestedShipment']['Recipient'] = $this->addRecipient($json->recipient->postal_code,$json->recipient->country_code);
         //$request['RequestedShipment']['ShippingChargesPayment'] = $this->addShippingChargesPayment();
-        $request['RequestedShipment']['PackageCount'] = '1';
+        $numeroPaquetes = count($json->package);
+        $request['RequestedShipment']['PackageCount'] = $numeroPaquetes;
+        //$request['RequestedShipment']['PackageCount'] = 1;
         //$pesoKg, $largoCm,$anchoCm,$altoCm
-        $request['RequestedShipment']['RequestedPackageLineItems'] = $this->addPackageLineItem($json->package->peso_kg, $json->package->largo_cm,$json->package->ancho_cm,$json->package->alto_cm);
+        $paquetes = [];
+        $i = 1;
+        foreach($json->package as $paquete){
+            $request['RequestedShipment']['RequestedPackageLineItems'] = $this->addPackageLineItem($paquete->peso_kg, $paquete->largo_cm,$paquete->ancho_cm,$paquete->alto_cm, $i);    
+            $i++;
+        }
+        //$request['RequestedShipment']['RequestedPackageLineItems'] = $this->addPackageLineItem($json->package->peso_kg, $json->package->largo_cm,$json->package->ancho_cm,$json->package->alto_cm);
 
         try {
             if(setEndpoint('changeEndpoint')){
@@ -446,8 +456,6 @@ class ServicesController extends \yii\rest\Controller{
 
                 //Tipo de empaquetamient
                 $servicePacking = $rateReply->PackagingType;
-
-                
 
                 //Precio y moneda
                 if($rateReply->RatedShipmentDetails && is_array($rateReply->RatedShipmentDetails)){
@@ -657,9 +665,9 @@ class ServicesController extends \yii\rest\Controller{
         return $shippingChargesPayment;
     }
 
-    function addPackageLineItem($pesoKg, $largoCm,$anchoCm,$altoCm){
+    function addPackageLineItem($pesoKg, $largoCm,$anchoCm,$altoCm, $sequences){
         $packageLineItem = array(
-            'SequenceNumber'=>1,
+            'SequenceNumber'=>$sequences,
             'GroupPackageCount'=>1,
             'Weight' => array(
                 'Value' => $pesoKg,
@@ -687,18 +695,18 @@ class ServicesController extends \yii\rest\Controller{
     private function getClientRequest(){
         $request['WebAuthenticationDetail'] = array(
             'ParentCredential' => array(
-                'Key' => $this::FEDEX_PARENT_KEY, 
-                'Password' => $this::FEDEX_PARENT_PASSWORD
+                'Key' => self::FEDEX_PARENT_KEY, 
+                'Password' => self::FEDEX_PARENT_PASSWORD
             ),
             'UserCredential' => array(
-                'Key' => $this::FEDEX_KEY, 
-                'Password' => $this::FEDEX_PASSWORD
+                'Key' => self::FEDEX_KEY, 
+                'Password' => self::FEDEX_PASSWORD
             )
         );
         
         $request['ClientDetail'] = array(
-            'AccountNumber' => $this::FEDEX_SHIP_ACCOUNT, 
-            'MeterNumber' => $this::FEDEX_METER
+            'AccountNumber' => self::FEDEX_SHIP_ACCOUNT, 
+            'MeterNumber' => self::FEDEX_METER
         );
 
         return $request;
