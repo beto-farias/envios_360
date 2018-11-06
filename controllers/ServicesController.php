@@ -489,11 +489,13 @@ class ServicesController extends \yii\rest\Controller{
                 
 
                 $res = $this->getMessageResponse("1",'Rate Service FEDEX', $data);
-                return $res;
+                
             
             }else{
-                var_dump($response);
+               
             } 
+
+            return $response;
             
         } catch (SoapFault $exception) {
            printFault($exception, $client);        
