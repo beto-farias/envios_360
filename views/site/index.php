@@ -1,98 +1,146 @@
-<?php
-
-/* @var $this yii\web\View */
+<?php 
 use yii\helpers\Url;
-use app\assets\AppAsset;
-use app\config\S3Config;
 
-$this->title = 'Latingal';
-$this->params['classBody'] = "bg-f";
 
-$this->registerJsFile(
-    '@web/webAssets/js/index.js',
-    ['depends' => [AppAsset::className()]]
-);
 ?>
+
+
+
+
+<form method="POST" class="form-group">
+<div class="container">
     
-<div class="shop-banner">
-    <div class="owl-carousel-banner owl-theme">
-        <?php foreach($categorias->results as $categoria){ ?>
-            <a href="<?= Url::base()?>/site/categorias?uddi=<?= $categoria->uddi ?>" >
-                <div class="owl-item-int" style="background-image: url(<?= Url::base() ?>/webAssets/images/caroussel-banners/<?= $categoria->txt_poster ?>)"></div>
-            </a>
-        <?php } ?>
+        <div class="row">    
+                <input id="form-token" type="hidden" name="
+use yii\helpers\Url;
+
+use yii\helpers\Url;
+<?=Yii::$app->request->csrfParam?>" value="<?=Yii::$app->request->csrfToken?>"/>
+                
+                <div class=" col-md-2">
+                    <label for="cp_origen">CP origen</label>
+                    <input class="form-control" id="cp_origen" name="cp_origen" value="53240">
+                </div>
+                <div class=" col-md-2">
+                    <label for="pais_origen">Pais origen</label>
+                    <input class="form-control" id="pais_origen" name="pais_origen" value="MX">
+                </div>
+                <div class=" col-md-2">
+                    <label for="cp_origen">CP destino</label>
+                    <input class="form-control" id="cp_destino" name="cp_destino" value="08500">
+                </div>
+                <div class=" col-md-2">
+                    <label for="cp_origen">Pais origen</label>
+                    <input class="form-control" id="pais_destino" name="pais_destino" value="MX">
+                </div>
+                <div class=" col-md-2">
+                    <input class="form-control btn btn-primary" type="button" id="button" value="Cotizar">
+                </div>
+        </div>    
+      
+</div>
+</form> 
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            Origen: <span id="txt_cp_origen"></span>
+            Destino: <span id="txt_cp_destino"></span>
+        </div>
     </div>
 </div>
 
-<div class="shop-carousel-products">
-    <div class="container-1220">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table id="content" class="table">
+                <th>
+                    <tr>
+                        <td>proveedor</td>
+                        <td>Tipo de servicio</td>
+                        <td>Fecha de entrega</td>
+                        <td>Precio</td>
+                        <td>IVA</td>
+                        <td>Moneda</td>
+                        <td>Acciones</td>
 
-        <h2>Productos</h2>
+                    </tr>
+                </th>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-        <div class="owl-carousel-dos owl-theme" id="owldos">
-            <?php
-            foreach($productos as $producto){
-                $imagenes = $producto->entProductosImagenes;
-            ?>
-            <a href="<?=Url::base()?>/site/producto?uddi=<?=$producto->uddi?>" class="shop-carousel-wrap">
-                <div class="shop-carousel-wrap-image">
-                    
-                    <?php 
-                    if(count($imagenes)>0){
-                        $urlImg =  S3Config::BASE_URL . S3Config::URL_PRODUCTOS . $imagenes[0]->txt_url_imagen;
-                    }else{
-                        $urlImg =  "https://s3.us-east-2.amazonaws.com/latingal-imgs-s3/productos/poster_holder.png";
-                    }
-                    ?>
-                    <img src="<?=$urlImg?>" alt="">
-                </div>
-                <div class="shop-carousel-wrap-info">
-                    <span class="shop-carousel-wrap-free-shipping">
-                        <i class="ion ion-bag"></i>
-                    </span>
-                    <p class="shop-carousel-wrap-price">$ <?=number_format(($producto->num_precio / 100), 2, ".", ",")?></p>
-                    <h3 class="shop-carousel-wrap-title"><?=$producto->txt_nombre?></h3>
-                </div>
-            </a>
-            <?php
+<script>
+    $("#button").click(function(){
+
+var url = "http://localhost/2018/envios_360/web/services/request-cotizacion-documento";
+
+
+        var cpOrigen    = $("#cp_origen").val();
+        var cpDestino   = $("#cp_destino").val();
+        var paisOrigen  = $("#pais_origen").val();
+        var paisDestino = $("#pais_destino").val();
+
+        $("#txt_cp_origen").html(cpOrigen + " " + paisOrigen);
+        $("#txt_cp_destino").html(cpDestino + " " + paisDestino);
+
+        createRequestObject = {
+            "cp_origen":cpOrigen,
+            "pais_origen":paisOrigen,
+            "cp_destino":cpDestino,
+            "pais_destino":paisDestino,
+            "peso_gramos":0.5
+        };
+
+        $.ajax({
+            type: "POST",
+            beforeSend: function(request) {
+                request.setRequestHeader("api-key", "key");
+                request.setRequestHeader("api-secret", "secret");
+            },
+            url: url,
+            data:  JSON.stringify(createRequestObject),
+            dataType: "json",
+            processData: false,
+            contentType: 'application/json' ,
+            success: function(msg,status,xhr) {
+                console.log("success: " + msg);
+
+                for(i=0; i < msg.length; i++){
+                    cotizacion = msg[i]; 
+                    console.log(i);
+                    console.log(cotizacion);
+                    row = "<tr>";
+                    row += "<td>" + cotizacion['provider'] + "</td>";
+                    row += "<td>" + cotizacion['serviceType'] + "</td>";
+                    row += "<td>" + cotizacion['deliveryDate'] + "</td>";
+                    row += "<td>" + cotizacion['price'] + "</td>";
+                    row += "<td>" + cotizacion['tax'] + "</td>";
+                    row += "<td>" + cotizacion['currency'] + "</td>";
+                    row += "<td><a  href='<?=Url::base()?>/site/purchase?carrier=" + cotizacion['provider'] + 
+                            "&service_type=" + cotizacion['serviceType'] + 
+                            "&cpOrigen=" + cpOrigen + 
+                            "&paisOrigen=" + paisOrigen + 
+                            "&cpDestino=" + cpDestino + 
+                            "&paisDestino=" + paisDestino + 
+                            "'>Comprar</a></td>";
+                    row += "</tr>";
+                    console.log(row);
+                    $("#content").append(row);
+                }
+            },
+            error: function(msg){
+                alert(msg);
             }
-            ?>
-            
-            
-        </div>
-
-    </div>
-</div>
-
-<!--
-<div class="shop-catalogo">
-    <div class="container-1220">
-
-        <h2>Catálogo</h2>
-
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <a href="<?=Url::base()?>/site/categorias" class="shop-catalogo-box" style="background-image: url(<?=Url::base()?>/webAssets/images/caroussel-banners/banner-abrigos.jpg);">
-                    <h4>Categoria 1</h4>
-                </a>
-            </div>
-            <div class="col-12 col-sm-6">
-                <a href="<?=Url::base()?>/site/categorias" class="shop-catalogo-box" style="background-image: url(<?=Url::base()?>/webAssets/images/caroussel-banners/banner-chamarras.jpg);">
-                    <h4>Categoria 2</h4>
-                </a>
-            </div>
-            <div class="col-12 col-sm-6">
-                <a href="<?=Url::base()?>/site/categorias" class="shop-catalogo-box" style="background-image: url(<?=Url::base()?>/webAssets/images/caroussel-banners/banner-estilos-colecciones.jpg);">
-                    <h4>Categoria 3</h4>
-                </a>
-            </div>
-            <div class="col-12 col-sm-6">
-                <a href="<?=Url::base()?>/site/categorias" class="shop-catalogo-box" style="background-image: url(<?=Url::base()?>/webAssets/images/caroussel-banners/banner-abrigos.jpg);">
-                    <h4>Categoria 4</h4>
-                </a>
-            </div>
-        </div>
+            });
     
-    </div>
-</div>
--->
+
+        
+        
+
+});
+</script>

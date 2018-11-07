@@ -29,6 +29,8 @@ use app\models\EntOpenpayPayments;
 use app\models\WrkVentas;
 use app\models\EntProductosImagenes;
 use app\models\WrkStock;
+use app\models\WrkDatosCompras;
+use app\_360Utils\FedexServices;
 
 
 class SiteController extends Controller
@@ -82,8 +84,88 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        
+
+        if(isset($_POST['cp_origen'])  &&isset($_POST['cp_destino'])  ){
+            return $this->render('index',[
+                'cp_origen'=> $_POST['cp_origen'],
+                'cp_destino'=>$_POST['cp_destino']
+            ]);    
+        }
+
+        return $this->render('index');
     }
 
+
+    public function actionPurchase($carrier = null, $service_type = null, $cpOrigen=null,$paisOrigen=null,$cpDestino=null,$paisDestino=null){
+        $model  = new WrkDatosCompras();
+
+        $model->txt_servicio = $carrier;
+        $model->txt_tipo_servicio = $service_type;
+        $model->uuid = uniqid('purchase_');
+        $model->txt_tipo_empaque = "YOUR_PACKAGING";
+        $model->txt_data = ".";
+
+        $model->txt_origen_cp = $cpOrigen;
+        $model->txt_origen_pais = $paisOrigen;
+
+        $model->txt_destino_cp = $cpDestino;
+        $model->txt_destino_pais = $paisDestino;
+
+        
+        if($model->load(Yii::$app->request->post())){
+            $model->uuid = uniqid('purchase_');
+            Yii::info("Envio recibido");
+            $model = $this->comprarFedex($model);
+            
+            if($model->save()){
+                return $this->render('purchaseSuccess',['model'=>$model]);
+            }
+        }
+        
+        return $this->render('purchase',['model'=>$model]);
+    }
+
+
+    public function actionDownloadLabel($uuid = null){
+        $layout = false;
+        if($uuid == null){
+            return;
+        }
+
+        $model = WrkDatosCompras::find()->where(['uuid'=>$uuid])->one();
+
+        if($model == null){
+            return;
+        }
+
+        $data = base64_decode($model->txt_envio_label);
+        header('Content-Type: application/pdf');
+        echo $data;
+        return "";
+    }
+
+
+    //-----------------------------
+
+    private function comprarFedex(WrkDatosCompras $model){
+        $fedex = new FedexServices();
+        $response = $fedex->comprarEnvio($model);
+
+        $model->txt_data = json_encode($response);
+        $data = [];
+        $data['notifications'] = $response->Notifications;
+        $data['job_id']= $response->JobId;
+        $data['master_tracking_id'] = $response->CompletedShipmentDetail->MasterTrackingId;
+        $data['label_pdf'] = base64_encode($response->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image);
+
+        $model->txt_envio_code = $data['master_tracking_id']->TrackingNumber;
+        $model->txt_envio_code_2 = $data['master_tracking_id']->FormId;
+        $model->txt_envio_label = $data['label_pdf'];
+
+        return $model;
+    }
+
+
+    
     
 }
