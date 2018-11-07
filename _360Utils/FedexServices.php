@@ -216,16 +216,6 @@ class FedexServices{
             
             
             'Recipient' => $this->addRecipient(
-                $model->txt_origen_cp,
-                $model->txt_origen_pais,
-                $model->txt_origen_ciudad,
-                $model->txt_origen_estado,
-                $model->txt_origen_nombre_persona,
-                $model->txt_origen_telefono,
-                $model->txt_origen_direccion,
-                $model->txt_origen_compania
-            ),
-            'Shipper' => $this->addRecipient(
                 $model->txt_destino_cp,
                 $model->txt_destino_pais,
                 $model->txt_destino_ciudad,
@@ -234,6 +224,16 @@ class FedexServices{
                 $model->txt_destino_telefono,
                 $model->txt_destino_direccion,
                 $model->txt_destino_compania
+            ),
+            'Shipper' => $this->addRecipient(
+                $model->txt_origen_cp,
+                $model->txt_origen_pais,
+                $model->txt_origen_ciudad,
+                $model->txt_origen_estado,
+                $model->txt_origen_nombre_persona,
+                $model->txt_origen_telefono,
+                $model->txt_origen_direccion,
+                $model->txt_origen_compania
             ),
        
 
@@ -290,7 +290,7 @@ class FedexServices{
 
 
 
-
+//---------------- FUNCIONES DE NEGOCIO DE FEDEX -------------------------
     /**
      * Configura los datos del proveedor
      */
@@ -313,10 +313,6 @@ class FedexServices{
 
         return $request;
     }
-
-
-
-
 
     private function addShipper($cp, $countryCode , $city=null, $stateProvinceCode=null){
 
@@ -348,10 +344,7 @@ class FedexServices{
         return $shipper;
     }
 
-
-
-
-    function addRecipient($cp, $countryCode,$city=null, $stateProvinceCode=null,$personName=null,$phoneNumber=null, $addressLine = null,$companyName=null){
+    private function addRecipient($cp, $countryCode,$city=null, $stateProvinceCode=null,$personName=null,$phoneNumber=null, $addressLine = null,$companyName=null){
         $recipient = array(
             'Contact' => array(
                 'PersonName' => 'Recipient Name',
@@ -388,8 +381,7 @@ class FedexServices{
         return $recipient;	                                    
     }
 
-
-    function addPackageLineItem($pesoKg, $largoCm,$anchoCm,$altoCm){
+    private function addPackageLineItem($pesoKg, $largoCm,$anchoCm,$altoCm){
         $packageLineItem = array(
             'SequenceNumber'=>1,
             'GroupPackageCount'=>1,
@@ -407,8 +399,7 @@ class FedexServices{
         return $packageLineItem;
     }
 
-
-    function addShippingChargesPayment(){
+    private function addShippingChargesPayment(){
         $shippingChargesPayment = array(
             'PaymentType' => 'SENDER', // valid values RECIPIENT, SENDER and THIRD_PARTY
             'Payor' => array(
@@ -421,7 +412,7 @@ class FedexServices{
         return $shippingChargesPayment;
     }
 
-    function addLabelSpecification(){
+    private function addLabelSpecification(){
         $labelSpecification = array(
             'LabelFormatType' => 'COMMON2D', // valid values COMMON2D, LABEL_DATA_ONLY
             'ImageType' => 'PDF',  // valid values DPL, EPL2, PDF, ZPLII and PNG
