@@ -36,6 +36,10 @@ use Yii;
  * @property string $txt_envio_code
  * @property string $txt_envio_code_2
  * @property string $txt_envio_label
+ * @property string $txt_peso
+ * @property string $txt_alto
+ * @property string $txt_ancho
+ * @property string $txt_largo
  */
 class WrkDatosCompras extends \yii\db\ActiveRecord
 {
@@ -53,10 +57,10 @@ class WrkDatosCompras extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uuid', 'txt_servicio', 'txt_tipo_servicio', 'txt_tipo_empaque', 'txt_origen_cp', 'txt_origen_pais', 'txt_origen_ciudad', 'txt_origen_estado', 'txt_origen_direccion', 'txt_origen_nombre_persona', 'txt_origen_telefono', 'txt_origen_compania', 'txt_destino_cp', 'txt_destino_pais', 'txt_destino_ciudad', 'txt_destino_estado', 'txt_destino_direccion', 'txt_destino_nombre_persona', 'txt_destino_telefono', 'txt_destino_compania', 'txt_data', 'txt_monto_pago', 'txt_monto_iva', 'txt_tipo_moneda', 'txt_envio_code', 'txt_envio_code_2', 'txt_envio_label'], 'required'],
+            [['uuid', 'txt_servicio', 'txt_tipo_servicio', 'txt_tipo_empaque', 'txt_origen_cp', 'txt_origen_pais', 'txt_origen_ciudad', 'txt_origen_estado', 'txt_origen_direccion', 'txt_origen_nombre_persona', 'txt_origen_telefono', 'txt_origen_compania', 'txt_destino_cp', 'txt_destino_pais', 'txt_destino_ciudad', 'txt_destino_estado', 'txt_destino_direccion', 'txt_destino_nombre_persona', 'txt_destino_telefono', 'txt_destino_compania', 'txt_data', 'txt_monto_pago', 'txt_monto_iva', 'txt_tipo_moneda', 'txt_envio_code', 'txt_envio_code_2', 'txt_envio_label', 'txt_peso'], 'required'],
             [['txt_data', 'txt_envio_label'], 'string'],
             [['fch_creacion'], 'safe'],
-            [['uuid', 'txt_servicio', 'txt_tipo_servicio', 'txt_tipo_empaque', 'txt_origen_ciudad', 'txt_origen_estado', 'txt_origen_direccion', 'txt_origen_nombre_persona', 'txt_origen_telefono', 'txt_origen_compania', 'txt_destino_ciudad', 'txt_destino_estado', 'txt_destino_direccion', 'txt_destino_nombre_persona', 'txt_destino_telefono', 'txt_destino_compania', 'txt_monto_pago', 'txt_monto_iva', 'txt_envio_code', 'txt_envio_code_2'], 'string', 'max' => 45],
+            [['uuid', 'txt_servicio', 'txt_tipo_servicio', 'txt_tipo_empaque', 'txt_origen_ciudad', 'txt_origen_estado', 'txt_origen_direccion', 'txt_origen_nombre_persona', 'txt_origen_telefono', 'txt_origen_compania', 'txt_destino_ciudad', 'txt_destino_estado', 'txt_destino_direccion', 'txt_destino_nombre_persona', 'txt_destino_telefono', 'txt_destino_compania', 'txt_monto_pago', 'txt_monto_iva', 'txt_envio_code', 'txt_envio_code_2', 'txt_peso', 'txt_alto', 'txt_ancho', 'txt_largo'], 'string', 'max' => 45],
             [['txt_origen_cp', 'txt_destino_cp'], 'string', 'max' => 5],
             [['txt_origen_pais', 'txt_destino_pais'], 'string', 'max' => 2],
             [['txt_tipo_moneda'], 'string', 'max' => 3],
@@ -99,6 +103,10 @@ class WrkDatosCompras extends \yii\db\ActiveRecord
             'txt_envio_code' => 'Txt Envio Code',
             'txt_envio_code_2' => 'Txt Envio Code 2',
             'txt_envio_label' => 'Txt Envio Label',
+            'txt_peso' => 'Txt Peso',
+            'txt_alto' => 'Txt Alto',
+            'txt_ancho' => 'Txt Ancho',
+            'txt_largo' => 'Txt Largo',
         ];
     }
 }

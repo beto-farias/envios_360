@@ -6,7 +6,7 @@ use yii\helpers\Url;
 
 
 
-
+<a href="<?=Url::base('')?>/site/index">Documento</a>|<a href="<?=Url::base('')?>/site/index-paquete">Paquete</a>
 <form method="POST" class="form-group">
 <div class="container">
     
@@ -30,8 +30,12 @@ use yii\helpers\Url;
                     <input class="form-control" id="cp_destino" name="cp_destino" value="08500">
                 </div>
                 <div class=" col-md-2">
-                    <label for="cp_origen">Pais origen</label>
+                    <label for="cp_origen">Pais destino</label>
                     <input class="form-control" id="pais_destino" name="pais_destino" value="MX">
+                </div>
+                <div class=" col-md-2">
+                    <label for="peso">Peso en kg (Max 0.5)</label>
+                    <input class="form-control" id="peso" name="peso" value=".50">
                 </div>
                 <div class=" col-md-2">
                     <input class="form-control btn btn-primary" type="button" id="button" value="Cotizar">
@@ -84,6 +88,7 @@ var url = "http://localhost/2018/envios_360/web/services/request-cotizacion-docu
         var cpDestino   = $("#cp_destino").val();
         var paisOrigen  = $("#pais_origen").val();
         var paisDestino = $("#pais_destino").val();
+        var peso        = $("#peso").val();
 
         $("#txt_cp_origen").html(cpOrigen + " " + paisOrigen);
         $("#txt_cp_destino").html(cpDestino + " " + paisDestino);
@@ -93,7 +98,7 @@ var url = "http://localhost/2018/envios_360/web/services/request-cotizacion-docu
             "pais_origen":paisOrigen,
             "cp_destino":cpDestino,
             "pais_destino":paisDestino,
-            "peso_gramos":0.5
+            "peso_kilogramos":peso
         };
 
         $.ajax({
@@ -121,12 +126,13 @@ var url = "http://localhost/2018/envios_360/web/services/request-cotizacion-docu
                     row += "<td>" + cotizacion['price'] + "</td>";
                     row += "<td>" + cotizacion['tax'] + "</td>";
                     row += "<td>" + cotizacion['currency'] + "</td>";
-                    row += "<td><a  href='<?=Url::base()?>/site/purchase?carrier=" + cotizacion['provider'] + 
+                    row += "<td><a  href='<?=Url::base()?>/site/purchase-documento?carrier=" + cotizacion['provider'] + 
                             "&service_type=" + cotizacion['serviceType'] + 
                             "&cpOrigen=" + cpOrigen + 
                             "&paisOrigen=" + paisOrigen + 
                             "&cpDestino=" + cpDestino + 
                             "&paisDestino=" + paisDestino + 
+                            "&peso=" + peso + 
                             "'>Comprar</a></td>";
                     row += "</tr>";
                     console.log(row);

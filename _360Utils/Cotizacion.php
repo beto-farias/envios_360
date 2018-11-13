@@ -10,6 +10,7 @@ class Cotizacion{
     var $deliveryDate;
     var $currency;
     var $data;
+    var $servicePacking;
 
 }
 

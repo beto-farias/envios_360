@@ -20,10 +20,20 @@ class FedexServices{
 
 
 
-    function disponibilidad($origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha){
+    function disponibilidadDocumento($origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha){
+        //Corresponde a un documento
+        return $this->disponibilidad($origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha , 'FEDEX_ENVELOPE');
+    }
 
-        $servicePacking = 'YOUR_PACKAGING';
 
+    function disponibilidadPaquete($origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha){
+        //Corresponde a un paquete
+        return $this->disponibilidad($origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha , 'YOUR_PACKAGING');
+    }
+
+
+
+    private function disponibilidad($origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha,$servicePacking){
         require_once(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
             $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/ValidationAvailabilityAndCommitmentService_v8.wsdl';
             ini_set("soap.wsdl_cache_enabled", "0");
@@ -73,14 +83,24 @@ class FedexServices{
     }
 
 
-    function cotizarEnvio($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, $montoSeguro = false){
-        $servicePacking = 'YOUR_PACKAGING';
+    function cotizarEnvioDocumento($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, $peso, $montoSeguro = false){
+        //Cotiza un envio de documento
+        return $this->cotizarEnvio($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, 'FEDEX_ENVELOPE', $peso, 0,0,0, $montoSeguro );
+    }
+
+    function cotizarEnvioPaquete($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, $peso, $largo, $ancho, $alto, $montoSeguro = false){
+        //Cotiza un envio de documento
+        return $this->cotizarEnvio($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, 'YOUR_PACKAGING', $peso, $largo, $ancho, $alto, $montoSeguro );
+    }
+
+
+
+    private function cotizarEnvio($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, $servicePacking, $peso, $largo = 0, $ancho = 0, $alto = 0, $montoSeguro = false){
+
         $preferedCurrency = 'MXN';
         $pickUp = 'REGULAR_PICKUP';
-        $peso = '2';
-        $largo = '10';
-        $ancho = '10';
-        $alto = '10';
+       
+    
 
         require_once(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
         $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/RateService_v22.wsdl';
@@ -168,6 +188,7 @@ class FedexServices{
                 $cotizacion->deliveryDate = $deliveryDate;
                 $cotizacion->currency     = $currency;
                 $cotizacion->data         = $response;
+                $cotizacion->servicePacking  = $servicePacking;
 
 
 
@@ -183,15 +204,24 @@ class FedexServices{
     }
 
 
-    function comprarEnvio(WrkDatosCompras $model){
 
-        $servicePacking = 'YOUR_PACKAGING';
+    function comprarEnvioDocumento(WrkDatosCompras $model){
+        return $this->comprarEnvio($model,'FEDEX_ENVELOPE');
+    }
+
+    function comprarEnvioPaquete(WrkDatosCompras $model){
+        return $this->comprarEnvio($model,'YOUR_PACKAGING');
+    }
+
+    private function comprarEnvio(WrkDatosCompras $model, $servicePacking){
+
+        //$servicePacking = 'FEDEX_ENVELOPE';
         $preferedCurrency = 'MXN';
         $pickUp = 'REGULAR_PICKUP';
-        $peso = '2';
-        $largo = '10';
-        $ancho = '10';
-        $alto = '10';
+        $peso = $model->txt_peso;
+        $largo = $model->txt_largo;
+        $ancho = $model->txt_ancho;
+        $alto = $model->txt_alto;
 
 
         require_once(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
@@ -210,7 +240,7 @@ class FedexServices{
         );
         $request['RequestedShipment'] = array(
             'ShipTimestamp' => date('c'),
-            'DropoffType' => 'REGULAR_PICKUP', // valid values REGULAR_PICKUP, REQUEST_COURIER, DROP_BOX, BUSINESS_SERVICE_CENTER and STATION
+            'DropoffType' => $pickUp, // valid values REGULAR_PICKUP, REQUEST_COURIER, DROP_BOX, BUSINESS_SERVICE_CENTER and STATION
             'ServiceType' => $model->txt_tipo_servicio, // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
             'PackagingType' => $servicePacking, // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
             

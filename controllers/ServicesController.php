@@ -118,7 +118,7 @@ class ServicesController extends ServicesBaseController
             'pais_origen'=>'2 Letras del pais origen',
             'cp_destino'=>'CP destino',
             'pais_destino'=>'2 Letras del pais destino',
-            'peso_gramos'=>'Peso en gramos'
+            'peso_kilogramos'=>'Peso en kg'
         ];
 
 
@@ -148,6 +148,60 @@ class ServicesController extends ServicesBaseController
        // UTILIZA FEDEX ---------------------------------
         if($useFedex){
             $res = $this->cotizaDocumentoFedex($json);
+            $data = array_merge($data, $res);
+            
+        }
+
+        // UTILIZA 2GOM ---------------------------------
+        if($useDgom){
+            $res = $this->cotizaDocumentoDGOM($json);
+            $data = array_merge($data, $res);
+        }
+
+        return $data;
+
+    }
+
+
+    public function actionRequestCotizacionPaquete(){
+        $requiredParams = [
+            'cp_origen'=>'CP Origen', 
+            'pais_origen'=>'2 Letras del pais origen',
+            'cp_destino'=>'CP destino',
+            'pais_destino'=>'2 Letras del pais destino',
+            'peso_kilogramos'=>'Peso en kg',
+            'alto_cm'=>'Alto en cm',
+            'ancho_cm'=>'Ancho en cm',
+            'largo_cm'=>'Largo en cm'
+        ];
+
+
+        $valid = $this->validateData($GLOBALS["HTTP_RAW_POST_DATA"],$requiredParams);
+
+        if($valid != null){
+            return $valid;
+        }
+
+
+        //-------- INICIA EL PROCESO DE NEGOCIO ---------------------------
+    
+        $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"]);
+
+
+
+        // Servicios habilitados para la cotización
+        //TODO: verifica si FEDEX extá disponible
+        $useFedex = true;
+        //TODO: verifica si DGOM extá disponible
+        $useDgom = true;
+
+        //Resultado de la busqueda
+        $data = [];
+
+       
+       // UTILIZA FEDEX ---------------------------------
+        if($useFedex){
+            $res = $this->cotizaPaqueteFedex($json);
             $data = array_merge($data, $res);
             
         }
@@ -205,7 +259,7 @@ class ServicesController extends ServicesBaseController
         $fedex = new FedexServices();
         //FIXME: fecha actual
         $fecha = "2018-10-06";
-        $disponiblidad = $fedex->disponibilidad($json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha);
+        $disponiblidad = $fedex->disponibilidadDocumento($json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha);
 
         if(!$disponiblidad){
             return [];
@@ -225,7 +279,7 @@ class ServicesController extends ServicesBaseController
         foreach($data['options'] as $item){
             $service = $item->Service;
 
-            $cotizacion = $fedex->cotizarEnvio($service, $json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha);
+            $cotizacion = $fedex->cotizarEnvioDocumento($service, $json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha, $json->peso_kilogramos);
             if($cotizacion){
                 array_push($cotizaciones, $cotizacion);
             }
@@ -243,97 +297,48 @@ class ServicesController extends ServicesBaseController
     }
 
 
+    private function cotizaPaqueteFedex($json){
+        // Metodos de envio disponibles
 
+        $fedex = new FedexServices();
+        //FIXME: fecha actual
+        $fecha = "2018-10-06";
+        $disponiblidad = $fedex->disponibilidadPaquete($json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha);
 
-    /**
-     * Funcion que recupera las obras habilitadas
-     * filtradas por:
-     *  -tipo de obra
-     *  -Municipio
-     */
-    public function actionListObras(){
-        //---------- INICIA LA VALIDACION DE LOS DATOS DE ENTRADA ----------
-        $requiredParams = [
-            'uddi_municipio'=>'Municipio', 
-            'uddi_tipo_obra'=>'Tipo de obra'
-        ];
-
-        $valid = $this->validateData($GLOBALS["HTTP_RAW_POST_DATA"],$requiredParams);
-
-        if($valid != null){
-            return $valid;
+        if(!$disponiblidad){
+            return [];
         }
-
-        //-------- INICIA EL PROCESO DE NEGOCIO ---------------------------
-    
-        $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"]);
-
-        $municipio = CatMunicipios::find()->where(['uddi'=>$json->uddi_municipio])->one();
-
-        if($municipio == null){
-            return $this->getErrorResponse(self::ERROR_ITEM_NOT_FOUND,"Municipio no encontrado");
-        }
-
-        $tipoObra = CatTiposObras::find()->where(['uddi'=>$json->uddi_tipo_obra])->one();
         
-        if($tipoObra == null){
-            return $this->getErrorResponse(self::ERROR_ITEM_NOT_FOUND,"Tipo de obra no encontrado");
-        }
+        
+        //Por cada opcion de disponibilidad verifica el precio
+        $data = [];
+        $data['notifications']  = $disponiblidad->Notifications;
+        $data['options']        = $disponiblidad->Options;
 
-        $order = 'txt_nombre ASC';
-        if(isset($json->order_by)){
-            switch($json->order_by){
-            case 'name':
-                $order = 'txt_nombre ASC';
+        // FIXME 
+        $fecha = date('c');
+
+        $cotizaciones = [];
+        $count = 0;
+        foreach($data['options'] as $item){
+            $service = $item->Service;
+
+            $cotizacion = $fedex->cotizarEnvioPaquete($service, $json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha, $json->peso_kilogramos, $json->alto_cm,$json->ancho_cm,$json->largo_cm);
+            if($cotizacion){
+                array_push($cotizaciones, $cotizacion);
+            }
+
+            $count++;
+            if($count >1){
                 break;
             }
         }
 
-        //Paginación
-        $limit = $this->parsePageSizeJson($json); 
-        $page = $this->parsePageNumberJson($json);
-        $startLimit = ($page - 1) * $limit;
-
-        $results = EntObras::find()
-        ->where([
-            'b_habilitado'=>1, 
-            'id_municipio'=>$municipio->id_municipio,
-            'id_tipo_obra'=>$tipoObra->id_tipo_obra
-            ])
-        
-        ->limit($limit)
-        ->offset($startLimit)
-        ->all();
-
-        $count = EntObras::find()
-        ->where([
-            'b_habilitado'=>1, 
-            'id_municipio'=>$municipio->id_municipio,
-            'id_tipo_obra'=>$tipoObra->id_tipo_obra
-            ])
-        ->limit($limit)
-        ->offset($startLimit)
-        ->count();
-
-        $maxPage = ceil($count / $limit);
 
 
-        foreach($results as $item){
-            $item->id_tipo_obra = $item->tipoObra;
-            $item->id_municipio = $item->municipio;
-            $item->id_ciudad = $item->ciudad;
-            $item->id_estado = $item->estado;
-            $item->id_estado_obra = $item->estadoObra;
-            $item->id_contratista = $item->contratista;
-        }
-
-
-        return $this->getListResponse($this::RESPONSE_SUCCESS, "List Obras","Listado de obras", $results, $page  ,$maxPage ,$limit );
+        return $cotizaciones;
 
     }
-
-    
-
     
 }
 

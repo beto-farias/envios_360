@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'txt_servicio') ?>
                 <?= $form->field($model, 'txt_tipo_servicio') ?>
                 <?= $form->field($model, 'txt_tipo_empaque') ?>
+                <?= $form->field($model, 'txt_peso') ?>
                 <?= $form->field($model, 'txt_origen_cp') ?>
                 <?= $form->field($model, 'txt_origen_pais') ?>
                 <?= $form->field($model, 'txt_origen_ciudad') ?>

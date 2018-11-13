@@ -1,5 +1,9 @@
 <?php
 
+use yii\helpers\Url;
+
+
+
 ?>
 
 <h1>Envío recibido correctamente</h1>
@@ -9,5 +13,5 @@
 <strong>Tipo de servicio:</strong> <?=$model->txt_monto_pago?><br>
 <strong>Tipo de servicio:</strong> <?=$model->txt_monto_iva?><br>
 <strong>Tipo de moneda:</strong> <?=$model->txt_tipo_moneda?><br>
-<strong>Descargar etiqueta:</strong> <a href="site/download-label?uuid=<?=$model->uuid ?>">Aqui</a>
+<strong>Descargar etiqueta:</strong> <a href="<?=Url::base('')?>/site/download-label?uuid=<?=$model->uuid ?>" target="_blank">Aqui</a>
 

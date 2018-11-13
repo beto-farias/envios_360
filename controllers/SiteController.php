@@ -82,8 +82,7 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {
+    public function actionIndex(){
 
         if(isset($_POST['cp_origen'])  &&isset($_POST['cp_destino'])  ){
             return $this->render('index',[
@@ -92,11 +91,45 @@ class SiteController extends Controller
             ]);    
         }
 
-        return $this->render('index');
+        return $this->render('indexDocumento');
+    }
+
+    public function actionIndexPaquete(){
+        return $this->render('indexPaquete');
     }
 
 
-    public function actionPurchase($carrier = null, $service_type = null, $cpOrigen=null,$paisOrigen=null,$cpDestino=null,$paisDestino=null){
+    public function actionPurchaseDocumento($carrier = null, $service_type = null, $cpOrigen=null,$paisOrigen=null,$cpDestino=null,$paisDestino=null, $peso = null){
+        $model  = new WrkDatosCompras();
+
+        $model->txt_servicio = $carrier;
+        $model->txt_tipo_servicio = $service_type;
+        $model->uuid = uniqid('purchase_');
+        $model->txt_tipo_empaque = "FEDEX_ENVELOPE";
+        $model->txt_data = ".";
+
+        $model->txt_origen_cp = $cpOrigen;
+        $model->txt_origen_pais = $paisOrigen;
+
+        $model->txt_destino_cp = $cpDestino;
+        $model->txt_destino_pais = $paisDestino;
+
+        $model->txt_peso = $peso;
+        
+        if($model->load(Yii::$app->request->post())){
+            $model->uuid = uniqid('purchase_');
+            Yii::info("Envio recibido");
+            $model = $this->comprarFedexDocumento($model);
+            
+            if($model->save()){
+                return $this->render('purchaseSuccess',['model'=>$model]);
+            }
+        }
+        
+        return $this->render('purchase',['model'=>$model]);
+    }
+
+    public function actionPurchasePaquete($carrier = null, $service_type = null, $cpOrigen=null,$paisOrigen=null,$cpDestino=null,$paisDestino=null, $peso = null, $alto,$ancho,$largo){
         $model  = new WrkDatosCompras();
 
         $model->txt_servicio = $carrier;
@@ -111,11 +144,15 @@ class SiteController extends Controller
         $model->txt_destino_cp = $cpDestino;
         $model->txt_destino_pais = $paisDestino;
 
+        $model->txt_peso = $peso;
+        $model->txt_alto = $alto;
+        $model->txt_ancho = $ancho;
+        $model->txt_largo = $largo;
         
         if($model->load(Yii::$app->request->post())){
             $model->uuid = uniqid('purchase_');
             Yii::info("Envio recibido");
-            $model = $this->comprarFedex($model);
+            $model = $this->comprarFedexPaquete($model);
             
             if($model->save()){
                 return $this->render('purchaseSuccess',['model'=>$model]);
@@ -147,9 +184,29 @@ class SiteController extends Controller
 
     //-----------------------------
 
-    private function comprarFedex(WrkDatosCompras $model){
+    private function comprarFedexDocumento(WrkDatosCompras $model){
         $fedex = new FedexServices();
-        $response = $fedex->comprarEnvio($model);
+        $response = $fedex->comprarEnvioDocumento($model);
+
+        $model->txt_data = json_encode($response);
+        $data = [];
+        $data['notifications'] = $response->Notifications;
+        $data['job_id']= $response->JobId;
+        $data['master_tracking_id'] = $response->CompletedShipmentDetail->MasterTrackingId;
+        $data['label_pdf'] = base64_encode($response->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image);
+
+        $model->txt_envio_code = $data['master_tracking_id']->TrackingNumber;
+        $model->txt_envio_code_2 = $data['master_tracking_id']->FormId;
+        $model->txt_envio_label = $data['label_pdf'];
+
+        return $model;
+    }
+
+
+
+    private function comprarFedexPaquete(WrkDatosCompras $model){
+        $fedex = new FedexServices();
+        $response = $fedex->comprarEnvioPaquete($model);
 
         $model->txt_data = json_encode($response);
         $data = [];
