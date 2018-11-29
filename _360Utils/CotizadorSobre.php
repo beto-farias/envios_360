@@ -2,39 +2,41 @@
 
 namespace app\_360Utils;
 
+use app\_360Utils\Services\UpsServices;
+use app\_360Utils\Services\FedexServices;
+
+
 
 
 
 class CotizadorSobre{
 
+      //Servicios habilitaos
+      const USE_FEDEX = true; // Habilita FEDEX
+      const USE_DGOM  = false; //HABILITA DGOM
+      const USE_UPS   = true; //Habilita UPS
+
 
     function realizaCotizacion($json){
-        // Servicios habilitados para la cotización
-        //verifica si FEDEX extá disponible
-        $useFedex = true;
-        //verifica si DGOM extá disponible
-        $useDgom = false;
-        //Verifica si usa UPS
-        $useUPS = true;
-
+       
         //Resultado de la busqueda
         $data = [];
         
        
        // UTILIZA FEDEX ---------------------------------
-        if($useFedex){
+        if(self::USE_FEDEX){
             $res = $this->cotizaDocumentoFedex($json);
             $data = array_merge($data, $res);
             
         }
 
         // UTILIZA 2GOM ---------------------------------
-        if($useDgom){
+        if(self::USE_DGOM){
             $res = $this->cotizaDocumentoDGOM($json);
             $data = array_merge($data, $res);
         }
 
-        if($useUPS){
+        if(self::USE_UPS){
             $res = $this->cotizaDocumentoUPS($json);
             if($res != null){
                 $data = array_merge($data, $res);
@@ -81,7 +83,7 @@ class CotizadorSobre{
     private function cotizaDocumentoUPS($json){
         $ups = new UpsServices();
         $fecha = "";
-        $cotizaciones = $ups->cotizarEnvioDocumento($json->cp_origen, "CA", $json->pais_origen, $json->cp_destino, "UT" , $json->pais_destino, $fecha, $json->peso_kilogramos);
+        $cotizaciones = $ups->cotizarEnvioDocumento($json->cp_origen, $json->estado_origen, $json->pais_origen, $json->cp_destino, $json->estado_destino , $json->pais_destino, $fecha, $json->peso_kilogramos);
 
         return $cotizaciones;
     }

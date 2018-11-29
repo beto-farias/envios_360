@@ -11,6 +11,7 @@ use app\_360Utils\FedexServices;
 use app\_360Utils\Cotizacion;
 use app\_360Utils\UpsServices;
 use app\_360Utils\CotizadorSobre;
+use app\_360Utils\CotizadorPaquete;
 
 
 
@@ -170,83 +171,11 @@ class ServicesController extends ServicesBaseController
     
         $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"]);
 
-
-
-        // Servicios habilitados para la cotización
-        //TODO: verifica si FEDEX extá disponible
-        $useFedex = true;
-        //TODO: verifica si DGOM extá disponible
-        $useDgom = true;
-
-        //Resultado de la busqueda
-        $data = [];
-
-       
-       // UTILIZA FEDEX ---------------------------------
-        if($useFedex){
-            $res = $this->cotizaPaqueteFedex($json);
-            $data = array_merge($data, $res);
-            
-        }
-
-        // UTILIZA 2GOM ---------------------------------
-        if($useDgom){
-            $res = $this->cotizaDocumentoDGOM($json);
-            $data = array_merge($data, $res);
-        }
-
-        return $data;
+        $cotizador = new CotizadorPaquete();
+        return $cotizador->realizaCotizacion($json);
 
     }
 
-
-
-    
-
-
-    private function cotizaPaqueteFedex($json){
-        // Metodos de envio disponibles
-
-        $fedex = new FedexServices();
-        //FIXME: fecha actual
-        $fecha = "2018-10-06";
-        $disponiblidad = $fedex->disponibilidadPaquete($json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha);
-
-        if(!$disponiblidad){
-            return [];
-        }
-        
-        
-        //Por cada opcion de disponibilidad verifica el precio
-        $data = [];
-        $data['notifications']  = $disponiblidad->Notifications;
-        $data['options']        = $disponiblidad->Options;
-
-        // FIXME 
-        $fecha = date('c');
-
-        $cotizaciones = [];
-        $count = 0;
-        foreach($data['options'] as $item){
-            $service = $item->Service;
-
-            $cotizacion = $fedex->cotizarEnvioPaquete($service, $json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha, $json->peso_kilogramos, $json->alto_cm,$json->ancho_cm,$json->largo_cm);
-            if($cotizacion){
-                array_push($cotizaciones, $cotizacion);
-            }
-
-            $count++;
-            if($count >1){
-                break;
-            }
-        }
-
-
-
-        return $cotizaciones;
-
-    }
-    
 }
 
 

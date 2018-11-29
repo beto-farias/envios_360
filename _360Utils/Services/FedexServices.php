@@ -1,10 +1,11 @@
 <?php
 
 
-namespace app\_360Utils;
+namespace app\_360Utils\Services;
 
 use Yii;
 use app\models\WrkDatosCompras;
+use app\_360Utils\Cotizacion;
 
 class FedexServices{
 
