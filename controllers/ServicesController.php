@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\MessageResponse;
 use app\_360Utils\FedexServices;
 use app\_360Utils\Cotizacion;
+use app\_360Utils\UpsServices;
 
 
 
@@ -116,8 +117,10 @@ class ServicesController extends ServicesBaseController
         $requiredParams = [
             'cp_origen'=>'CP Origen', 
             'pais_origen'=>'2 Letras del pais origen',
+            'estado_origen'=>'2 letras del estado origen',
             'cp_destino'=>'CP destino',
             'pais_destino'=>'2 Letras del pais destino',
+            'estado_destino'=>'2 letras del estado destino',
             'peso_kilogramos'=>'Peso en kg'
         ];
 
@@ -136,10 +139,12 @@ class ServicesController extends ServicesBaseController
 
 
         // Servicios habilitados para la cotización
-        //TODO: verifica si FEDEX extá disponible
+        //verifica si FEDEX extá disponible
         $useFedex = true;
-        //TODO: verifica si DGOM extá disponible
-        $useDgom = true;
+        //verifica si DGOM extá disponible
+        $useDgom = false;
+        //Verifica si usa UPS
+        $useUPS = true;
 
         //Resultado de la busqueda
         $data = [];
@@ -158,6 +163,13 @@ class ServicesController extends ServicesBaseController
             $data = array_merge($data, $res);
         }
 
+        if($useUPS){
+            $res = $this->cotizaDocumentoUPS($json);
+            if($res != null){
+                $data = array_merge($data, $res);
+            }
+        }
+
         return $data;
 
     }
@@ -167,8 +179,10 @@ class ServicesController extends ServicesBaseController
         $requiredParams = [
             'cp_origen'=>'CP Origen', 
             'pais_origen'=>'2 Letras del pais origen',
+            'estado_origen'=>'2 letras del estado origen',
             'cp_destino'=>'CP destino',
             'pais_destino'=>'2 Letras del pais destino',
+            'estado_destino'=>'2 letras del estado destino',
             'peso_kilogramos'=>'Peso en kg',
             'alto_cm'=>'Alto en cm',
             'ancho_cm'=>'Ancho en cm',
@@ -249,6 +263,15 @@ class ServicesController extends ServicesBaseController
     }
 
 
+
+    // ----------------------------- COTIZACION UPS ----------------------------------------
+    private function cotizaDocumentoUPS($json){
+        $ups = new UpsServices();
+        $fecha = "";
+        $cotizaciones = $ups->cotizarEnvioDocumento($json->cp_origen, "CA", $json->pais_origen, $json->cp_destino, "UT" , $json->pais_destino, $fecha, $json->peso_kilogramos);
+
+        return $cotizaciones;
+    }
     
 
 //---------------------------------- COTIZACION DE FEDEX -----------------------------------

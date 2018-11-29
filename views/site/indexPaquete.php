@@ -26,12 +26,20 @@ use yii\helpers\Url;
                     <input class="form-control" id="pais_origen" name="pais_origen" value="MX">
                 </div>
                 <div class=" col-md-2">
+                    <label for="pais_origen">Estado origen</label>
+                    <input class="form-control" id="estado_origen" name="estado_origen" value="CA">
+                </div>
+                <div class=" col-md-2">
                     <label for="cp_origen">CP destino</label>
                     <input class="form-control" id="cp_destino" name="cp_destino" value="08500">
                 </div>
                 <div class=" col-md-2">
                     <label for="cp_origen">Pais destino</label>
                     <input class="form-control" id="pais_destino" name="pais_destino" value="MX">
+                </div>
+                <div class=" col-md-2">
+                    <label for="estado_destino">Estado origen</label>
+                    <input class="form-control" id="estado_destino" name="estado_destino" value="UT">
                 </div>
                 <div class=" col-md-2">
                     <label for="peso">Peso en kg (Max 0.5)</label>

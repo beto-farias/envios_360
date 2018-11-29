@@ -26,12 +26,20 @@ use yii\helpers\Url;
                     <input class="form-control" id="pais_origen" name="pais_origen" value="MX">
                 </div>
                 <div class=" col-md-2">
+                    <label for="pais_origen">Estado origen</label>
+                    <input class="form-control" id="estado_origen" name="estado_origen" value="CA">
+                </div>
+                <div class=" col-md-2">
                     <label for="cp_origen">CP destino</label>
                     <input class="form-control" id="cp_destino" name="cp_destino" value="08500">
                 </div>
                 <div class=" col-md-2">
                     <label for="cp_origen">Pais destino</label>
                     <input class="form-control" id="pais_destino" name="pais_destino" value="MX">
+                </div>
+                <div class=" col-md-2">
+                    <label for="estado_destino">Estado origen</label>
+                    <input class="form-control" id="estado_destino" name="estado_destino" value="UT">
                 </div>
                 <div class=" col-md-2">
                     <label for="peso">Peso en kg (Max 0.5)</label>
@@ -84,11 +92,13 @@ use yii\helpers\Url;
 var url = "http://localhost/2018/envios_360/web/services/request-cotizacion-documento";
 
 
-        var cpOrigen    = $("#cp_origen").val();
-        var cpDestino   = $("#cp_destino").val();
-        var paisOrigen  = $("#pais_origen").val();
-        var paisDestino = $("#pais_destino").val();
-        var peso        = $("#peso").val();
+        var cpOrigen        = $("#cp_origen").val();
+        var cpDestino       = $("#cp_destino").val();
+        var paisOrigen      = $("#pais_origen").val();
+        var paisDestino     = $("#pais_destino").val();
+        var estadoOrigen    = $("#estado_origen").val();
+        var estadoDestino   = $("#estado_destino").val();
+        var peso            = $("#peso").val();
 
         $("#txt_cp_origen").html(cpOrigen + " " + paisOrigen);
         $("#txt_cp_destino").html(cpDestino + " " + paisDestino);
@@ -96,8 +106,10 @@ var url = "http://localhost/2018/envios_360/web/services/request-cotizacion-docu
         createRequestObject = {
             "cp_origen":cpOrigen,
             "pais_origen":paisOrigen,
+            "estado_origen":estadoOrigen,
             "cp_destino":cpDestino,
             "pais_destino":paisDestino,
+            "estado_destino":estadoDestino,
             "peso_kilogramos":peso
         };
 
