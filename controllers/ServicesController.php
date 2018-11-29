@@ -140,11 +140,25 @@ class ServicesController extends ServicesBaseController
 
         $cotizador = new CotizadorSobre();
 
-        return $cotizador->realizaCotizacion($json);
+        $paquete = [];
+        $paquete[0] = [
+            'num_peso'=>$json->peso_kilogramos,
+            'num_alto'=>0,
+            'num_ancho'=>0,
+            'num_largo'=>0
+        ];
+
+        return $cotizador->realizaCotizacion($json,$paquete);
 
     }
 
 
+
+
+
+    /**
+     * 
+     */
     public function actionRequestCotizacionPaquete(){
         $requiredParams = [
             'cp_origen'=>'CP Origen', 
@@ -172,7 +186,16 @@ class ServicesController extends ServicesBaseController
         $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"]);
 
         $cotizador = new CotizadorPaquete();
-        return $cotizador->realizaCotizacion($json);
+
+        $paquete = [];
+        $paquete[0] = [
+            'num_peso'=>$json->peso_kilogramos,
+            'num_alto'=>$json->alto_cm,
+            'num_ancho'=>$json->ancho_cm,
+            'num_largo'=>$json->largo_cm
+        ];
+
+        return $cotizador->realizaCotizacion($json,$paquete);
 
     }
 
