@@ -51,16 +51,16 @@ class UpsServices{
     //TIPS DE SERVICIOS -------------
      // Valid domestic values
      const S_AIR_1DAYEARLYAM    = '14';
-     const S_AIR_1DAY           = '01';
+     const S_AIR_1DAY           = '01';      //ok envelope
      const S_AIR_1DAYSAVER      = '13';
      const S_AIR_2DAYAM         = '59';
-     const S_AIR_2DAY           = '02';
-     const S_3DAYSELECT         = '12';
-     const S_GROUND             = '03';
+     const S_AIR_2DAY           = '02';     // ok envelope
+     const S_3DAYSELECT         = '12'; 
+     const S_GROUND             = '03';     // ok envelope
      const S_SURE_POST          = '93';
 
      // Valid international values
-     const S_STANDARD           = '11';
+     const S_STANDARD           = '11'; 
      const S_WW_EXPRESS         = '07';
      const S_WW_EXPRESSPLUS     = '54';
      const S_WW_EXPEDITED       = '08';
@@ -73,8 +73,9 @@ class UpsServices{
      const S_UPSTODAY_EXPRESS   = '85';
      const S_UPSTODAY_EXPRESSSAVER      = '86';
      const S_UPSWW_EXPRESSFREIGHT       = '96';
+
      // Valid Germany to Germany values
-     const S_UPSEXPRESS_1200 = '74';
+     const S_UPSEXPRESS_1200    = '74';
 
     // PackageWeight
     const UOM_LBS = 'LBS'; // Pounds (defalut)
@@ -88,9 +89,21 @@ class UpsServices{
 
     var $URL_SERVICE = 'https://wwwcie.ups.com/rest/';
 
-    public function cotizarEnvioDocumento($cp_origen,$stado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_libras){
 
-        
+    function cotizarEnvioDocumento($cp_origen,$stado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_libras){
+        $servicios = [self::S_AIR_1DAY,self::S_AIR_2DAY,self::S_GROUND];
+        $responses = [];
+        foreach($servicios as $item){
+            $res = $this->cotizarEnvioDocumento2($item,$cp_origen,$stado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_libras);
+            if($res != null){
+                array_push($responses,$res);
+            }
+        }
+
+        return $responses;
+    }
+
+    private function cotizarEnvioDocumento2($tipo_servicio,$cp_origen,$stado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_libras){
 
         $json = [];
 
@@ -142,7 +155,7 @@ class UpsServices{
 
 
         $json["RateRequest"]["Shipment"]["Service"] = [];
-        $json["RateRequest"]["Shipment"]["Service"]["Code"] = "01"; //Tipo de envío
+        $json["RateRequest"]["Shipment"]["Service"]["Code"] = $tipo_servicio ;//"01"; //Tipo de envío
         $json["RateRequest"]["Shipment"]["Service"]["Description"] = "Service Code Description";
                 
         $json["RateRequest"]["Shipment"]["Package"] = [];
@@ -176,7 +189,8 @@ class UpsServices{
         
         // Check for errors
         if($response === FALSE){
-            die(curl_error($ch));
+            //die(curl_error($ch));
+            return null;
         }
     
         // Decode the response
@@ -192,7 +206,7 @@ class UpsServices{
         }
 
 
-        //foreach($responseData["RateResponse"]["RatedShipment"] as $item){
+   
             $cotizacion = new Cotizacion();
 
             $cotizacion->provider               = "UPS";
@@ -221,11 +235,9 @@ class UpsServices{
                 $cotizacion->addAlert($alert["Code"],$alert["Description"]);
             }
 
-        //}
-
-        $cotizaciones = [];
-        array_push($cotizaciones,$cotizacion);
-        return $cotizaciones;
+       
+        
+        return $cotizacion;
     }
 
 
