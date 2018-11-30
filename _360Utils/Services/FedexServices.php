@@ -98,7 +98,7 @@ class FedexServices{
 
     private function cotizarEnvio($serviceType, $origenCP,$origenCountry,$destinoCP,$destinoCountry,$fecha, $servicePacking, $paquetes, $montoSeguro = false){
 
-        $preferedCurrency = 'MXN';
+        $preferedCurrency = 'NPM';
         $pickUp = 'REGULAR_PICKUP';
 
         //TODO manejar varios paquetes
@@ -224,7 +224,7 @@ class FedexServices{
     private function comprarEnvio(WrkDatosCompras $model, $servicePacking){
 
         //$servicePacking = 'FEDEX_ENVELOPE';
-        $preferedCurrency = 'MXN';
+        $preferedCurrency = 'NPM';
         $pickUp = 'REGULAR_PICKUP';
         $peso = $model->txt_peso;
         $largo = $model->txt_largo;
