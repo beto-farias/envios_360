@@ -30,7 +30,7 @@ use app\models\WrkVentas;
 use app\models\EntProductosImagenes;
 use app\models\WrkStock;
 use app\models\WrkDatosCompras;
-use app\_360Utils\FedexServices;
+use app\_360Utils\Services\FedexServices;
 
 
 class SiteController extends Controller

@@ -198,6 +198,11 @@ class FedexServices{
                 $cotizacion->data         = $response;
                 $cotizacion->servicePacking  = $servicePacking;
 
+                if($deliveryDate != null &&   $deliveryDate != "N/A"){
+                    $cotizacion->deliveryDateStr = $deliveryDate;
+                }
+                
+
 
 
                 return $cotizacion;

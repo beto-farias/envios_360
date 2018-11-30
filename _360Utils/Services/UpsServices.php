@@ -224,10 +224,17 @@ class UpsServices{
             $cotizacion->data                   = $responseData;
             $cotizacion->servicePacking         = "PT_UPSLETTER";
 
+
+            
+
+
             //Tiempo de entrega UPS
             if(isset($responseData["RateResponse"]["RatedShipment"]["GuaranteedDelivery"])){
                 if(isset($responseData["RateResponse"]["RatedShipment"]["GuaranteedDelivery"]["BusinessDaysInTransit"])){
                     $cotizacion->businessDaysInTransit  = $responseData["RateResponse"]["RatedShipment"]["GuaranteedDelivery"]["BusinessDaysInTransit"];
+
+                    $cotizacion->deliveryDateStr = $cotizacion->businessDaysInTransit + " días";
+                    
                 }
                 if(isset($responseData["RateResponse"]["RatedShipment"]["GuaranteedDelivery"]["DeliveryByTime"]) && 
                     $responseData["RateResponse"]["RatedShipment"]["GuaranteedDelivery"]["DeliveryByTime"] != null){
