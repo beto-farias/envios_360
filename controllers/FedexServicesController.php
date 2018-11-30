@@ -140,8 +140,8 @@ class FedexServicesController extends \yii\rest\Controller{
         }
 
 
-        require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
-        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/ShipService_v21.wsdl';
+        require(Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/fedex-common.php');
+        $path_to_wsdl = Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/wsdl/ShipService_v21.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
 
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
@@ -274,8 +274,8 @@ class FedexServicesController extends \yii\rest\Controller{
 
         
 
-        require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
-        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/ValidationAvailabilityAndCommitmentService_v8.wsdl';
+        require(Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/fedex-common.php');
+        $path_to_wsdl = Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/wsdl/ValidationAvailabilityAndCommitmentService_v8.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
 
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
@@ -385,8 +385,8 @@ class FedexServicesController extends \yii\rest\Controller{
 
 
 
-        require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
-        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/RateService_v22.wsdl';
+        require(Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/fedex-common.php');
+        $path_to_wsdl = Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/wsdl/RateService_v22.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
 
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
@@ -509,8 +509,8 @@ class FedexServicesController extends \yii\rest\Controller{
             return $error;
         }
 
-        require(Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/fedex-common.php');
-        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/fedex/wsdl/CountryService_v6.wsdl';
+        require(Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/fedex-common.php');
+        $path_to_wsdl = Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/wsdl/CountryService_v6.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
  
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
