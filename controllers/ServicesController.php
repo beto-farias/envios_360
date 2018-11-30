@@ -12,6 +12,7 @@ use app\_360Utils\Cotizacion;
 use app\_360Utils\UpsServices;
 use app\_360Utils\CotizadorSobre;
 use app\_360Utils\CotizadorPaquete;
+use app\_360Utils\Services\GeoNamesServices;
 
 
 
@@ -113,6 +114,31 @@ class ServicesController extends ServicesBaseController
   
 
     //-------------------------------- funciones de negocio ---------------------------------------
+
+    public function actionRequestInfoCp(){
+        
+        //TODO seguridad
+        $requiredParams = [
+            'cp'=>'CP',
+            'pais'=>'Pais'
+        ];
+
+        $valid = $this->validateData($GLOBALS["HTTP_RAW_POST_DATA"],$requiredParams);
+
+        if($valid != null){
+            return $valid;
+        }
+
+         //-------- INICIA EL PROCESO DE NEGOCIO ---------------------------
+         $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"]);
+    
+         $geoNames = new GeoNamesServices();
+
+         $res = $geoNames->getCPData($json->cp, $json->pais);
+
+         return $res;
+
+    }
 
     
     public function actionRequestCotizacionDocumento(){
