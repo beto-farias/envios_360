@@ -231,10 +231,13 @@ class FedexServices{
     private function comprarEnvio(CompraEnvio $model, $servicePacking){
         $preferedCurrency = 'MXN';
         $pickUp = 'REGULAR_PICKUP';
-        $peso = $model->peso;
-        $largo = $model->largo;
-        $ancho = $model->ancho;
-        $alto = $model->alto;
+
+
+
+        $peso = $model->paquetes[0]->peso;
+        $largo = $model->paquetes[0]->largo;
+        $ancho = $model->paquetes[0]->ancho;
+        $alto = $model->paquetes[0]->alto;
 
 
         require_once(Yii::getAlias('@app') . '/_360Utils/shipment-carriers/fedex/fedex-common.php');

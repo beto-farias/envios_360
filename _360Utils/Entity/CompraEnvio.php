@@ -4,7 +4,9 @@ namespace app\_360Utils\Entity;
 
 
 
-
+/**
+ * Clase que representa la solicitud de compra de un envío
+ */
 class CompraEnvio{
 
     
@@ -27,9 +29,10 @@ class CompraEnvio{
     var $destino_nombre_persona;
     var $destino_telefono;
     var $destino_compania;
-    var $peso;
-    var $alto = 0;
-    var $ancho = 0;
-    var $largo = 0;
+    var $paquetes = [];
+
+    function addPaquete(Paquete $paquete){
+        array_push($this->paquetes,$paquete);
+    }
   
  }
