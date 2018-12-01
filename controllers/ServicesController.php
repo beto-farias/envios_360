@@ -7,12 +7,15 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\MessageResponse;
-use app\_360Utils\FedexServices;
-use app\_360Utils\Cotizacion;
+
 use app\_360Utils\UpsServices;
 use app\_360Utils\CotizadorSobre;
 use app\_360Utils\CotizadorPaquete;
 use app\_360Utils\Services\GeoNamesServices;
+use app\_360Utils\Services\FedexServices;
+
+use app\_360Utils\Entity\Cotizacion;
+use app\_360Utils\Entity\CompraEnvio;
 
 
 
@@ -113,7 +116,7 @@ class ServicesController extends ServicesBaseController
 
   
 
-    //-------------------------------- funciones de negocio ---------------------------------------
+    //-------------------------------- funciones de negocio COTIZACION ---------------------------------------
 
     public function actionRequestInfoCp(){
         
@@ -179,11 +182,8 @@ class ServicesController extends ServicesBaseController
     }
 
 
-
-
-
     /**
-     * 
+     * Cotiza un paquete 
      */
     public function actionRequestCotizacionPaquete(){
         $requiredParams = [
@@ -223,6 +223,73 @@ class ServicesController extends ServicesBaseController
 
         return $cotizador->realizaCotizacion($json,$paquete);
 
+    }
+
+    // ---------------- FUNCIONES DE NEGOCIO COMPRA --------------------------------------
+    public function actionRequestCompraEnvioDocumento(){
+
+        //TODO seguridad
+        $requiredParams = [
+            'carrier'=>'Tipo de servicio - Carrier',
+            'tipo_servicio'=>'Tipo de envío',
+            'tipo_empaque'=>'Tipo de empaque',
+            'origen_cp'=>'Origen cp',
+            'origen_pais'=>'Origen pais',
+            'origen_ciudad'=>'Origen ciudad',
+            'origen_estado'=>'Origen estado',
+            'origen_direccion'=>'Origen direccion',
+            'origen_nombre_persona'=>'Origen nombre persona',
+            'origen_telefono'=>'Origen telefono',
+            'origen_compania'=>'Origen compañia',
+            'destino_cp'=>'Destino cp',
+            'destino_pais'=>'Destino pais',
+            'destino_ciudad'=>'Destino ciudad',
+            'destino_estado'=>'Destino estado',
+            'destino_direccion'=>'Destino direccion',
+            'destino_nombre_persona'=>'Destino nombre persona',
+            'destino_telefono'=>'Destino teléfono',
+            'destino_compania'=>'Destino compañia',
+            'peso_kilogramos'=>'Peso del sobre'
+        ];
+
+        $valid = $this->validateData($GLOBALS["HTTP_RAW_POST_DATA"],$requiredParams);
+
+        if($valid != null){
+            return $valid;
+        }
+
+         //-------- INICIA EL PROCESO DE NEGOCIO ---------------------------
+         $json = json_decode($GLOBALS["HTTP_RAW_POST_DATA"]);
+
+
+        $compra = new CompraEnvio();
+        $compra->servicio = $json->carrier;
+        $compra->tipo_servicio = $json->tipo_servicio;
+        $compra->tipo_empaque = $json->tipo_empaque;
+        $compra->origen_cp = $json->origen_cp;
+        $compra->origen_pais = $json->origen_pais;
+        $compra->origen_ciudad = $json->origen_ciudad;
+        $compra->origen_estado = $json->origen_estado;
+        $compra->origen_direccion = $json->origen_direccion;
+        $compra->origen_nombre_persona = $json->origen_nombre_persona;
+        $compra->origen_telefono = $json->origen_telefono;
+        $compra->origen_compania = $json->origen_compania;
+        $compra->destino_cp = $json->destino_cp;
+        $compra->destino_pais = $json->destino_pais;
+        $compra->destino_ciudad = $json->destino_ciudad;
+        $compra->destino_estado = $json->destino_estado;
+        $compra->destino_direccion = $json->destino_direccion;
+        $compra->destino_nombre_persona = $json->destino_nombre_persona;
+        $compra->destino_telefono = $json->destino_telefono;
+        $compra->destino_compania = $json->destino_compania;
+        $compra->peso = $json->peso_kilogramos;
+        
+
+         if($json->carrier == "FEDEX"){
+             $fedex = new FedexServices();
+             $res = $fedex->comprarEnvioDocumento($compra);
+             return $res;
+         }
     }
 
 }
