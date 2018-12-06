@@ -145,7 +145,7 @@ class EstafetaServicesController extends \yii\rest\Controller{
             return $error;
         }
 
-        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/estafeta/wsdl/EstafetaLabelWS.wsdl';
+        $path_to_wsdl = Yii::getAlias('@app') . '/_360Utils/shipment-carriers/estafeta/wsdl/EstafetaLabelWS.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
 
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
@@ -282,7 +282,7 @@ class EstafetaServicesController extends \yii\rest\Controller{
         }
 
 
-        $path_to_wsdl = Yii::getAlias('@app') . '/vendor/shipment-carriers/estafeta/wsdl/Frecuenciacotizador.wsdl';
+        $path_to_wsdl = Yii::getAlias('@app') . '/_360Utils/shipment-carriers/estafeta/wsdl/Frecuenciacotizador.wsdl';
         ini_set("soap.wsdl_cache_enabled", "0");
 
         $client = new \SoapClient($path_to_wsdl, array('trace' => 1));
@@ -294,7 +294,8 @@ class EstafetaServicesController extends \yii\rest\Controller{
         $request['esFrecuencia'] = false;
         $request['esLista'] = true;
         
-        $request['tipoEnvio']['EsPaquete'] = true;
+        $request['tipoEnvio']['EsPaquete'] = false; //Es paquete -----
+
         $request['tipoEnvio']['Largo'] = $json->package->largo_cm;
         $request['tipoEnvio']['Peso'] = $json->package->peso_kg;
         $request['tipoEnvio']['Alto'] = $json->package->alto_cm;

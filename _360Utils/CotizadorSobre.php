@@ -4,6 +4,7 @@ namespace app\_360Utils;
 
 use app\_360Utils\Services\UpsServices;
 use app\_360Utils\Services\FedexServices;
+use app\_360Utils\Services\EstafetaServices;
 
 
 
@@ -12,9 +13,10 @@ use app\_360Utils\Services\FedexServices;
 class CotizadorSobre{
 
       //Servicios habilitaos
-      const USE_FEDEX = true; // Habilita FEDEX
-      const USE_DGOM  = false; //HABILITA DGOM
-      const USE_UPS   = true; //Habilita UPS
+      const USE_FEDEX       = false; // Habilita FEDEX
+      const USE_DGOM        = false; //HABILITA DGOM
+      const USE_UPS         = false; //Habilita UPS
+      const USE_ESTAFETA    = TRUE; // Habilita ESTAFETA
 
 
     function realizaCotizacion($json,$paquetes){
@@ -38,6 +40,13 @@ class CotizadorSobre{
 
         if(self::USE_UPS){
             $res = $this->cotizaDocumentoUPS($json,$paquetes);
+            if($res != null){
+                $data = array_merge($data, $res);
+            }
+        }
+
+        if(self::USE_ESTAFETA){
+            $res = $this->cotizaDocumentoEstafeta($json,$paquetes);
             if($res != null){
                 $data = array_merge($data, $res);
             }
@@ -78,6 +87,13 @@ class CotizadorSobre{
     }
 
 
+    // ----------------------------- COTIZACION ESTAFETA ----------------------------------------
+    private function cotizaDocumentoEstafeta($json, $paquetes){
+        $estafeta = new EstafetaServices();
+        $fecha = "";
+        $cotizaciones = $estafeta->cotizarEnvioDocumento($json->cp_origen,  $json->cp_destino, $fecha, $paquetes);
+        return $cotizaciones;
+    }
 
     // ----------------------------- COTIZACION UPS ----------------------------------------
     private function cotizaDocumentoUPS($json, $paquetes){
@@ -115,6 +131,9 @@ class CotizadorSobre{
         $cotizaciones = [];
         $count = 0;
         foreach($data['options'] as $item){
+            if(!isset($item->Service)){
+                continue;
+            }
             $service = $item->Service;
 
             $cotizacion = $fedex->cotizarEnvioDocumento($service, $json->cp_origen, $json->pais_origen, $json->cp_destino, $json->pais_destino, $fecha, $paquetes);
