@@ -89,6 +89,12 @@ class CotizadorSobre{
 
     // ----------------------------- COTIZACION ESTAFETA ----------------------------------------
     private function cotizaDocumentoEstafeta($json, $paquetes){
+        //Estafeta solo tiene entregas de MX a MX, en caso contrario, no se pide la cotizacón
+        if($json->pais_origen != "MX" || $json->pais_destino != "MX"){
+            return null;
+        }
+
+
         $estafeta = new EstafetaServices();
         $fecha = "";
         $cotizaciones = $estafeta->cotizarEnvioDocumento($json->cp_origen,  $json->cp_destino, $fecha, $paquetes);
