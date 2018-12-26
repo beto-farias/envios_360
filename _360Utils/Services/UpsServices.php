@@ -101,7 +101,7 @@ class UpsServices{
         $paquete = $paquetes[0];
 
         //Cambia el peso de kilos a libras
-        $peso = $paquete['num_peso'] * 2.20462;
+        $peso = $paquete['num_peso'];// * 2.20462;
 
         foreach($servicios as $item){
             $res = $this->cotizarEnvioDocumentoInterno($item,$cp_origen,$stado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso);
@@ -122,7 +122,7 @@ class UpsServices{
         $paquete = $paquetes[0];
 
         //Cambia el peso de kilos a libras
-        $peso = $paquete['num_peso'] * 2.20462;
+        $peso = $paquete['num_peso'];// * 2.20462;
 
         //Cambia el tamaño de cm a pulgadas
         $largo = $paquete['num_largo'] * 0.393701;
@@ -309,7 +309,7 @@ class UpsServices{
     /**
      * Envío de sobre
      */
-    private function cotizarEnvioDocumentoInterno($tipo_servicio,$cp_origen,$estado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_libras){
+    private function cotizarEnvioDocumentoInterno($tipo_servicio,$cp_origen,$estado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_kilos){
 
         $json = [];
 
@@ -348,10 +348,10 @@ class UpsServices{
                   
         $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"] = [];
         $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"] = [];
-        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Code"] = "Lbs";
-        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Description"] = "pounds";
+        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Code"] = "kgs";
+        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Description"] = "kilos";
                     
-        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["Weight"]= "". $peso_libras;
+        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["Weight"]= "". $peso_kilos;
         
         $json["RateRequest"]["Shipment"]["ShipmentRatingOptions"] = [];
         $json["RateRequest"]["Shipment"]["NegotiatedRatesIndicator"] =  "";
@@ -412,8 +412,13 @@ class UpsServices{
             
 
             //Alertas
-            foreach($responseData["RateResponse"]["RatedShipment"]["RatedShipmentAlert"] as $alert){
-                $cotizacion->addAlert($alert["Code"],$alert["Description"]);
+            $alertas = $responseData["RateResponse"]["RatedShipment"]["RatedShipmentAlert"];
+            if(is_array($alertas) && isset($alertas['Code']) ){
+                $cotizacion->addAlert($alertas["Code"],$alertas["Description"]);
+            }else{
+                foreach($alertas as $alert){
+                    $cotizacion->addAlert($alert["Code"],$alert["Description"]);
+                }
             }
 
        
@@ -425,7 +430,7 @@ class UpsServices{
     /**
      * Envío de sobre
      */
-    private function cotizarEnvioPaqueteInterno($tipo_servicio,$cp_origen,$estado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso_libras, $largo,$ancho,$alto){
+    private function cotizarEnvioPaqueteInterno($tipo_servicio,$cp_origen,$estado_origen, $pais_origen, $cp_destino, $estado_destino, $pais_destino, $fecha, $peso, $largo,$ancho,$alto){
 
         $json = [];
 
@@ -455,8 +460,8 @@ class UpsServices{
                   
         $json["RateRequest"]["Shipment"]["Package"]["Dimensions"] = [];
         $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["UnitOfMeasurement"] = [];
-        $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["UnitOfMeasurement"]["Code"] = "IN";
-        $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["UnitOfMeasurement"]["Description"] = "inches";
+        $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["UnitOfMeasurement"]["Code"] = "CM";
+        $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["UnitOfMeasurement"]["Description"] = "Centimetros";
                     
         $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["Length"] = "" . ceil($largo);
         $json["RateRequest"]["Shipment"]["Package"]["Dimensions"]["Width"] = "" . ceil($ancho);
@@ -464,10 +469,10 @@ class UpsServices{
                   
         $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"] = [];
         $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"] = [];
-        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Code"] = "Lbs";
-        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Description"] = "pounds";
+        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Code"] = "KGS";
+        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["UnitOfMeasurement"]["Description"] = "Kilos";
                     
-        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["Weight"]= "". $peso_libras;
+        $json["RateRequest"]["Shipment"]["Package"]["PackageWeight"]["Weight"]= "". $peso;
         
         $json["RateRequest"]["Shipment"]["ShipmentRatingOptions"] = [];
         $json["RateRequest"]["Shipment"]["NegotiatedRatesIndicator"] =  "";
@@ -520,10 +525,16 @@ class UpsServices{
             }
             
 
-            //Alertas
-            foreach($responseData["RateResponse"]["RatedShipment"]["RatedShipmentAlert"] as $alert){
-                $cotizacion->addAlert($alert["Code"],$alert["Description"]);
-            }
+            
+             //Alertas
+             $alertas = $responseData["RateResponse"]["RatedShipment"]["RatedShipmentAlert"];
+             if(is_array($alertas) && isset($alertas['Code']) ){
+                 $cotizacion->addAlert($alertas["Code"],$alertas["Description"]);
+             }else{
+                 foreach($alertas as $alert){
+                     $cotizacion->addAlert($alert["Code"],$alert["Description"]);
+                 }
+             }
 
        
         
