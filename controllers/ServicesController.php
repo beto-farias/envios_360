@@ -8,7 +8,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\MessageResponse;
 
-use app\_360Utils\UpsServices;
+
 use app\_360Utils\CotizadorSobre;
 use app\_360Utils\CotizadorPaquete;
 use app\_360Utils\Services\GeoNamesServices;
@@ -17,6 +17,7 @@ use app\_360Utils\Services\FedexServices;
 use app\_360Utils\Entity\Cotizacion;
 use app\_360Utils\Entity\CompraEnvio;
 use app\_360Utils\Entity\Paquete;
+use app\_360Utils\Services\UpsServices;
 
 
 
@@ -373,6 +374,12 @@ class ServicesController extends ServicesBaseController
              $res = $fedex->comprarEnvioPaquete($compra);
              return $res;
          }
+
+         else if($json->carrier == "UPS"){
+            $ups = new UpsServices();
+            $res = $ups->comprarEnvioPaquete($compra);
+            return $res;
+        }
     }
 
 }

@@ -174,7 +174,7 @@ class EstafetaServicesController extends \yii\rest\Controller{
 
         $request['labelDescriptionList'] = [];
         $request['labelDescriptionList']['numberOfLabels'] = 1;
-        $request['labelDescriptionList']['officeNum'] =130;
+        $request['labelDescriptionList']['officeNum'] = 130;
         $request['labelDescriptionList']['originZipCodeForRouting'] =  $json->shiper->postal_code;
         $request['labelDescriptionList']['parcelTypeId'] =  1; //TODO validar el tipo de parcela
         $request['labelDescriptionList']['reference'] =  'Referencia'; //TODO validar las referencias del envio
@@ -238,9 +238,9 @@ class EstafetaServicesController extends \yii\rest\Controller{
            }catch(\Exception $e){}
 
         echo $client->__getLastRequest();
-        echo $client->__getLastResponse();
+       // echo $client->__getLastResponse();
 
-        //return $response;
+        return $response;
         
     }
 
@@ -321,14 +321,14 @@ class EstafetaServicesController extends \yii\rest\Controller{
     private function createAddressInfo($add1, $add2, $celPhone,$city,$contactName,$corporateName,$customerNumber,$neighborhood,$phoneNumber,$state,$zipCode){
         $data = [];
         
-        $data['address1'] = 'addres origen destino';//$add1;
-        $data['address2'] =  'addr 2';//;$add2;
+        $data['address1'] = 'CERRADA DE CEYLAN';//$add1;
+        $data['address2'] =  '539';//;$add2;
         $data['cellPhone'] =  $celPhone;
-        $data['city'] =  $city;
+        $data['city'] =  "AZCAPOTZALCO"; //$city;
         $data['contactName'] = $contactName;
         $data['corporateName'] = $corporateName;
         $data['customerNumber'] =  $customerNumber;
-        $data['neighborhood'] =  'neighborhood';$neighborhood;
+        $data['neighborhood'] =  'INDUSTRIAL';//$neighborhood;
         $data['phoneNumber'] =  $phoneNumber;
         $data['state'] =  $state;
         $data['valid'] =  true;

@@ -13,10 +13,12 @@ use app\_360Utils\Services\EstafetaServices;
 class CotizadorSobre{
 
       //Servicios habilitaos
-      const USE_FEDEX       = false; // Habilita FEDEX
-      const USE_DGOM        = false; //HABILITA DGOM
-      const USE_UPS         = false; //Habilita UPS
+      const USE_FEDEX       = TRUE; // Habilita FEDEX
+      const USE_UPS         = TRUE; //Habilita UPS
       const USE_ESTAFETA    = TRUE; // Habilita ESTAFETA
+
+
+      const USE_DGOM        = false; //HABILITA DGOM
 
 
     function realizaCotizacion($json,$paquetes){

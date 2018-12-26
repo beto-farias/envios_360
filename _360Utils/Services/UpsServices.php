@@ -7,6 +7,7 @@ use Yii;
 
 use app\_360Utils\Entity\Cotizacion;
 use app\_360Utils\Entity\CompraEnvio;
+use app\_360Utils\Entity\ResultadoEnvio;
 
 class UpsServices{
 
@@ -14,8 +15,9 @@ class UpsServices{
     const UPS_PASSWORD          = 'Mexico01';
     const UPS_USER_NAME         = 'W1R182.apis';
     const UPS_CUSTOMER_CONTEXT  = 'Your Customer Context';
-    const UPS_SHIPER_NUMBER     = 'Shipper Number';
+    const UPS_SHIPER_NUMBER     = 'W1R182';
     const UPS_RATE_CITY         = 'CITY';
+    const UPS_TAX_ID_NUMBER     = '123456';
 
     const UPS_SOBRE_LARGO_IN    = 3;
     const UPS_SOBRE_ANCHO_IN    = 3;
@@ -136,6 +138,171 @@ class UpsServices{
         }
 
         return $responses;
+    }
+
+    //---------------- COMPRA DE SERVICIOS --------------------------------
+
+    function comprarEnvioDocumento(CompraEnvio $model){
+        return $this->comprarEnvioInterno($model,'FEDEX_ENVELOPE');
+    }
+
+    function comprarEnvioPaquete(CompraEnvio $model){
+        return $this->comprarEnvioInterno($model,'YOUR_PACKAGING');
+    }
+
+    private function comprarEnvioInterno(CompraEnvio $model, $servicePacking){
+
+        $paquete = $model->paquetes[0];
+
+        $json = [
+            "UPSSecurity" => [
+                "UsernameToken" => [
+                    "Username"=> self::UPS_USER_NAME,
+                    "Password"=> self::UPS_PASSWORD
+                ],
+                "ServiceAccessToken"=>[
+                    "AccessLicenseNumber" => self::UPS_LICENCE_NUMBER
+                ]
+            ],
+
+            "ShipmentRequest" => [
+                "Request" => [
+                    "RequestOption" => "validate",
+                    "TransactionReference" => [
+                        "CustomerContext" => self::UPS_CUSTOMER_CONTEXT
+                    ]
+                ],
+                "Shipment" => [
+                    "Description" => "Description",
+                    "Shipper" => [
+                        "Name" => $model->origen_nombre_persona,
+                        "AttentionName" => $model->origen_nombre_persona,
+                        "TaxIdentificationNumber" => self::UPS_TAX_ID_NUMBER,
+                        "Phone" => [
+                            "Number" => $model->origen_telefono,
+                            "Extension" => ""
+                        ],
+                        "ShipperNumber" => self::UPS_SHIPER_NUMBER,
+                        "FaxNumber" => $model->origen_telefono,
+                        "Address" => [
+                            "AddressLine" => $model->origen_direccion,
+                            "City" => $model->origen_ciudad,
+                            "StateProvinceCode" => $model->origen_estado,
+                            "PostalCode" => $model->origen_cp,
+                            "CountryCode" => $model->origen_pais
+                        ]
+                    ],
+                    "ShipTo" => [
+                        "Name" => $model->destino_nombre_persona,
+                        "AttentionName" => $model->destino_nombre_persona,
+                        "Phone" => [
+                            "Number" => $model->destino_telefono,
+                        ],
+                        "Address" => [
+                            "AddressLine" => $model->destino_direccion,
+                            "City" => $model->destino_ciudad,
+                            "StateProvinceCode" => $model->destino_estado,
+                            "PostalCode" => $model->destino_cp,
+                            "CountryCode" => $model->destino_pais
+                        ]
+                    ],
+                    "ShipFrom" => [
+                        "Name" => $model->origen_nombre_persona,
+                        "AttentionName" => $model->origen_nombre_persona,
+                        "Phone" => [
+                            "Number" => $model->origen_telefono,
+                        ],
+                        "FaxNumber" => $model->origen_telefono,
+                        "Address" => [
+                            "AddressLine" => $model->origen_direccion,
+                            "City" => $model->origen_ciudad,
+                            "StateProvinceCode" => $model->origen_estado,
+                            "PostalCode" => $model->origen_cp,
+                            "CountryCode" => $model->origen_pais
+                        ]
+                    ],
+                    "PaymentInformation" => [
+                        "ShipmentCharge" => [
+                            "Type" => "01",
+                            "BillShipper" => [
+                                "AccountNumber" => self::UPS_SHIPER_NUMBER
+                            ]
+                        ]
+                    ],
+                    "Service" => [
+                        "Code" => "01",
+                        "Description" => "Express"
+                    ],
+                    "Package" => [
+                        "Description" => "Description",
+                        "Packaging" => [
+                            "Code" => "02",
+                            "Description" => "Description"
+                        ],
+                        "Dimensions" => [
+                            "UnitOfMeasurement" => [
+                                "Code" => "CM",
+                                "Description" => "Centimetros"
+                            ],
+                            "Length" => $paquete->largo . "",
+                            "Width" => $paquete->ancho . "",
+                            "Height" => $paquete->alto . ""
+                        ],
+                        "PackageWeight" => [
+                            "UnitOfMeasurement" => [
+                                "Code" => "KGS",
+                                "Description" => "Kilos"
+                            ],
+                            "Weight" => $paquete->peso
+                        ]
+                    ]
+                ],
+                "LabelSpecification" => [
+                    "LabelImageFormat" => [
+                        "Code" => "GIF",
+                        "Description" => "GIF"
+                    ],
+                    "HTTPUserAgent" => "Mozilla/4.5"
+                ]
+            ]
+        ];
+
+        $endpoint = $this->URL_SERVICE . 'Ship';
+
+        $response = $this->jsonRequest($endpoint, $json);
+        
+        // Check for errors
+        if($response === FALSE){
+            //die(curl_error($ch));
+            return null;
+        }
+    
+        // Decode the response
+        $responseData = json_decode($response, TRUE);
+
+        //Respondio con error
+        if(isset($responseData['Fault'])){
+            $severityError = $responseData['Fault']['detail']['Errors']['ErrorDetail']['Severity'];
+            $codeError = $responseData['Fault']['detail']['Errors']['ErrorDetail']['PrimaryErrorCode']['Code'];
+            $descError = $responseData['Fault']['detail']['Errors']['ErrorDetail']['PrimaryErrorCode']['Description'];
+            error_log("Error con el servicio de UPS: " . $severityError . " " . $codeError . " " . $descError);
+            return null;
+        }
+
+        
+
+        $res = new ResultadoEnvio();
+
+                $res->data           = json_encode($responseData);
+                $res->jobId          = $responseData['ShipmentResponse']['ShipmentResults']['ShipmentIdentificationNumber'];
+                $res->envioCode      = $responseData['ShipmentResponse']['ShipmentResults']['PackageResults']['TrackingNumber'];
+                $res->envioCode2     = $responseData['ShipmentResponse']['ShipmentResults']['PackageResults']['TrackingNumber'];
+                $res->tipoEmpaque    = $servicePacking;
+                $res->tipoServicio   = $model->tipo_servicio;
+                $res->etiqueta       = $responseData['ShipmentResponse']['ShipmentResults']['PackageResults']['ShippingLabel']['GraphicImage'];
+                $res->etiquetaFormat = "GIF";
+
+                return $res;
     }
 
     

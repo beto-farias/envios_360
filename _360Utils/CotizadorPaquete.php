@@ -11,10 +11,12 @@ class CotizadorPaquete{
     
 
     //Servicios habilitaos
-    const USE_FEDEX       = FALSE; // Habilita FEDEX
-    const USE_DGOM        = false; //HABILITA DGOM
-    const USE_UPS         = FALSE; //Habilita UPS
+    const USE_FEDEX       = TRUE; // Habilita FEDEX
+    const USE_UPS         = TRUE; //Habilita UPS
     const USE_ESTAFETA    = TRUE; // Habilita ESTAFETA
+
+
+    const USE_DGOM        = false; //HABILITA DGOM
 
 
     /**
