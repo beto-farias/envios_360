@@ -125,9 +125,9 @@ class UpsServices{
         $peso = $paquete['num_peso'];// * 2.20462;
 
         //Cambia el tamaño de cm a pulgadas
-        $largo = $paquete['num_largo'] * 0.393701;
-        $ancho = $paquete['num_ancho'] * 0.393701;
-        $alto  =  $paquete['num_alto'] * 0.393701;
+        $largo = $paquete['num_largo'];// * 0.393701;
+        $ancho = $paquete['num_ancho'];// * 0.393701;
+        $alto  =  $paquete['num_alto'];// * 0.393701;
 
 
         foreach($servicios as $item){
